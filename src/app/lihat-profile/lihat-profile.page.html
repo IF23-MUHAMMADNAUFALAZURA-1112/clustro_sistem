@@ -1,0 +1,205 @@
+<ion-header>
+  <div class="custom-header-bar">
+    <div class="btn-back" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="dashboard-page">
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="avatar-container">
+      <h1 class="avatar-label">Hay, {{ profile.name.split(' ')[0] }}!</h1>
+
+      <!-- Avatar -->
+      <div class="avatar-wrapper">
+        <img src="assets/img/default-profile.png" alt="Foto Profil" />
+      </div>
+
+      <!-- Tombol Kamera -->
+      <ion-button class="btn-camera" fill="clear" (click)="fileInput.click()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
+      <input #fileInput type="file" accept="image/*" hidden (change)="onPhotoPicked($event)" />
+    </div>
+  </div>
+
+  <!-- Segmen untuk Profil, Akun, dan Biodata -->
+  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)" class="segment-custom">
+    <ion-segment-button class="button" value="profilDiri">
+      <ion-icon class="icon" name="person-circle-outline"></ion-icon>
+      <span>Profil</span>
+    </ion-segment-button>
+    <ion-segment-button value="akun">
+      <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
+      <span>Akun</span>
+    </ion-segment-button>
+    <ion-segment-button value="biodata">
+      <ion-icon class="icon" name="information-circle-outline"></ion-icon>
+      <span>Biodata</span>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Profil Diri -->
+  <div *ngIf="segment === 'profilDiri'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Profil Diri</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="10">
+              <ion-item>
+                <ion-icon slot="start" name="person-outline"></ion-icon>
+                <ion-label>{{ biodata.name }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="id-card-outline"></ion-icon>
+                <ion-label>{{ biodata.nik }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="mail-outline"></ion-icon>
+                <ion-label>{{ biodata.email }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+                <ion-label>{{ biodata.whatsapp }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="call-outline"></ion-icon>
+                <ion-label>{{ biodata.phone }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="home-outline"></ion-icon>
+                <ion-label>{{ biodata.address }}, No. {{ biodata.houseNo }}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Akun -->
+  <div *ngIf="segment === 'akun'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Kelola Akun</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">NIK</ion-label>
+              <ion-input formControlName="nik" readonly></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Password Lama</ion-label>
+              <ion-input formControlName="oldPassword" type="password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.get('oldPassword')?.touched && accountForm.get('oldPassword')?.invalid">
+              <p class="error-text">Password lama minimal 6 karakter.</p>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Password Baru</ion-label>
+              <ion-input formControlName="newPassword" type="password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.get('newPassword')?.touched && accountForm.get('newPassword')?.invalid">
+              <p class="error-text">Password baru minimal 6 karakter.</p>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Konfirmasi Password</ion-label>
+              <ion-input formControlName="confirmPassword" type="password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.errors?.['mismatch'] && accountForm.get('confirmPassword')?.touched">
+              <p class="error-text">Konfirmasi password tidak cocok.</p>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" type="submit" [disabled]="accountForm.invalid" class="btn-save">Simpan</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Biodata -->
+  <div *ngIf="segment === 'biodata'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Data Pribadi</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- view mode -->
+        <ion-list *ngIf="!editingBiodata" lines="full">
+          <ion-item>
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <ion-label>{{ biodata.name }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="id-card-outline"></ion-icon>
+            <ion-label>{{ biodata.nik }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="mail-outline"></ion-icon>
+            <ion-label>{{ biodata.email }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+            <ion-label>{{ biodata.whatsapp }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="call-outline"></ion-icon>
+            <ion-label>{{ biodata.phone }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="home-outline"></ion-icon>
+            <ion-label>{{ biodata.address }}, No. {{ biodata.houseNo }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-button class="btn-edit-biodata" fill="solid" slot="start" icon-only (click)="toggleEditBiodata()">
+          <ion-icon slot="start" [name]="editingBiodata ? 'close-outline' : 'pencil-outline'"></ion-icon>
+          Edit Biodata Anda
+        </ion-button>
+        <!-- edit mode -->
+        <form [formGroup]="biodataForm" *ngIf="editingBiodata" (ngSubmit)="saveBiodata()">
+          <ion-list lines="full">
+            <ion-item>
+              <ion-label position="stacked">Nama</ion-label>
+              <ion-input formControlName="name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">NIK</ion-label>
+              <ion-input formControlName="nik"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input formControlName="email" type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">No. WhatsApp</ion-label>
+              <ion-input formControlName="whatsapp" type="tel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">No. Telepon</ion-label>
+              <ion-input formControlName="phone" type="tel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Alamat Lengkap</ion-label>
+              <ion-textarea formControlName="address"></ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">No. Rumah</ion-label>
+              <ion-input formControlName="houseNo"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" type="submit" [disabled]="biodataForm.invalid" class="btn-save">
+            Simpan Perubahan
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

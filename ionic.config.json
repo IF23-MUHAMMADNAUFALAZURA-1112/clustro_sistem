@@ -1,0 +1,7 @@
+{
+  "name": "clustro_sistem",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

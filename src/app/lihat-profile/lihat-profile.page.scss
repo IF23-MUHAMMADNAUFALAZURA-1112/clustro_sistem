@@ -1,0 +1,279 @@
+/* Menghilangkan latar belakang putih di header */
+.custom-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Memindahkan tombol kembali ke kiri */
+  background-color: transparent; /* Menghilangkan latar belakang putih */
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Menyesuaikan posisi dan ukuran ikon kembali */
+.btn-back {
+  padding: 0;
+  margin: 0;
+}
+
+.btn-back ion-icon {
+  font-size: 28px; /* Ukuran ikon kembali */
+  color: white; /* Mengubah warna ikon menjadi putih */
+}
+
+/* Profile header */
+.profile-header {
+  position: relative;
+  background: #00c197;
+  height: 240px;
+  text-align: center;
+  color: #fff;
+  padding-top: 16px;
+  z-index: 10; /* Di atas card dan segment */
+}
+
+/* Tombol kembali di luar segmen */
+ion-header {
+  background: transparent !important; /* Menghilangkan latar belakang pada header */
+}
+
+/* Menghilangkan latar belakang dan memastikan ikon serta teks berwarna putih */
+.dashboard-page {
+  --background: #00c197;
+  position: relative;
+}
+
+.cardawal {
+  background: #ffffff;
+  top: -250;
+  border-radius: 10px;
+  height: 250px;
+  width: auto;
+}
+
+ion-segment {
+  top: -50px;
+  --indicator-color: #00c197; /* Mengubah indikator menjadi hijau */
+  background: transparent !important; /* Menghilangkan latar belakang segment */
+}
+
+ion-segment-button {
+  --color: white !important; /* Mengubah warna teks saat tidak aktif menjadi putih */
+  --color-checked: white !important; /* Mengubah warna teks saat aktif/checked menjadi putih */
+  background: transparent !important; /* Menghilangkan latar belakang */
+}
+
+.segment-custom {
+  background: transparent !important; /* Menghilangkan latar belakang segment */
+  margin: 5px;
+  border-radius: 5px;
+  width: auto;
+  margin-bottom: 5px;
+  bottom: -5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 50px;
+}
+
+.segment-custom .segment-button {
+  flex-direction: column;
+  font-size: 12px;
+  color: white !important; /* Menetapkan warna font menjadi putih */
+  opacity: 1 !important; /* Menghapus efek pudar, pastikan ikon dan teks tidak pudar */
+  transition: opacity 0.3s ease-in-out; /* Efek transisi untuk opacity */
+}
+
+.segment-custom .segment-button.selected {
+  color: white !important; /* Menetapkan warna teks dan ikon tetap putih saat aktif */
+  opacity: 1 !important; /* Menghilangkan efek pudar saat aktif */
+  background-color: transparent !important; /* Menghilangkan latar belakang */
+}
+
+/* Mengubah warna ikon menjadi putih */
+.segment-custom .segment-button ion-icon {
+  color: white !important; /* Mengubah warna ikon menjadi putih */
+  opacity: 1 !important; /* Menghilangkan efek pudar pada ikon */
+  transition: opacity 0.3s ease-in-out; /* Efek transisi untuk opacity ikon */
+}
+
+.segment-custom .segment-button.selected ion-icon {
+  opacity: 1 !important; /* Ikon tidak pudar saat aktif */
+}
+
+ion-segment {
+  --indicator-color: #00c197; /* Mengubah indikator menjadi hijau */
+}
+
+ion-segment-button {
+  --background: transparent !important; /* Menghilangkan latar belakang saat tidak aktif */
+  --color: white !important; /* Menetapkan warna teks dan ikon menjadi putih */
+}
+
+.segment-button.selected {
+  color: white !important; /* Ikon dan teks tetap putih saat dipilih */
+  background-color: transparent !important; /* Menghilangkan latar belakang */
+}
+
+.avatar-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 11;
+}
+
+.avatar-label {
+  color: #00c197;
+  top: 5;
+  font-size: 25px;
+  z-index: 15;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tombol kamera di sebelah kanan avatar */
+.btn-camera {
+  position: absolute;
+  right: 25px;
+  bottom: -3px;
+  background-color: #fff;
+  color: #00c197;
+  width: auto;
+  height: -5px;
+  border-radius: 150%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 12;
+}
+
+.profile-header {
+  position: relative;
+  background: #00c197;
+  height: 240px;
+  text-align: center;
+  color: #fff;
+  padding-top: 16px;
+  z-index: 10; /* di atas card dan segment */
+}
+
+.greeting {
+  color: #00c197;
+  top: auto;
+  font-size: 1.8rem;
+  z-index: 15;
+}
+
+.custom-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent; /* Menghilangkan latar belakang putih */
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.btn-back {
+  padding: 0;
+  margin: 0;
+}
+
+.btn-back ion-icon {
+  font-size: 28px; /* Ukuran ikon kembali */
+  color: white; /* Mengubah warna ikon menjadi putih */
+}
+
+.preview-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.edit-label {
+  margin-left: 4px;
+  font-size: 12px;
+  color: #00c197;
+}
+
+.btn-back ion-icon {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  color: #00c197;
+}
+
+.icon,
+.teks {
+  color: #00c197;
+}
+
+.card-custom {
+  top: -65px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  width: auto;
+  height: auto;
+}
+
+.sub-text {
+  color: var(--ion-color-medium-shade);
+  font-size: 18px;
+}
+
+.btn-save {
+  margin-top: 20px;
+  --background: #00c197;
+  --color: #ffffff;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, --background 0.2s ease-in-out;
+}
+
+.btn-save:hover {
+  --background: #019a80;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: pulse 0.6s ease-in-out;
+}
+
+.btn-save:active {
+  transform: scale(0.95);
+}
+
+/* keyframes untuk efek pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.photo-tab .profile-img {
+  width: 50%;
+  border-radius: 12px;
+}

@@ -1,0 +1,140 @@
+:host {
+    --ion-background-color: #00c197;
+}
+
+.register-page {
+    background: #00c197;
+    color: #fff;
+    padding: 0 20px;
+}
+
+.btn-back {
+    position: absolute;
+    top: 24px;
+    left: 16px;
+    z-index: 10;
+    font-size: 32px;
+    color: #ffffff;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    background: transparent;
+    border: none;
+  }
+  
+  /* Efek saat ditekan */
+  .btn-back:active {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 60px 8px 24px; // ada ruang di atas bawah
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 60px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.title-inside-form {
+    text-align: center;
+    margin-bottom: 20px;
+    h1 {
+        font-size: 26px;
+        font-weight: bold;
+        color: #00c197;
+        margin: 0;
+    }
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #00c197;
+    margin-top: 10px;
+    margin-left: 4px;
+}
+
+.form-input {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #ffffff;
+    height: 44px;
+    font-size: 14px;
+    color: #000;
+}
+
+.rt-rw-group {
+    display: flex;
+    gap: 12px;
+    .small {
+        width: 100%;
+    }
+}
+
+.confirm-password-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -4px;
+    .small {
+        width: 50%; // posisi di sebelah kanan
+    }
+}
+
+.upload-box {
+    width: 60px;
+    height: 60px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+}
+
+.upload-note {
+    font-size: 12px;
+    color: #00c197;
+    margin-top: 4px;
+}
+
+.btn-register {
+    --background: #00c197;
+    --color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px;
+    height: 48px;
+    border-radius: 999px;
+    /* lebih membulat dari 10px */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-label {
+    color: #00c197;
+    font-weight: 500;
+}
+
+.form-input {
+    border: 1px solid #ccc;
+    background: white;
+}
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.alamat-example {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    margin-bottom: 12px;
+}

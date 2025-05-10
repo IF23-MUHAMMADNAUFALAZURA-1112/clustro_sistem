@@ -1,0 +1,49 @@
+<!-- Tombol kembali -->
+<div class="btn-back" (click)="goBack()">
+  <ion-icon name="arrow-back-outline"></ion-icon>
+</div>
+
+<ion-content [fullscreen]="true" class="login-background">
+  <div class="content-wrapper">
+    <div id="container" class="fade-slide-in">
+      
+      <img src="assets/img/logo.png" alt="Logo" class="logo" />
+      <div class="logo-text">Clustro</div>
+      <h2>Your Home, Your Comfort, Your App</h2>
+
+      <ion-card>
+        <ion-card-content>
+
+          <ion-input
+            label="NIK"
+            label-placement="floating"
+            fill="solid"
+            placeholder="Enter NIK"
+            type="text"
+            [(ngModel)]="credentials.nik">
+          </ion-input>
+
+          <ion-input
+            label="Password"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Enter Password"
+            type="password"
+            [(ngModel)]="credentials.password">
+          </ion-input>
+
+          <ion-button expand="block" shape="round" (click)="onLogin()" [disabled]="isLoading">
+            <ion-spinner *ngIf="isLoading" name="crescent" class="login-spinner"></ion-spinner>
+            <span *ngIf="!isLoading">Sign In</span>
+          </ion-button>
+
+          <div class="forgot-password">
+            <a href="/forgot-password">Forgot password?</a>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+.dashboard-page {
+  --background: #00c197;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header */
+.custom-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #00c197;
+  padding: 12px 16px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Ikon dan avatar */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 22px;
+  color: white;
+}
+
+.profile-avatar {
+  width: 40px;  /* Ukuran avatar lebih besar */
+  height: 40px; /* Ukuran avatar lebih besar */
+  background: white;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile-avatar img {
+  width: 100%; /* Menyesuaikan gambar agar memenuhi area */
+  height: 100%; /* Menyesuaikan gambar agar memenuhi area */
+  object-fit: cover; /* Gambar akan menutupi area avatar dengan baik */
+}
+
+/* Dropdown Menu Profil */
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 180px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.profile-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.profile-dropdown ion-button {
+  width: 100%;
+  --background: #ffffff;
+  --color: #00c197;
+  --border-radius: 0;
+  padding: 10px 0;
+}
+
+.profile-dropdown ion-button:hover {
+  --background: #f1f1f1;
+}
+
+/* Dropdown Item */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: #f1f1f1;
+}
+
+.dropdown-item ion-icon {
+  margin-right: 10px;
+}
+
+/* Wrapper utama */
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Banner */
+.banner-container {
+  display: flex;
+  overflow-x: auto;
+  margin-top: 24px;
+  margin-bottom: 0;
+  padding-bottom: 8px;
+  gap: 16px;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.banner-container::-webkit-scrollbar {
+  display: none;
+}
+
+.banner {
+  flex-shrink: 0;
+  min-width: 380px;
+  height: 280px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Form Dashboard */
+.form-container {
+  background: white;
+  padding: 32px 20px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;/* Sejajar kanan */
+  text-align: center;
+  gap: 24px;
+  margin-top: 16px;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dashboard-title {
+  font-size: 50px;
+  font-weight: 800;
+  color: #00c197;
+  font-family: 'Oleo Script', cursive;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Tombol */
+ion-button.menu-button {
+  --background: #00c197;
+  --background-hover: #00c197cc;
+  --background-activated: #00c19799;
+  --color: white;
+  --border-radius: 12px;
+  font-family: 'Onest', sans-serif;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 100%;
+  height: 52px;
+  font-size: 16px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+ion-button.menu-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsif */
+@media screen and (max-width: 400px) {
+  .banner {
+    min-width: 280px;
+    height: 200px;
+  }
+
+  .form-container {
+    padding: 20px 12px;
+    border-radius: 16px;
+    max-height: none;
+  }
+
+  .dashboard-title {
+    font-size: 28px;
+  }
+
+  ion-button.menu-button {
+    height: 48px;
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,64 @@
+<ion-content [fullscreen]="true" class="dashboard-page">
+
+  <!-- Header -->
+  <div class="custom-header-bar">
+
+
+    <div class="header-icons">
+      <ion-icon name="notifications-outline" class="header-icon notifikasi"></ion-icon>
+
+      <!-- Profil Avatar -->
+      <div class="profile-avatar" (click)="toggleProfileMenu()">
+        <img src="assets/img/default-profile.png" alt="Foto profil pengguna" />
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
+        <ion-button (click)="viewProfile()" class="dropdown-item">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          Lihat Profil
+        </ion-button>
+        <ion-button (click)="logout()" class="dropdown-item">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Logout
+        </ion-button>
+      </div>
+    </div>
+  </div>
+  <!-- Wrapper isi konten -->
+  <div class="main-wrapper">
+    <!-- Banner Promosi (Gambar) -->
+    <div class="banner-container" id="bannerContainer">
+      <div class="banner">
+        <img src="assets/img/Banner-1.jpg" alt="Banner Promosi 1" />
+      </div>
+      <div class="banner">
+        <img src="assets/img/Banner-2.jpg" alt="Banner Promosi 2" />
+      </div>
+      <div class="banner">
+        <img src="assets/img/Banner-3.jpg" alt="Banner Promosi 3" />
+      </div>
+    </div>
+
+    <div class="form-container">
+      <!-- Judul di dalam form-container -->
+      <h2 class="dashboard-title">CLUSTRO</h2>
+
+      <ion-button expand="block" shape="round" class="menu-button" routerLink="/warga-connect">
+        <ion-icon name="people-outline" slot="start"></ion-icon>
+        WargaConnect
+      </ion-button>
+
+      <ion-button expand="block" shape="round" class="menu-button" routerLink="/warga-docs">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        WargaDoc's
+      </ion-button>
+
+      <ion-button expand="block" shape="round" class="menu-button" routerLink="/warga-logs">
+        <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+        WargaLog's
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

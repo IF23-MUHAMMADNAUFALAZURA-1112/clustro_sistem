@@ -1,0 +1,145 @@
+// #container {
+//   text-align: center;
+
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 50%;
+//   transform: translateY(-50%);
+// }
+
+// #container strong {
+//   font-size: 20px;
+//   line-height: 26px;
+// }
+
+// #container p {
+//   font-size: 16px;
+//   line-height: 22px;
+
+//   color: #8c8c8c;
+
+//   margin: 0;
+// }
+
+// #container a {
+//   text-decoration: none;
+// }
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.home-content {
+  --background: #00c197;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+
+}
+.btn-back {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  z-index: 10;
+  font-size: 32px;
+  color: #ffffff; 
+}
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.anim {
+  animation: slideUpFadeIn 2s ease-out forwards;
+}
+
+@keyframes slideUpFadeIn {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+
+.logo-container {
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.app-name {
+  font-family: 'Oleo Script', cursive; 
+  font-size: 24px;
+  color: #fff;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.tagline {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.action-buttons {
+  width: 100%;
+}
+
+.login-button {
+  display: block;
+  margin: 20px auto; /* ini supaya tombolnya di tengah */
+  width: 70%;         /* atur kalau mau lebar tertentu */
+  max-width: 250px;   /* batas maksimal lebar tombol */
+  --border-radius: 20px;
+  --background: #fff;
+  --color: #00c197;
+  font-weight: bold;
+}
+
+
+
+.signup-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  color: #fff;
+}
+
+.signup-text span {
+  font-size: 12px;
+}
+
+.signup-text ion-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: 0;
+  --min-width: 0;
+  --color: #ffffff;
+  font-size: 12px;
+}
+.login-button {
+  --background: white;
+  --color: #00c197;
+  font-weight: bold;
+  border-radius: 20px;
+  transition: all 0.3s ease; 
+  &:hover {
+    --background: #2fe0b3;
+    --color: #ffffff;
+    transform: scale(1.03);
+  }
+}

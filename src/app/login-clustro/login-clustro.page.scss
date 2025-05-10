@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+
+/* Background layar utama */
+ion-content.login-background {
+  --background: #00d5a0;
+  padding: 0;
+  position: relative;
+}
+
+/* Styling khusus spinner loading login */
+.login-spinner {
+    width: 20px;
+    height: 20px;
+  }
+  
+/* Wrapper konten */
+.content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container utama */
+#container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+/* Logo */
+#container img.logo {
+  width: 150px;
+  margin-bottom: 4px;
+}
+
+/* Nama aplikasi */
+#container .logo-text {
+  font-family: 'Oleo Script', cursive;
+  font-size: 26px;
+  color: white;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+/* Tagline */
+#container h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: white;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+/* Card form */
+#container ion-card {
+  width: 100%;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Isi card */
+#container ion-card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Semua Input */
+#container ion-input {
+  --background: #ffffff;
+  --border-color: transparent;
+  --box-shadow: none;
+  --highlight-color-focused: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --font-size: 18px;
+  height: 56px;
+  transition: all 0.3s ease;
+}
+
+/* Hover input */
+#container ion-input:hover {
+  --background: #d8f7ec;
+}
+
+/* Fokus input */
+#container ion-input:focus-within {
+  --background: #d8f7ec;
+  border: none !important;
+  box-shadow: 0 0 6px rgba(47, 224, 179, 0.6) !important;
+}
+
+/* Teks yang diketik user */
+#container ion-input::part(native-input) {
+  color: #00d5a0 !important;
+}
+
+/* Label NIK dan Password */
+#container ion-input::part(label) {
+  color: #00d5a0 !important;
+  transition: transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+/* Saat fokus tetap hijau */
+#container ion-input:focus-within::part(label) {
+  color: #00d5a0 !important;
+}
+
+/* Tombol Sign In */
+#container ion-button {
+  --background: #00d5a0;
+  --color: white;
+  margin-top: 10px;
+  border-radius: 20px;
+  --box-shadow: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover tombol */
+#container ion-button:hover {
+  --background: #2fe0b3;
+  box-shadow: 0 4px 12px rgba(47, 224, 179, 0.4);
+}
+
+/* Forgot Password */
+#container .forgot-password {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#container .forgot-password a {
+  text-decoration: underline;
+  color: #1a73e8;
+}
+
+/* Fade + Slide animasi */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-in {
+  animation: fadeSlideIn 0.8s ease-out forwards;
+}
+/* Alert Umum */
+ion-alert.modern-alert {
+  --background: #fdfdfd;
+  --border-radius: 20px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --header-color: #222;
+  --message-color: #666;
+  --button-color: #007aff;
+  --button-font-weight: 600;
+}
+
+/* Untuk Alert Biasa (Peringatan, Gagal Login) */
+ion-alert.modern-alert {
+  --background: #ffffff;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --header-color: #111;
+  --message-color: #555;
+  --button-color: #007aff;
+  --button-font-weight: 600;
+  text-align: left;
+  font-size: 15px;
+}
+
+/* Untuk Alert Login Berhasil */
+ion-alert.modern-success-alert {
+  --background: #e6f7ff;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --header-color: #007aff;
+  --message-color: #333;
+  --backdrop-opacity: 0.6;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  animation: fadeInScale 0.4s ease forwards;
+}
+
+/* Animasi Alert */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+  /* Tombol Kembali di pojok kiri atas */
+  .btn-back {
+    position: absolute;
+    top: 10px; /* Posisi di bawah status bar/jam */
+    left: 16px; /* Posisi di kiri */
+    z-index: 10;
+    font-size: 32px;
+    color: #ffffff;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    background: transparent;
+    border: none;
+  }
+  
+  /* Efek saat ditekan */
+  .btn-back:active {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }

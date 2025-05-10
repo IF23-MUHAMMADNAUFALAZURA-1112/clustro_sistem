@@ -1,0 +1,55 @@
+<ion-content [fullscreen]="true" class="dashboard-page">
+  <!-- HEADER -->
+  
+  <!-- Header -->
+  <div class="custom-header-bar">
+    <div class="btn-back" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+
+    <div class="header-icons">
+      <ion-icon name="notifications-outline" class="header-icon notifikasi"></ion-icon>
+
+      <!-- Profil Avatar -->
+      <div class="profile-avatar" (click)="toggleProfileMenu()">
+        <img src="assets/img/default-profile.png" alt="Foto profil pengguna" />
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
+        <ion-button (click)="viewProfile()" class="dropdown-item">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          Lihat Profil
+        </ion-button>
+        <ion-button (click)="confirmLogout()" class="dropdown-item">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Logout
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  
+ <div class="avatar-section">
+    <div class="avatar">
+      <img src="assets/img/logo.png" alt="Profile" />
+    </div>
+    <h2 class="greeting">{{ displayText }}</h2>
+  </div>
+  
+  <!-- BOTTOM CARD -->
+  <div class="action-card">
+    <ion-button expand="block" class="menu-button">
+      <ion-icon slot="start" name="book-outline"></ion-icon>
+      GuestBook
+    </ion-button>
+    <ion-button expand="block" class="menu-button">
+      <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
+      SecurityReport
+    </ion-button>
+    <ion-button expand="block" class="menu-button">
+      <ion-icon slot="start" name="time-outline"></ion-icon>
+      SecurityLog’s
+    </ion-button>
+  </div>
+</ion-content>
