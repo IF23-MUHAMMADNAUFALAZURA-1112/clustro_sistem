@@ -1,21 +1,22 @@
-<ion-header>
-  <div class="custom-header-bar">
-    <div class="btn-back" (click)="goBack()">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </div>
-  </div>
+<ion-header fill="clear">
 </ion-header>
 
 <ion-content class="dashboard-page">
 
+  <div class="custom-header-bar">
+    <div class="btn-back"  (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </div>
+  </div>
+
   <!-- Profile Header -->
   <div class="profile-header">
     <div class="avatar-container">
-      <h1 class="avatar-label">Hay, {{ profile.name.split(' ')[0] }}!</h1>
+      <!-- <h1 class="avatar-label">Hay, {{ profile.name.split(' ')[0] }}!</h1> -->
 
       <!-- Avatar -->
       <div class="avatar-wrapper">
-        <img src="assets/img/default-profile.png" alt="Foto Profil" />
+        <img src="assets/img/profile.png" alt="Foto Profil" />
       </div>
 
       <!-- Tombol Kamera -->
@@ -27,22 +28,23 @@
   </div>
 
   <!-- Segmen untuk Profil, Akun, dan Biodata -->
-  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)" class="segment-custom">
+  <ion-segment fill="clear" [(ngModel)]="segment" (ionChange)="segmentChanged($event)" class="segment-custom">
     <ion-segment-button class="button" value="profilDiri">
       <ion-icon class="icon" name="person-circle-outline"></ion-icon>
-      <span>Profil</span>
+      <span class="teks">Profil</span>
     </ion-segment-button>
     <ion-segment-button value="akun">
       <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
-      <span>Akun</span>
+      <span class="teks">Akun</span>
     </ion-segment-button>
     <ion-segment-button value="biodata">
       <ion-icon class="icon" name="information-circle-outline"></ion-icon>
-      <span>Biodata</span>
+      <span class="teks">Biodata</span>
     </ion-segment-button>
   </ion-segment>
 
   <!-- Profil Diri -->
+  <div class="bw">  
   <div *ngIf="segment === 'profilDiri'" class="tab-pane">
     <ion-card class="card-custom">
       <ion-card-header>
@@ -201,5 +203,5 @@
       </ion-card-content>
     </ion-card>
   </div>
-
+</div>
 </ion-content>

@@ -1,60 +1,66 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Location } from '@angular/common'; // Untuk navigasi kembali
-import { NavController, AlertController } from '@ionic/angular'; // Import NavController dan AlertController
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
+import { NavController, AlertController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard-warga',
   templateUrl: './dashboard-warga.page.html',
-  styleUrls: ['./dashboard-warga.page.scss'],
-  standalone:false
+  standalone: false,
+  styleUrls: ['./dashboard-warga.page.scss']
 })
 export class DashboardWargaPage implements OnInit, AfterViewInit {
 
-  showProfileMenu = false;  // Kontrol dropdown menu
+  showProfileMenu = false;
+  showNotificationPanel = false;
 
   constructor(
-    private location: Location, 
+    private location: Location,
     private navCtrl: NavController,
-    private alertController: AlertController  // Menambahkan AlertController
+    private alertController: AlertController,
+    public menuCtrl: MenuController
   ) {}
 
-  ngOnInit(): void {
-    // Inisialisasi lainnya jika diperlukan
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    const container = document.getElementById('bannerContainer');
-    let currentScroll = 0;
-    const bannerWidth = 336; // 320px + 16px margin
+    const bannerContainer = document.getElementById('bannerContainer');
+    let bannerScroll = 0;
+    const bannerWidth = 336;
 
     setInterval(() => {
-      if (!container) return;
-      currentScroll += bannerWidth;
+      if (!bannerContainer) return;
+      bannerScroll += bannerWidth;
 
-      if (currentScroll >= container.scrollWidth - container.clientWidth) {
-        currentScroll = 0;
+      if (bannerScroll >= bannerContainer.scrollWidth - bannerContainer.clientWidth) {
+        bannerScroll = 0;
       }
 
-      container.scrollTo({
-        left: currentScroll,
+      bannerContainer.scrollTo({
+        left: bannerScroll,
         behavior: 'smooth'
       });
-    }, 4000); // Slide otomatis setiap 4 detik
+    }, 4000);
   }
 
-  // Fungsi untuk membuka dan menutup menu profil
-  toggleProfileMenu() {
+  toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;
+    this.showNotificationPanel = false;
   }
 
-  // Fungsi untuk menampilkan profil
-  viewProfile() {
+  toggleNotificationPanel(): void {
+    this.showNotificationPanel = !this.showNotificationPanel;
+    this.showProfileMenu = false;
+  }
+
+  toggleSidebar(): void {
+    this.menuCtrl.toggle();
+  }
+
+  viewProfile(): void {
     console.log('Lihat Profil');
-    // Tambahkan logika untuk navigasi ke halaman profil jika diperlukan
   }
 
-  // Fungsi untuk logout dan mengakhiri sesi dengan konfirmasi
-  async logout() {
+  async logout(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Konfirmasi Logout',
       message: 'Apakah Anda yakin ingin logout?',
@@ -63,25 +69,32 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
           text: 'Batal',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Logout dibatalkan');
-          }
+          handler: () => console.log('Logout dibatalkan')
         },
         {
           text: 'Logout',
           handler: () => {
-            // Menghapus session atau token yang disimpan
-            sessionStorage.clear(); // Jika menggunakan sessionStorage
-            localStorage.clear(); // Jika menggunakan localStorage
-
+            sessionStorage.clear();
+            localStorage.clear();
             console.log('Logout berhasil');
-            // Redirect ke halaman login
-            this.navCtrl.navigateRoot('/login-clustro'); // Ubah '/login-clustro' dengan URL halaman login Anda
+            this.navCtrl.navigateRoot('/login-clustro');
           }
         }
       ]
     });
 
     await alert.present();
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const clickedInsideNotif = target.closest('.notification-panel');
+    const clickedNotifIcon = target.closest('.notifikasi');
+    const clickedInsideProfile = target.closest('.profile-dropdown');
+    const clickedProfileIcon = target.closest('.profile-avatar');
+
+    if (!clickedInsideNotif && !clickedNotifIcon) this.showNotificationPanel = false;
+    if (!clickedInsideProfile && !clickedProfileIcon) this.showProfileMenu = false;
   }
 }
