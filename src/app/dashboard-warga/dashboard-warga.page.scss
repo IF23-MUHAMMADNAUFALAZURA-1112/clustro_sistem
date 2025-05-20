@@ -1,17 +1,27 @@
-/* Font Style */
+/* Import font Oleo Script dari Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
 
-/*Warna BG */
+/* Warna Background Dashboard */
 .dashboard-page {
   --background: #00c197;
   background-color: #00c197;
 }
 
-/* Header Utama  */
+/* Header Utama */
+.clustro-title {
+  font-family: 'Oleo Script', cursive;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  color: white; /* Warna font putih */
+}
+
+
 .custom-header-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* agar konten vertikal sejajar */
   background-color: #00c197;
   padding: 12px 16px;
   border-bottom-left-radius: 20px;
@@ -19,6 +29,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  margin: 0;
 }
 
 .left-header-group {
@@ -27,40 +38,43 @@
   gap: 10px;
 }
 
-.clustro-title {
-  color: white;
-  font-size: 24px;
-  font-family: 'Oleo Script', cursive;
-  font-weight: bold;
-}
-
 .header-icons {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: center; /* supaya ikon dan avatar sejajar vertikal */
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 0; /* hilangkan padding atas agar tidak turun */
+  padding-right: 12px;
 }
 
 .header-icon {
   font-size: 24px;
   color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .profile-avatar {
   width: 40px;
   height: 40px;
-  background: white;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
+/* Dropdown Profil */
 .profile-dropdown {
   position: absolute;
   top: 60px;
@@ -90,6 +104,7 @@
   padding: 10px 0;
 }
 
+/* Main Wrapper */
 .main-wrapper {
   display: flex;
   flex-direction: column;
@@ -98,6 +113,7 @@
   gap: 24px;
 }
 
+/* Banner */
 .banner-container {
   display: flex;
   overflow-x: auto;
@@ -129,6 +145,7 @@
   object-fit: cover;
 }
 
+/* Hero Title */
 .hero-title {
   font-size: 25px;
   font-weight: 900 !important;
@@ -137,6 +154,7 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Horizontal Slider */
 .horizontal-slider {
   display: flex;
   overflow-x: auto;
@@ -191,12 +209,12 @@
   margin-top: 4px;
 }
 
-/* Program Section*/
+/* Program Section */
 .program-section {
   display: flex;
   flex-direction: column;
-  gap: 32px; /* atau kurangi ke 24px jika ingin lebih rapat */
-  padding: 10px 20px 30px; /* kurangi padding atas jadi 10px */
+  gap: 32px;
+  padding: 10px 20px 30px;
   max-width: 1080px;
   margin: 0 auto;
 }
@@ -211,10 +229,11 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 32px;
 }
+
 .program-item img {
   width: 100%;
-  max-width: 300px;     /* batasi lebar maksimum */
-  max-height: 200px;    /* batasi tinggi maksimum */
+  max-width: 300px;
+  max-height: 200px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -244,12 +263,12 @@
 .program-content li {
   margin-bottom: 6px;
 }
-
 .program-content ion-button {
-  --background: #00c197;
-  --color: white;
+  --background: #00c197 !important;
+  --color: #ffffff !important;
   font-weight: bold;
   border-radius: 8px;
+  text-transform: none;
 }
 
 .program-item.reverse {
@@ -260,6 +279,7 @@
   direction: ltr;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
   .program-item {
     grid-template-columns: 1fr;
@@ -271,6 +291,8 @@
     max-height: 160px;
   }
 }
+
+/* Checklist */
 .checklist {
   list-style: none;
   padding: 0;
@@ -294,6 +316,7 @@
   margin-top: 2px;
 }
 
+/* Sidebar Title */
 .clustro-sidebar-title {
   font-family: 'Oleo Script', cursive;
   font-size: 24px;
@@ -301,6 +324,7 @@
   color: #00c197;
 }
 
+/* Notification Panel */
 .notification-panel {
   position: absolute;
   top: 60px;
@@ -334,7 +358,7 @@
   color: #00c197;
 }
 
-/* FAQ*/
+/* FAQ Section */
 .faq-wrapper {
   max-width: 960px;
   margin: 0 auto;
@@ -364,7 +388,7 @@
   min-height: 56px;
 }
 
-/* Default: wrap text agar mobile rapi */
+/* Text wrap default for mobile */
 .faq-item ion-label {
   white-space: normal;
   overflow-wrap: break-word;
@@ -372,8 +396,9 @@
   line-height: 1.4;
   width: 100%;
 }
+
 .faq-header-horizontal {
-  margin-top: 8px;   /* kurangi nilai jika masih terlalu jauh */
+  margin-top: 8px;
   margin-bottom: 12px;
 }
 
@@ -385,7 +410,7 @@
   color: #1f2937;
 }
 
-/* Untuk layar besar (misal ≥768px), tampilkan 1 baris dengan ellipsis */
+/* Desktop FAQ: text ellipsis */
 @media (min-width: 768px) {
   .faq-item ion-label {
     white-space: nowrap;
@@ -394,7 +419,7 @@
   }
 }
 
-/* Konten accordion terbuka */
+/* Accordion content open */
 ion-accordion-group ion-accordion .ion-padding {
   font-size: 14px;
   color: #444;
@@ -407,12 +432,27 @@ ion-accordion-group ion-accordion .ion-padding {
 }
 
 .hero-title.single-line {
-  white-space: nowrap;       /* mencegah pindah baris */
-  overflow: hidden;          /* opsional untuk cegah meluber */
-  text-overflow: ellipsis;   /* opsional untuk tampil titik-titik jika sempit */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* tentukan tinggi footer */
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
-/* Responsive */
+.main-wrapper {
+  padding-bottom: 70px; /* ruang ekstra agar konten tidak tertutup footer */
+}
+
+
+/* Responsive for Program Section */
 @media screen and (max-width: 768px) {
   .program-item,
   .program-item.reverse {

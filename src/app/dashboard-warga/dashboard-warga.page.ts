@@ -52,9 +52,6 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
     this.showProfileMenu = false;
   }
 
-  toggleSidebar(): void {
-    this.menuCtrl.toggle();
-  }
 
   viewProfile(): void {
     console.log('Lihat Profil');

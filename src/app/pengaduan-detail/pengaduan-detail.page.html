@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pengaduan-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detail Pengaduan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="pengaduan">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ pengaduan.judul }}</ion-card-title>
+      <ion-card-subtitle>
+        Kategori: {{ pengaduan.kategori }} | Status: {{ pengaduan.status }}
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        Tanggal Pengaduan: {{ pengaduan.tanggal_pengaduan | date: 'medium' }}
+      </ion-card-subtitle>
+      <ion-card-subtitle *ngIf="pengaduan.tanggal_selesai">
+        Tanggal Selesai: {{ pengaduan.tanggal_selesai | date: 'medium' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ pengaduan.deskripsi }}</p>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngIf="pengaduan.foto_pengaduan_1">
+            <ion-img [src]="pengaduan.foto_pengaduan_1"></ion-img>
+          </ion-col>
+          <ion-col size="4" *ngIf="pengaduan.foto_pengaduan_2">
+            <ion-img [src]="pengaduan.foto_pengaduan_2"></ion-img>
+          </ion-col>
+          <ion-col size="4" *ngIf="pengaduan.foto_pengaduan_3">
+            <ion-img [src]="pengaduan.foto_pengaduan_3"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

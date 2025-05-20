@@ -1,56 +1,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
-<!-- Sidebar -->
-<ion-menu side="start" menuId="main-menu" contentId="main-content">
-  <ion-header>
-    <ion-toolbar class="custom-menu-toolbar">
-      <ion-title class="clustro-sidebar-title">CLUSTRO</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="menu-content">
-    <ion-list lines="none">
-      <ion-item routerLink="/dashboard">
-        <ion-icon name="home-outline" slot="start"></ion-icon>
-        Dashboard
-      </ion-item>
-      <ion-item routerLink="/warga-connect">
-        <ion-icon name="people-outline" slot="start"></ion-icon>
-        WargaConnect
-      </ion-item>
-      <ion-item routerLink="/warga-docs">
-        <ion-icon name="document-text-outline" slot="start"></ion-icon>
-        WargaDoc's
-      </ion-item>
-      <ion-item routerLink="/warga-logs">
-        <ion-icon name="clipboard-outline" slot="start"></ion-icon>
-        WargaLog's
-      </ion-item>
-      <ion-item routerLink="/service">
-        <ion-icon name="headset-outline" slot="start"></ion-icon>
-        Service
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <ion-content [fullscreen]="true" class="dashboard-page">
-  <!-- Main Content -->
   <div id="main-content">
 
     <!-- Header -->
     <div class="custom-header-bar">
       <div class="left-header-group">
-        <ion-icon name="menu-outline" class="header-icon" (click)="toggleSidebar()"></ion-icon>
         <div class="clustro-title">CLUSTRO</div>
       </div>
+
       <div class="header-icons">
-        <ion-icon name="notifications-outline" class="header-icon notifikasi"
-          (click)="toggleNotificationPanel()"></ion-icon>
+        <ion-icon name="notifications-outline" class="header-icon notifikasi" (click)="toggleNotificationPanel()">
+        </ion-icon>
+
         <div class="profile-avatar" (click)="toggleProfileMenu()">
           <img src="assets/img/default-profile.png" alt="Foto profil pengguna" />
         </div>
 
-        <!-- Dropdown Notifikasi -->
+        <!-- Panel Notifikasi -->
         <div *ngIf="showNotificationPanel" class="notification-panel">
           <h4>Notifikasi</h4>
           <div class="notif-item">
@@ -67,10 +34,12 @@
         <!-- Dropdown Profil -->
         <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
           <ion-button (click)="viewProfile()" class="dropdown-item">
-            <ion-icon name="person-outline" slot="start"></ion-icon> Lihat Profil
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            Lihat Profil
           </ion-button>
           <ion-button (click)="logout()" class="dropdown-item">
-            <ion-icon name="log-out-outline" slot="start"></ion-icon> Logout
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            Logout
           </ion-button>
         </div>
       </div>
@@ -95,28 +64,35 @@
         <div class="feature-card" routerLink="/warga-connect">
           <img src="assets/img/dialog.png" alt="Connect Icon" />
           <div class="feature-text">
-            <div class="title">WARGACONNECT</div>
+            <div class="title">KONEKSI</div>
             <div class="desc">Komunikasi & Info Warga</div>
           </div>
         </div>
         <div class="feature-card" routerLink="/warga-docs">
           <img src="assets/img/dokumen.png" alt="Docs Icon" />
           <div class="feature-text">
-            <div class="title">WARGADOC'S</div>
+            <div class="title">DOKUMEN</div>
             <div class="desc">Kelola Dokumen & Surat</div>
+          </div>
+        </div>
+        <div class="feature-card" routerLink="/warga-docs">
+          <img src="assets/img/alert.png" alt="Alert Icon" />
+          <div class="feature-text">
+            <div class="title">PENGADUAN</div>
+            <div class="desc">Sampaikan Pengaduan Terhadap Pengurus RT</div>
           </div>
         </div>
         <div class="feature-card" routerLink="/warga-docs">
           <img src="assets/img/customer-service.png" alt="Docs Icon" />
           <div class="feature-text">
-            <div class="title">WARGASERVICE</div>
-            <div class="desc">Kelola Dokumen & Surat</div>
+            <div class="title">SERVIS</div>
+            <div class="desc">Ajukan keluhan sistem</div>
           </div>
         </div>
         <div class="feature-card" routerLink="/warga-logs">
           <img src="assets/img/login.png" alt="Logs Icon" />
           <div class="feature-text">
-            <div class="title">WARGALOG'S</div>
+            <div class="title">AKTIFITAS</div>
             <div class="desc">Catatan Kegiatan Harian</div>
           </div>
         </div>
@@ -124,24 +100,7 @@
 
       <!-- Berbagai Program Clustro -->
       <div class="program-section">
-        <h2 class="hero-title">Berbagai Program Clustro</h2>
-
-        <!-- Login & Profil Rumah -->
-        <div class="program-item">
-          <img src="assets/img/home.png" alt="Profil Rumah Icon" />
-          <div class="program-content">
-            <h3>Login & Profil Rumah</h3>
-            <p>Masuk ke sistem menggunakan akun yang terhubung ke alamat rumah dan KTP.</p>
-            <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Akses cepat dengan autentikasi berdasarkan data
-                  kependudukan</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Lihat data rumah, penghuni, dan status
-                  administrasi</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Privasi dan keamanan data terjamin</span></li>
-            </ul>
-            <ion-button>Lihat Profil Rumah</ion-button>
-          </div>
-        </div>
+        <h2 class="hero-title">Berbagai Fitur Clustro</h2>
 
         <!-- Notifikasi Tamu Masuk -->
         <div class="program-item reverse">
@@ -167,10 +126,10 @@
             <h3>Pengajuan Surat & Permohonan</h3>
             <p>Ajukan surat keperluan administrasi langsung dari aplikasi Clustro.</p>
             <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Form digital: surat domisili, pengantar nikah,
-                  KTP, KK, dll</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Mudah dipantau dan tanpa harus datang
-                  langsung</span></li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Form digital: surat domisili, pengantar nikah, KTP,
+                  KK, dll</span></li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Mudah dipantau dan tanpa harus datang langsung</span>
+              </li>
               <li><img src="assets/img/check.png" alt="✔" /> <span>Status permohonan selalu terupdate</span></li>
             </ul>
             <ion-button>Ajukan Surat</ion-button>
@@ -184,14 +143,16 @@
             <h3>Pengaduan & Aspirasi</h3>
             <p>Sampaikan keluhan dan aspirasi warga secara digital langsung ke pengurus RT.</p>
             <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Kirim pengaduan dengan deskripsi dan
-                  bukti</span></li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Kirim pengaduan dengan deskripsi dan bukti</span>
+              </li>
               <li><img src="assets/img/check.png" alt="✔" /> <span>Tersalurkan ke pengurus dengan sistem
                   pelacakan</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Warga bisa memberikan aspirasi positif untuk
-                  kemajuan lingkungan</span></li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Warga bisa memberikan aspirasi positif untuk kemajuan
+                  lingkungan</span></li>
             </ul>
-            <ion-button>Kirim Aspirasi</ion-button>
+           <ion-button routerLink="/pengaduan-input" routerDirection="forward">
+    Kirim Aspirasi
+  </ion-button>
           </div>
         </div>
 
@@ -202,10 +163,8 @@
             <h3>Riwayat Aktivitas Warga</h3>
             <p>Lihat dan pantau semua aktivitas digital Anda di lingkungan perumahan.</p>
             <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Histori pengajuan surat dan pelaporan</span>
-              </li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Status penyelesaian dan tindak lanjut</span>
-              </li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Histori pengajuan surat dan pelaporan</span></li>
+              <li><img src="assets/img/check.png" alt="✔" /> <span>Status penyelesaian dan tindak lanjut</span></li>
               <li><img src="assets/img/check.png" alt="✔" /> <span>Data tersimpan aman dan bisa diakses kapan
                   saja</span></li>
             </ul>
@@ -214,10 +173,9 @@
         </div>
       </div>
 
-
       <!-- FAQ Section -->
       <div class="faq-header-horizontal">
-        <h2 class="hero-title single-line">Yang Sering Ditanyakan</h2>
+        <h2 class="hero-title single-line">Yang Sering Ditanyakan </h2>
       </div>
 
       <ion-accordion-group expand="first" class="faq-accordion-group">
@@ -282,9 +240,12 @@
 
       </ion-accordion-group>
 
+    </div> <!-- end .main-wrapper -->
+  </div> <!-- end #main-content -->
 
-    </div> <!-- end .program-section -->
-
-  </div> <!-- end .main-wrapper -->
+  <div class="page-footer">
+    <!-- Komponen yang ingin selalu di bawah -->
+    <app-btn-navigationbar></app-btn-navigationbar>
+  </div>
 
 </ion-content>

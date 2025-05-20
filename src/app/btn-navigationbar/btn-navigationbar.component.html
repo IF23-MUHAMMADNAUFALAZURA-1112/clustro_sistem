@@ -1,0 +1,26 @@
+<ion-footer>
+  <ion-toolbar class="custom-nav-toolbar">
+    <ion-segment (ionChange)="onSegmentChanged($event)" value="dashboard" mode="ios">
+      <ion-segment-button value="dashboard">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Beranda</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="warga-connect">
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-label>Koneksi</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="warga-docs">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <ion-label>Dokumen</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="warga-logs">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        <ion-label>Aktifitas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="service">
+        <ion-icon name="headset-outline"></ion-icon>
+        <ion-label>Servis</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

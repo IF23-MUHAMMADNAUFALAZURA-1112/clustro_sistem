@@ -43,6 +43,19 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
+  {
+    path: 'pengaduan-list',
+    loadChildren: () => import('./pengaduan-list/pengaduan-list.module').then( m => m.PengaduanListPageModule)
+  },
+  {
+    path: 'pengaduan-detail',
+    loadChildren: () => import('./pengaduan-detail/pengaduan-detail.module').then( m => m.PengaduanDetailPageModule)
+  },
+  {
+    path: 'pengaduan-input',
+    loadChildren: () => import('./pengaduan-input/pengaduan-input.module').then( m => m.PengaduanInputPageModule)
+  },
+
 
   
 ];
