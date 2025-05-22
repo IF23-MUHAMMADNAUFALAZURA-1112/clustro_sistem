@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pengaduan-input',
@@ -21,62 +22,78 @@ export class PengaduanInputPage implements OnInit {
   fotoPreview: string[] = [];
   fileTypeInvalid = false;
 
-  maxTanggal: string = '';
-  minTanggal: string = '';
-
-  showCalendar: boolean = true;
   submitting: boolean = false;
 
+  constructor(private alertCtrl: AlertController) {}
+
   ngOnInit() {
-    this.setTanggalBatas();
+    this.setTanggalHariIni();
   }
 
-  setTanggalBatas() {
+  setTanggalHariIni() {
     const today = new Date();
-    const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-
-    this.maxTanggal = today.toISOString().substring(0, 10);
-    this.minTanggal = lastYear.toISOString().substring(0, 10);
-
     const day = ('0' + today.getDate()).slice(-2);
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const year = today.getFullYear();
     this.form.tanggal_pengaduan = `${day}/${month}/${year}`;
   }
 
-  onTanggalChange(event: any) {
-    const rawDate = new Date(event.detail.value);
-    const day = ('0' + rawDate.getDate()).slice(-2);
-    const month = ('0' + (rawDate.getMonth() + 1)).slice(-2);
-    const year = rawDate.getFullYear();
-    this.form.tanggal_pengaduan = `${day}/${month}/${year}`;
-  }
-
-  toggleCalendar() {
-    this.showCalendar = !this.showCalendar;
-  }
-
-  onKategoriCancel() {
+  hapusKategori() {
     this.form.kategori = '';
   }
 
-  judulInvalid() {
-    return this.form.judul.length > 0 && (this.form.judul.length < 5 || this.form.judul.length > 100);
+  isNotEmpty(str?: string): boolean {
+    return !!str && str.length > 0;
   }
 
-  deskripsiInvalid() {
-    return this.form.deskripsi.length > 0 && (this.form.deskripsi.length < 10 || this.form.deskripsi.length > 500);
+  onFileChange(event: any) {
+    this.fileTypeInvalid = false;
+    const file: File = event.target.files[0]; // Ambil hanya 1 file
+
+    if (file) {
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        this.fileTypeInvalid = true;
+        event.target.value = '';
+        return;
+      }
+
+      if (this.fotoFiles.length >= 3) {
+        // Maksimal 3 foto
+        event.target.value = '';
+        this.showAlert('Peringatan', 'Maksimal 3 foto yang dapat diunggah.');
+        return;
+      }
+
+      this.fotoFiles.push(file);
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.fotoPreview.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Reset input supaya bisa upload file sama lagi jika dibutuhkan
+    event.target.value = '';
   }
 
-  kategoriInvalid() {
-    return this.form.kategori === '';
+  hapusFoto(index: number) {
+    this.fotoFiles.splice(index, 1);
+    this.fotoPreview.splice(index, 1);
   }
 
-  tanggalPengaduanInvalid() {
-    return !this.form.tanggal_pengaduan;
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      cssClass: 'my-custom-alert',
+      buttons: ['OK'],
+      backdropDismiss: false,
+    });
+    await alert.present();
   }
 
-  formIsValid() {
+  formIsValid(): boolean {
     return (
       this.form.judul.length >= 5 &&
       this.form.judul.length <= 100 &&
@@ -87,45 +104,16 @@ export class PengaduanInputPage implements OnInit {
     );
   }
 
-  onFileChange(event: any) {
-    this.fileTypeInvalid = false;
-    const files: FileList = event.target.files;
-
-    for (let i = 0; i < files.length && this.fotoFiles.length < 3; i++) {
-      const file = files.item(i);
-      if (file) {
-        if (!['image/jpeg', 'image/png'].includes(file.type)) {
-          this.fileTypeInvalid = true;
-          continue;
-        }
-        this.fotoFiles.push(file);
-
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.fotoPreview.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-    event.target.value = '';
-  }
-
-  hapusFoto(index: number) {
-    this.fotoFiles.splice(index, 1);
-    this.fotoPreview.splice(index, 1);
-  }
-
   async submitForm() {
     if (!this.formIsValid() || this.fileTypeInvalid) {
-      window.alert('Mohon lengkapi data dan pastikan file foto valid!');
+      await this.showAlert('Peringatan', 'Mohon lengkapi data dan pastikan file foto valid!');
       return;
     }
 
     this.submitting = true;
 
     try {
-      // Simulasi delay 1.5 detik, misal panggil API di sini
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const dataKirim = {
         judul: this.form.judul,
@@ -140,31 +128,21 @@ export class PengaduanInputPage implements OnInit {
 
       console.log('Data Laporan Dikirim:', dataKirim);
 
-      window.alert('Laporan berhasil dikirim!');
+      await this.showAlert('Berhasil', 'Laporan berhasil dikirim!');
 
-      // Reset form dan tampilkan kalender lagi
-      const today = new Date();
-      const day = ('0' + today.getDate()).slice(-2);
-      const month = ('0' + (today.getMonth() + 1)).slice(-2);
-      const year = today.getFullYear();
-      const tanggalFormatted = `${day}/${month}/${year}`;
-
-      this.form = {
-        judul: '',
-        deskripsi: '',
-        kategori: '',
-        tanggal_pengaduan: tanggalFormatted,
-        foto_pengaduan_1: null,
-        foto_pengaduan_2: null,
-        foto_pengaduan_3: null,
-      };
+      // Reset form dan state dengan tanggal hari ini
+      this.form.judul = '';
+      this.form.deskripsi = '';
+      this.form.kategori = '';
+      this.setTanggalHariIni();
+      this.form.foto_pengaduan_1 = null;
+      this.form.foto_pengaduan_2 = null;
+      this.form.foto_pengaduan_3 = null;
       this.fotoFiles = [];
       this.fotoPreview = [];
       this.fileTypeInvalid = false;
-      this.showCalendar = true;
-
     } catch (error) {
-      window.alert('Terjadi kesalahan saat mengirim laporan.');
+      await this.showAlert('Error', 'Terjadi kesalahan saat mengirim laporan.');
     } finally {
       this.submitting = false;
     }

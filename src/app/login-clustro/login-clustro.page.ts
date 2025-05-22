@@ -21,9 +21,7 @@ export class LoginClustroPage {
     private toastCtrl: ToastController,
     private navCtrl: NavController
   ) {}
-  goBack() {
-    this.navCtrl.back();
-  }
+ 
   async onLogin() {
     if (this.credentials.nik.length !== 16 || this.credentials.password.length < 6) {
       this.showToast('NIK atau password tidak valid', 'danger');

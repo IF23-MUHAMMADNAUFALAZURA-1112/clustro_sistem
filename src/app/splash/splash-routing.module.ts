@@ -6,7 +6,8 @@ import { SplashPage } from './splash.page';
 const routes: Routes = [
   {
     path: '',
-    component: SplashPage
+    component: SplashPage,
+    data: { showNavbar: false }  // Navbar disembunyikan di halaman splash
   }
 ];
 

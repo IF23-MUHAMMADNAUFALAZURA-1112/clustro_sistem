@@ -1,95 +1,107 @@
-ion-header ion-toolbar {
-  --background: #00c197;
-  color: white;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0, 194, 119, 0.5);
+:host {
+  --ion-background-color: #00c197;
 }
 
-ion-back-button {
-  color: white !important;
+/* Latar belakang dan warna utama halaman */
+.pengaduan-page {
+  background: #00c197;
+  color: #fff;
+  padding: 0 20px;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 
-.card-input {
-  margin-bottom: 16px;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 194, 119, 0.2);
-  --background: #e6f5f1;
-}
-
-.validation-text {
-  margin-top: 6px;
-  font-size: 0.85rem;
-  font-style: italic;
-}
-
-ion-select {
-  --background: white;
-  border-radius: 8px;
-  height: 44px;
-  --padding-start: 12px;
-}
-
-.custom-datetime {
-  --border-radius: 12px;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --background: #ffffff;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  max-width: 320px;
-  margin: 0 auto;
-  display: block;
-}
-
-.custom-datetime::part(calendar-day-today) {
-  background-color: #00c197;
-  color: white;
-  border-radius: 50%;
-}
-
-.custom-datetime::part(calendar-day-selected) {
-  background-color: #007a56;
-  color: white;
-  border-radius: 50%;
-}
-
-ion-datetime-button {
-  --border-radius: 12px;
-  --background: #00c197;
-  --color: white;
-  font-weight: 600;
-  padding: 12px 20px;
-  margin-bottom: 12px;
-  display: inline-block;
+/* Tombol kembali di pojok kiri atas */
+.btn-back {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  z-index: 1000;
+  font-size: 32px;
+  color: #ffffff;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  background: transparent;
+  border: none;
   cursor: pointer;
 }
 
-.card-input ion-card-content {
-  padding-bottom: 12px;
+.btn-back:active {
+  opacity: 0.4;
+  transform: scale(0.95);
 }
 
+/* Container form dengan padding dan latar putih */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 16px 32px;
+  background-color: white;
+  border-radius: 16px;
+  margin-top: 60px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Judul form */
+.title-inside-form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title-inside-form h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #00c197;
+  margin: 0;
+}
+
+/* Label form */
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #00c197;
+  margin-top: 10px;
+  margin-left: 4px;
+}
+
+/* Input dan textarea */
+.form-input {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #ffffff;
+  height: 44px;
+  font-size: 14px;
+  color: #000;
+}
+
+/* Container untuk upload foto */
 .foto-upload-container {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
   gap: 12px;
-  padding: 10px 0;
+  overflow-x: auto;
+  padding: 8px 0;
 }
 
+/* Tile foto */
 .foto-tile {
   position: relative;
   width: 110px;
   height: 110px;
   border-radius: 16px;
-  overflow: hidden;
   background: #daf4e7;
+  border: 2px dashed #00c197;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: 2px dashed #00c197;
   transition: border-color 0.3s ease;
+}
+
+.foto-tile:hover {
+  border-color: #00a867;
 }
 
 .foto-tile img {
@@ -99,36 +111,65 @@ ion-datetime-button {
   border-radius: 16px;
 }
 
-.foto-tile:hover {
-  border-color: #00a867;
-}
-
-.tambah-foto {
-  color: #00a867;
-  font-size: 3rem;
-  border: 2px dashed #00a867;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Tombol hapus foto */
 .hapus-foto-btn {
   position: absolute;
   top: 4px;
   right: 4px;
-  z-index: 10;
   font-size: 1.4rem;
-  --padding-start: 0;
-  --padding-end: 0;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 50%;
+  padding: 0 4px;
+  z-index: 10;
+  cursor: pointer;
 }
 
-.submit-btn {
-  --color: white !important;         /* Warna teks putih */
-  --background: #00c197 !important;  /* Warna background hijau */
-  --border-radius: 24px;
+/* Tile untuk tambah foto */
+.tambah-foto {
+  font-size: 3rem;
+  color: #00a867;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #00a867;
+  border-radius: 16px;
+  width: 110px;
+  height: 110px;
+}
+
+/* Tombol submit yang mengalir di bawah form */
+.btn-submit {
+  margin-top: 32px;
+  margin-bottom: 75px; /* beri jarak bawah supaya tidak mepet navbar */
+  --background: #00c197 !important;
+  --color: white !important;
   font-weight: 700;
-  font-size: 1.2rem;
-  margin-top: 24px;
+  font-size: 1.1rem;
+  border-radius: 20px;
+  height: 44px; /* ukuran tombol lebih kecil */
+  box-shadow: 0 4px 10px rgba(0, 193, 119, 0.5);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  --background: #009f68 !important;
+}
+
+/* Pesan validasi error */
+ion-text[color="danger"] {
+  margin-left: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: #e74c3c;
+  min-height: 20px;
+  word-wrap: break-word;
+}
+
+/* Contoh teks kecil di bawah input alamat */
+.alamat-example {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  margin-bottom: 12px;
 }

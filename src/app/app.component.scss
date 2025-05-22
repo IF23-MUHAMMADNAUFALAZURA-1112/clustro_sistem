@@ -1,0 +1,5 @@
+/* Supaya konten tidak tertutup navbar footer */
+ion-router-outlet {
+  display: block;
+  padding-bottom: 56px; /* sama dengan tinggi navbar footer */
+}

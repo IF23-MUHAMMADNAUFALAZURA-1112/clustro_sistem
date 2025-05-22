@@ -206,22 +206,3 @@ ion-alert.modern-success-alert {
     transform: scale(1);
   }
 }
-
-  /* Tombol Kembali di pojok kiri atas */
-  .btn-back {
-    position: absolute;
-    top: 10px; /* Posisi di bawah status bar/jam */
-    left: 16px; /* Posisi di kiri */
-    z-index: 10;
-    font-size: 32px;
-    color: #ffffff;
-    transition: opacity 0.2s ease, transform 0.1s ease;
-    background: transparent;
-    border: none;
-  }
-  
-  /* Efek saat ditekan */
-  .btn-back:active {
-    opacity: 0.4;
-    transform: scale(0.95);
-  }

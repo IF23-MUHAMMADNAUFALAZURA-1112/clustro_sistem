@@ -5,8 +5,8 @@ import { NavController, AlertController, MenuController } from '@ionic/angular';
 @Component({
   selector: 'app-dashboard-warga',
   templateUrl: './dashboard-warga.page.html',
-  standalone: false,
-  styleUrls: ['./dashboard-warga.page.scss']
+  styleUrls: ['./dashboard-warga.page.scss'],
+  standalone:false
 })
 export class DashboardWargaPage implements OnInit, AfterViewInit {
 
@@ -29,8 +29,8 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
 
     setInterval(() => {
       if (!bannerContainer) return;
-      bannerScroll += bannerWidth;
 
+      bannerScroll += bannerWidth;
       if (bannerScroll >= bannerContainer.scrollWidth - bannerContainer.clientWidth) {
         bannerScroll = 0;
       }
@@ -52,9 +52,9 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
     this.showProfileMenu = false;
   }
 
-
   viewProfile(): void {
     console.log('Lihat Profil');
+    this.navCtrl.navigateForward('/lihat-profile');
   }
 
   async logout(): Promise<void> {

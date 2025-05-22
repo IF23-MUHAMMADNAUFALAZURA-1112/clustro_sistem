@@ -1,180 +1,68 @@
-<ion-header translucent>
-  <ion-toolbar style="--background: #00c197">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" style="color: white"></ion-back-button>
-    </ion-buttons>
-    <ion-title style="color: white">Laporkan Pengaduan</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="pengaduan-page">
 
-<ion-content fullscreen class="ion-padding" style="background-color: #e6f5f1">
-  <form (ngSubmit)="submitForm()" #formRef="ngForm" novalidate>
 
-    <!-- Judul -->
-    <ion-card class="card-input">
-      <ion-card-header>
-        <ion-card-title>Judul Pengaduan</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-input
-          type="text"
-          name="judul"
-          [(ngModel)]="form.judul"
-          placeholder="Contoh: Lampu jalan mati di RT 05"
-          required
-          minlength="5"
-          maxlength="100"
-          clearInput
-          autofocus
-          #judul="ngModel"
-        ></ion-input>
-        <ion-text color="danger" *ngIf="judul.invalid && judul.touched" class="validation-text">
-          Judul harus diisi antara 5 hingga 100 karakter.
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+  <form class="form-container" (ngSubmit)="submitForm()" #pengaduanForm="ngForm" novalidate>
 
-    <!-- Deskripsi -->
-    <ion-card class="card-input">
-      <ion-card-header>
-        <ion-card-title>Deskripsi Detail</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-textarea
-          name="deskripsi"
-          [(ngModel)]="form.deskripsi"
-          placeholder="Jelaskan permasalahan secara lengkap dan jelas"
-          rows="6"
-          required
-          minlength="10"
-          maxlength="500"
-          clearOnEdit
-          #deskripsi="ngModel"
-        ></ion-textarea>
-        <ion-text color="danger" *ngIf="deskripsi.invalid && deskripsi.touched" class="validation-text">
-          Deskripsi harus diisi antara 10 hingga 500 karakter.
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+    <div class="title-inside-form">
+      <h1>Input Pengaduan</h1>
+    </div>
 
-    <!-- Kategori -->
-    <ion-card class="card-input">
-      <ion-card-header>
-        <ion-card-title>Kategori Pengaduan</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-select
-          name="kategori"
-          [(ngModel)]="form.kategori"
-          placeholder="Pilih kategori"
-          interface="action-sheet"
-          required
-          aria-label="Pilih kategori pengaduan"
-          style="--background: white; --padding-start: 12px"
-          #kategori="ngModel"
-          (ionCancel)="onKategoriCancel()"
-        >
-          <ion-select-option value="Keluhan">Keluhan</ion-select-option>
-          <ion-select-option value="Laporan Gangguan">Laporan Gangguan</ion-select-option>
-          <ion-select-option value="Aspirasi">Aspirasi</ion-select-option>
-        </ion-select>
-        <ion-text color="danger" *ngIf="kategori.invalid && kategori.touched" class="validation-text">
-          Kategori harus dipilih.
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+    <!-- Judul Pengaduan -->
+    <label class="form-label">Judul Pengaduan</label>
+    <ion-input class="form-input" type="text" placeholder="Masukkan judul pengaduan" name="judul"
+      [(ngModel)]="form.judul" required minlength="5" maxlength="100" #judul="ngModel"></ion-input>
+    <ion-text color="danger" *ngIf="judul.invalid && (judul.touched || pengaduanForm.submitted)">
+      Judul harus diisi antara 5 hingga 100 karakter.
+    </ion-text>
 
-    <!-- Tanggal Pengaduan -->
-    <ion-card class="card-input">
-      <ion-card-header>
-        <ion-card-title>Tanggal Pengaduan</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+    <!-- Deskripsi Detail -->
+    <label class="form-label">Deskripsi Detail</label>
+    <ion-textarea class="form-input" placeholder="Jelaskan permasalahan secara lengkap dan jelas" name="deskripsi"
+      [(ngModel)]="form.deskripsi" required minlength="10" maxlength="500" #deskripsi="ngModel"></ion-textarea>
+    <ion-text color="danger" *ngIf="deskripsi.invalid && (deskripsi.touched || pengaduanForm.submitted)">
+      Deskripsi harus diisi antara 10 hingga 500 karakter.
+    </ion-text>
 
-        <!-- Tanggal yang sudah dipilih (klik untuk ubah) -->
-        <ion-text
-          color="medium"
-          class="tanggal-terpilih"
-          (click)="toggleCalendar()"
-          style="cursor:pointer;"
-          tabindex="0"
-          role="button"
-          aria-label="Klik untuk mengubah tanggal pengaduan"
-        >
-          {{ form.tanggal_pengaduan }} (klik untuk ubah)
-        </ion-text>
-
-        <!-- Kalender hanya muncul saat showCalendar true -->
-        <ion-datetime
-          *ngIf="showCalendar"
-          presentation="date"
-          [min]="minTanggal"
-          [max]="maxTanggal"
-          (ionChange)="onTanggalChange($event); toggleCalendar()"
-          show-default-buttons
-          aria-label="Pilih tanggal pengaduan"
-          class="custom-datetime"
-        ></ion-datetime>
-
-      </ion-card-content>
-    </ion-card>
+    <!-- Kategori Pengaduan -->
+    <label class="form-label">Kategori Pengaduan</label>
+    <ion-select interface="popover" placeholder="Pilih kategori" name="kategori" [(ngModel)]="form.kategori" required
+      #kategori="ngModel" class="form-input">
+      <ion-select-option value="Keluhan">Keluhan</ion-select-option>
+      <ion-select-option value="Laporan Gangguan">Laporan Gangguan</ion-select-option>
+      <ion-select-option value="Aspirasi">Aspirasi</ion-select-option>
+    </ion-select>
+    <ion-text color="danger" *ngIf="kategori.invalid && (kategori.touched || pengaduanForm.submitted)">
+      Kategori harus dipilih.
+    </ion-text>
 
     <!-- Foto Pendukung -->
-    <ion-card class="card-input foto-card">
-      <ion-card-header>
-        <ion-card-title>Foto Pendukung</ion-card-title>
-        <ion-card-subtitle>Max 3 foto, format JPG & PNG</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="foto-upload-container">
-          <div class="foto-tile" *ngFor="let foto of fotoPreview; let i = index">
-            <img [src]="foto" alt="Foto pengaduan {{ i + 1 }}" />
-            <ion-button
-              fill="clear"
-              color="danger"
-              size="small"
-              class="hapus-foto-btn"
-              (click)="hapusFoto(i)"
-              attr.aria-label="Hapus foto ke {{ i + 1 }}"
-            >
-              <ion-icon name="close-circle"></ion-icon>
-            </ion-button>
-          </div>
+    <label class="form-label">Foto Pendukung (Max 3 foto, JPG/PNG)</label>
+    <div class="foto-upload-container">
+      <div class="foto-tile" *ngFor="let foto of fotoPreview; let i = index">
+        <img [src]="foto" alt="Foto pengaduan {{ i + 1 }}" />
+        <ion-button fill="clear" color="danger" size="small" class="hapus-foto-btn" (click)="hapusFoto(i)"
+          [attr.aria-label]="'Hapus foto ke ' + (i + 1)">
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-button>
 
-          <label
-            *ngIf="fotoPreview.length < 3"
-            class="foto-tile tambah-foto"
-            for="file-upload"
-            tabindex="0"
-            aria-label="Tambah foto pengaduan"
-          >
-            <ion-icon name="add" size="large"></ion-icon>
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            multiple
-            accept="image/jpeg, image/png"
-            (change)="onFileChange($event)"
-            hidden
-          />
-        </div>
-        <ion-text color="danger" *ngIf="fileTypeInvalid" class="validation-text">
-          Hanya file JPG dan PNG yang diperbolehkan.
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+      </div>
+
+      <label *ngIf="fotoPreview.length < 3" class="foto-tile tambah-foto" for="file-upload" tabindex="0"
+        aria-label="Tambah foto pengaduan">
+        <ion-icon name="add" size="large"></ion-icon>
+      </label>
+      <input id="file-upload" type="file" accept="image/jpeg, image/png" (change)="onFileChange($event)" hidden />
+    </div>
+    <ion-text color="danger" *ngIf="fileTypeInvalid">
+      Hanya file JPG dan PNG yang diperbolehkan.
+    </ion-text>
 
     <!-- Tombol Submit -->
-    <ion-button
-      type="submit"
-      expand="block"
-      [disabled]="formRef.invalid || fileTypeInvalid || submitting"
-      class="submit-btn"
-    >
+    <ion-button shape="round" expand="block" class="btn-submit" type="submit"
+      [disabled]="pengaduanForm.invalid || fileTypeInvalid || submitting">
       <ion-spinner *ngIf="submitting" name="crescent" slot="start"></ion-spinner>
-      Kirim Laporan
+      <span *ngIf="!submitting">Kirim Pengaduan</span>
     </ion-button>
-
   </form>
+
 </ion-content>

@@ -1,0 +1,70 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: white;
+  z-index: 1000;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* hilangkan padding kiri kanan agar full */
+}
+
+.custom-nav-toolbar {
+  background: white;
+  --ion-color-primary: #00c197;
+}
+
+ion-segment.custom-segment {
+  --background: white;
+  --color: #00c197;
+  --indicator-color: #00c197;
+  padding: 4px 0;
+  width: 100%;
+  border-radius: 0; /* hilangkan border-radius supaya rapat */
+  display: flex;
+}
+
+ion-segment-button {
+  border-radius: 0;
+  --color: #00c197;
+  background: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex: 1;
+
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+ion-segment-button ion-icon {
+  font-size: 24px;
+  margin-bottom: 2px;
+  color: inherit;
+}
+
+ion-segment-button ion-label {
+  font-size: 12px;
+  color: inherit;
+  white-space: nowrap;
+  text-align: center;
+}
+
+ion-segment-button.ion-activated {
+  background-color: #00c197 !important;
+  --color: white !important;
+}
+
+ion-segment-button.ion-activated ion-icon,
+ion-segment-button.ion-activated ion-label {
+  color: white !important;
+}

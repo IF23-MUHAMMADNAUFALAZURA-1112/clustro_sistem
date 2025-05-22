@@ -57,6 +57,11 @@ export class LihatProfilePage implements OnInit {
   private pickedFile: File | null = null;
   showConfirmModal = false;
 
+  // KTP upload data
+  ktpFile: File | null = null;
+  ktpPreview: string | ArrayBuffer | null = null;  // preview KTP yang juga dipakai di profil
+  ktpFileName: string = '';
+
   constructor(
     private fb: FormBuilder,
     private toastCtrl: ToastController,
@@ -98,16 +103,14 @@ export class LihatProfilePage implements OnInit {
     this.segment = event.detail.value;
   }
 
-  /** Go back navigation */
-  goBack() {
-    this.location.back();
-  }
-
   /** Toggle edit mode for biodata */
   toggleEditBiodata() {
     this.editingBiodata = !this.editingBiodata;
     if (!this.editingBiodata) {
       this.biodataForm.reset(this.biodata);
+      this.ktpFile = null;
+      this.ktpFileName = '';
+      this.ktpPreview = null;
     }
   }
 
@@ -119,6 +122,21 @@ export class LihatProfilePage implements OnInit {
       return;
     }
     this.biodata = { ...this.biodataForm.value };
+
+    // Contoh proses upload file KTP (sesuaikan dengan API kamu)
+    if (this.ktpFile) {
+      console.log('Uploading KTP file:', this.ktpFile);
+      // TODO: upload ke server di sini
+
+      // Jika berhasil upload, bisa set URL gambar dari server ke ktpPreview,
+      // atau jika simpan base64 lokal cukup biarkan seperti ini.
+
+      // Reset file setelah upload
+      this.ktpFile = null;
+      this.ktpFileName = '';
+      // Tetap biarkan ktpPreview agar preview tetap muncul di profil
+    }
+
     this.editingBiodata = false;
     const toast = await this.toastCtrl.create({ message: 'Biodata berhasil diperbarui.', duration: 2000, color: 'success' });
     await toast.present();
@@ -168,5 +186,23 @@ export class LihatProfilePage implements OnInit {
       // TODO: upload this.pickedFile to server
     }
     this.showConfirmModal = false;
+  }
+
+  /** Handle file input for KTP upload and preview */
+  onKtpPicked(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.ktpFile = input.files[0];
+      this.ktpFileName = this.ktpFile.name;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.ktpPreview = reader.result; // preview base64 muncul di profil & biodata
+      };
+      reader.readAsDataURL(this.ktpFile);
+    } else {
+      this.ktpFile = null;
+      this.ktpFileName = '';
+      this.ktpPreview = null;
+    }
   }
 }
