@@ -9,18 +9,21 @@ import { Subscription } from 'rxjs';
   standalone: false
 })
 export class BtnNavigationbarComponent implements OnInit, OnDestroy {
+  // Inisialisasi segment yang aktif, default 'dashboard'
   selectedSegment = 'dashboard';
+
+  // Subscription untuk memonitor perubahan route
   routerSub!: Subscription;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Inisialisasi selectedSegment berdasarkan URL saat ini
+    // Set segment aktif awal berdasar URL
     setTimeout(() => {
       this.updateSelectedSegment(this.router.url);
     }, 50);
 
-    // Subscribe event route untuk update selectedSegment saat navigasi
+    // Subscribe event route untuk update segment saat navigasi
     this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.updateSelectedSegment(event.urlAfterRedirects);
@@ -28,24 +31,30 @@ export class BtnNavigationbarComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Update segment aktif berdasar URL saat ini
+   */
   updateSelectedSegment(url: string) {
     console.log('Navigated to:', url);
 
     if (url === '/dashboard-warga' || url.startsWith('/dashboard-warga/')) {
       this.selectedSegment = 'dashboard';
     } else if (url === '/pengaduan-clustro' || url.startsWith('/pengaduan-clustro/')) {
-      this.selectedSegment = 'service';
-    } else if (url === '/warga-connect' || url.startsWith('/warga-connect/')) {
-      this.selectedSegment = 'warga-connect';
-    } else if (url === '/warga-docs' || url.startsWith('/warga-docs/')) {
-      this.selectedSegment = 'warga-docs';
-    } else if (url === '/warga-logs' || url.startsWith('/warga-logs/')) {
-      this.selectedSegment = 'warga-logs';
+      this.selectedSegment = 'aktifitas-warga';
+    } else if (url === '/warga-interaksi' || url.startsWith('/warga-interaksi/')) {
+      this.selectedSegment = 'warga-interaksi';
+    } else if (url === '/warga-dokumen' || url.startsWith('/warga-dokumen/')) {
+      this.selectedSegment = 'warga-dokumen';
+    } else if (url === '/aktifitas-warga' || url.startsWith('/aktifitas-warga/')) {
+      this.selectedSegment = 'aktifitas-warga';
     } else {
-      this.selectedSegment = 'dashboard'; // default fallback
+      this.selectedSegment = 'dashboard'; // fallback
     }
   }
 
+  /**
+   * Handler klik segment, navigasi ke route sesuai
+   */
   onSegmentChanged(event: any) {
     const selectedValue: string = event.detail.value;
     console.log('Segment clicked:', selectedValue);
@@ -56,18 +65,19 @@ export class BtnNavigationbarComponent implements OnInit, OnDestroy {
       case 'dashboard':
         this.router.navigate(['/dashboard-warga']);
         break;
-      case 'warga-connect':
-        this.router.navigate(['/warga-connect']);
+
+      case 'warga-interaksi':
+        this.router.navigate(['/warga-interaksi']);
         break;
-      case 'warga-docs':
-        this.router.navigate(['/warga-docs']);
+
+      case 'warga-dokumen':
+        this.router.navigate(['/warga-dokumen']);
         break;
-      case 'warga-logs':
-        this.router.navigate(['/warga-logs']);
-        break;
-      case 'service':
+
+      case 'aktifitas-warga':
         this.router.navigate(['/pengaduan-clustro']);
         break;
+
       default:
         this.router.navigate(['/dashboard-warga']);
         break;
