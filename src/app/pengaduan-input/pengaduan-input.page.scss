@@ -2,7 +2,7 @@
   --ion-background-color: #00c197;
 }
 
-/* Latar belakang dan warna utama halaman */
+/* Warna latar keseluruhan halaman */
 .pengaduan-page {
   background: #00c197;
   color: #fff;
@@ -12,7 +12,16 @@
   position: relative;
 }
 
-/* Tombol kembali di pojok kiri atas */
+/* Wrapper agar form bisa stretch dan scroll penuh */
+.scroll-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+/* Tombol kembali */
 .btn-back {
   position: absolute;
   top: 24px;
@@ -20,10 +29,10 @@
   z-index: 1000;
   font-size: 32px;
   color: #ffffff;
-  transition: opacity 0.2s ease, transform 0.1s ease;
   background: transparent;
   border: none;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
 .btn-back:active {
@@ -31,7 +40,7 @@
   transform: scale(0.95);
 }
 
-/* Container form dengan padding dan latar putih */
+/* Form container utama */
 .form-container {
   display: flex;
   flex-direction: column;
@@ -39,11 +48,11 @@
   padding: 24px 16px 32px;
   background-color: white;
   border-radius: 16px;
-  margin-top: 60px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  flex-grow: 1;
 }
 
-/* Judul form */
+/* Judul Form */
 .title-inside-form {
   text-align: center;
   margin-bottom: 20px;
@@ -56,7 +65,7 @@
   margin: 0;
 }
 
-/* Label form */
+/* Label */
 .form-label {
   font-size: 14px;
   font-weight: 500;
@@ -65,7 +74,7 @@
   margin-left: 4px;
 }
 
-/* Input dan textarea */
+/* Input & textarea */
 .form-input {
   --padding-start: 10px;
   --padding-end: 10px;
@@ -77,7 +86,7 @@
   color: #000;
 }
 
-/* Container untuk upload foto */
+/* Upload Foto Container */
 .foto-upload-container {
   display: flex;
   gap: 12px;
@@ -85,7 +94,7 @@
   padding: 8px 0;
 }
 
-/* Tile foto */
+/* Tile foto preview */
 .foto-tile {
   position: relative;
   width: 110px;
@@ -137,16 +146,16 @@
   height: 110px;
 }
 
-/* Tombol submit yang mengalir di bawah form */
+/* Tombol submit */
 .btn-submit {
   margin-top: 32px;
-  margin-bottom: 75px; /* beri jarak bawah supaya tidak mepet navbar */
+  margin-bottom: 75px; // agar tidak tertutup tabbar
   --background: #00c197 !important;
   --color: white !important;
   font-weight: 700;
   font-size: 1.1rem;
   border-radius: 20px;
-  height: 44px; /* ukuran tombol lebih kecil */
+  height: 44px;
   box-shadow: 0 4px 10px rgba(0, 193, 119, 0.5);
   transition: background-color 0.3s ease;
   cursor: pointer;
@@ -156,7 +165,7 @@
   --background: #009f68 !important;
 }
 
-/* Pesan validasi error */
+/* Error message style */
 ion-text[color="danger"] {
   margin-left: 4px;
   font-size: 13px;
@@ -166,7 +175,7 @@ ion-text[color="danger"] {
   word-wrap: break-word;
 }
 
-/* Contoh teks kecil di bawah input alamat */
+/* Contoh teks tambahan */
 .alamat-example {
   font-size: 12px;
   color: #666;

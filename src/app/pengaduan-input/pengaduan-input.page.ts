@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pengaduan-input',
@@ -21,10 +22,12 @@ export class PengaduanInputPage implements OnInit {
   fotoFiles: File[] = [];
   fotoPreview: string[] = [];
   fileTypeInvalid = false;
-
   submitting: boolean = false;
 
-  constructor(private alertCtrl: AlertController) {}
+  constructor(
+    private alertCtrl: AlertController,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.setTanggalHariIni();
@@ -48,7 +51,7 @@ export class PengaduanInputPage implements OnInit {
 
   onFileChange(event: any) {
     this.fileTypeInvalid = false;
-    const file: File = event.target.files[0]; // Ambil hanya 1 file
+    const file: File = event.target.files[0];
 
     if (file) {
       if (!['image/jpeg', 'image/png'].includes(file.type)) {
@@ -58,7 +61,6 @@ export class PengaduanInputPage implements OnInit {
       }
 
       if (this.fotoFiles.length >= 3) {
-        // Maksimal 3 foto
         event.target.value = '';
         this.showAlert('Peringatan', 'Maksimal 3 foto yang dapat diunggah.');
         return;
@@ -73,7 +75,6 @@ export class PengaduanInputPage implements OnInit {
       reader.readAsDataURL(file);
     }
 
-    // Reset input supaya bisa upload file sama lagi jika dibutuhkan
     event.target.value = '';
   }
 
@@ -113,7 +114,7 @@ export class PengaduanInputPage implements OnInit {
     this.submitting = true;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 2500)); // simulasi loading
 
       const dataKirim = {
         judul: this.form.judul,
@@ -130,7 +131,10 @@ export class PengaduanInputPage implements OnInit {
 
       await this.showAlert('Berhasil', 'Laporan berhasil dikirim!');
 
-      // Reset form dan state dengan tanggal hari ini
+      // Navigasi halus setelah alert ditutup
+      this.router.navigate(['/halaman-pengaduan'], { replaceUrl: true });
+
+      // Reset form (opsional jika ingin form dikosongkan saat kembali)
       this.form.judul = '';
       this.form.deskripsi = '';
       this.form.kategori = '';
@@ -141,6 +145,7 @@ export class PengaduanInputPage implements OnInit {
       this.fotoFiles = [];
       this.fotoPreview = [];
       this.fileTypeInvalid = false;
+
     } catch (error) {
       await this.showAlert('Error', 'Terjadi kesalahan saat mengirim laporan.');
     } finally {

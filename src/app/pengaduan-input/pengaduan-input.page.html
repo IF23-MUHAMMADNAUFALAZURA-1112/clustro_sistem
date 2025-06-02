@@ -1,68 +1,68 @@
 <ion-content [fullscreen]="true" class="pengaduan-page">
 
+  <div class="scroll-wrapper">
+    <form class="form-container" (ngSubmit)="submitForm()" #pengaduanForm="ngForm" novalidate>
 
-  <form class="form-container" (ngSubmit)="submitForm()" #pengaduanForm="ngForm" novalidate>
-
-    <div class="title-inside-form">
-      <h1>Input Pengaduan</h1>
-    </div>
-
-    <!-- Judul Pengaduan -->
-    <label class="form-label">Judul Pengaduan</label>
-    <ion-input class="form-input" type="text" placeholder="Masukkan judul pengaduan" name="judul"
-      [(ngModel)]="form.judul" required minlength="5" maxlength="100" #judul="ngModel"></ion-input>
-    <ion-text color="danger" *ngIf="judul.invalid && (judul.touched || pengaduanForm.submitted)">
-      Judul harus diisi antara 5 hingga 100 karakter.
-    </ion-text>
-
-    <!-- Deskripsi Detail -->
-    <label class="form-label">Deskripsi Detail</label>
-    <ion-textarea class="form-input" placeholder="Jelaskan permasalahan secara lengkap dan jelas" name="deskripsi"
-      [(ngModel)]="form.deskripsi" required minlength="10" maxlength="500" #deskripsi="ngModel"></ion-textarea>
-    <ion-text color="danger" *ngIf="deskripsi.invalid && (deskripsi.touched || pengaduanForm.submitted)">
-      Deskripsi harus diisi antara 10 hingga 500 karakter.
-    </ion-text>
-
-    <!-- Kategori Pengaduan -->
-    <label class="form-label">Kategori Pengaduan</label>
-    <ion-select interface="popover" placeholder="Pilih kategori" name="kategori" [(ngModel)]="form.kategori" required
-      #kategori="ngModel" class="form-input">
-      <ion-select-option value="Keluhan">Keluhan</ion-select-option>
-      <ion-select-option value="Laporan Gangguan">Laporan Gangguan</ion-select-option>
-      <ion-select-option value="Aspirasi">Aspirasi</ion-select-option>
-    </ion-select>
-    <ion-text color="danger" *ngIf="kategori.invalid && (kategori.touched || pengaduanForm.submitted)">
-      Kategori harus dipilih.
-    </ion-text>
-
-    <!-- Foto Pendukung -->
-    <label class="form-label">Foto Pendukung (Max 3 foto, JPG/PNG)</label>
-    <div class="foto-upload-container">
-      <div class="foto-tile" *ngFor="let foto of fotoPreview; let i = index">
-        <img [src]="foto" alt="Foto pengaduan {{ i + 1 }}" />
-        <ion-button fill="clear" color="danger" size="small" class="hapus-foto-btn" (click)="hapusFoto(i)"
-          [attr.aria-label]="'Hapus foto ke ' + (i + 1)">
-          <ion-icon name="close-circle"></ion-icon>
-        </ion-button>
-
+      <div class="title-inside-form">
+        <h1>Input Pengaduan</h1>
       </div>
 
-      <label *ngIf="fotoPreview.length < 3" class="foto-tile tambah-foto" for="file-upload" tabindex="0"
-        aria-label="Tambah foto pengaduan">
-        <ion-icon name="add" size="large"></ion-icon>
-      </label>
-      <input id="file-upload" type="file" accept="image/jpeg, image/png" (change)="onFileChange($event)" hidden />
-    </div>
-    <ion-text color="danger" *ngIf="fileTypeInvalid">
-      Hanya file JPG dan PNG yang diperbolehkan.
-    </ion-text>
+      <!-- Judul Pengaduan -->
+      <label class="form-label">Judul Pengaduan</label>
+      <ion-input class="form-input" type="text" placeholder="Masukkan judul pengaduan" name="judul"
+        [(ngModel)]="form.judul" required minlength="5" maxlength="100" #judul="ngModel"></ion-input>
+      <ion-text color="danger" *ngIf="judul.invalid && (judul.touched || pengaduanForm.submitted)">
+        Judul harus diisi antara 5 hingga 100 karakter.
+      </ion-text>
 
-    <!-- Tombol Submit -->
-    <ion-button shape="round" expand="block" class="btn-submit" type="submit"
-      [disabled]="pengaduanForm.invalid || fileTypeInvalid || submitting">
-      <ion-spinner *ngIf="submitting" name="crescent" slot="start"></ion-spinner>
-      <span *ngIf="!submitting">Kirim Pengaduan</span>
-    </ion-button>
-  </form>
+      <!-- Deskripsi Detail -->
+      <label class="form-label">Deskripsi Detail</label>
+      <ion-textarea class="form-input" placeholder="Jelaskan permasalahan secara lengkap dan jelas" name="deskripsi"
+        [(ngModel)]="form.deskripsi" required minlength="10" maxlength="500" #deskripsi="ngModel"></ion-textarea>
+      <ion-text color="danger" *ngIf="deskripsi.invalid && (deskripsi.touched || pengaduanForm.submitted)">
+        Deskripsi harus diisi antara 10 hingga 500 karakter.
+      </ion-text>
+
+      <!-- Kategori Pengaduan -->
+      <label class="form-label">Kategori Pengaduan</label>
+      <ion-select interface="popover" placeholder="Pilih kategori" name="kategori" [(ngModel)]="form.kategori" required
+        #kategori="ngModel" class="form-input">
+        <ion-select-option value="Keluhan">Keluhan</ion-select-option>
+        <ion-select-option value="Laporan Gangguan">Laporan Gangguan</ion-select-option>
+        <ion-select-option value="Aspirasi">Aspirasi</ion-select-option>
+      </ion-select>
+      <ion-text color="danger" *ngIf="kategori.invalid && (kategori.touched || pengaduanForm.submitted)">
+        Kategori harus dipilih.
+      </ion-text>
+
+      <!-- Foto Pendukung -->
+      <label class="form-label">Foto Pendukung (Max 3 foto, JPG/PNG)</label>
+      <div class="foto-upload-container">
+        <div class="foto-tile" *ngFor="let foto of fotoPreview; let i = index">
+          <img [src]="foto" alt="Foto pengaduan {{ i + 1 }}" />
+          <ion-button fill="clear" color="danger" size="small" class="hapus-foto-btn" (click)="hapusFoto(i)"
+            [attr.aria-label]="'Hapus foto ke ' + (i + 1)">
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-button>
+        </div>
+
+        <label *ngIf="fotoPreview.length < 3" class="foto-tile tambah-foto" for="file-upload" tabindex="0"
+          aria-label="Tambah foto pengaduan">
+          <ion-icon name="add" size="large"></ion-icon>
+        </label>
+        <input id="file-upload" type="file" accept="image/jpeg, image/png" (change)="onFileChange($event)" hidden />
+      </div>
+      <ion-text color="danger" *ngIf="fileTypeInvalid">
+        Hanya file JPG dan PNG yang diperbolehkan.
+      </ion-text>
+
+      <!-- Tombol Submit -->
+      <ion-button shape="round" expand="block" class="btn-submit" type="submit"
+        [disabled]="pengaduanForm.invalid || fileTypeInvalid || submitting">
+        <ion-spinner *ngIf="submitting" name="crescent" slot="start"></ion-spinner>
+        <span *ngIf="!submitting">Kirim Pengaduan</span>
+      </ion-button>
+    </form>
+  </div>
 
 </ion-content>

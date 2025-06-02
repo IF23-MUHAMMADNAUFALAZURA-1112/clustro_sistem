@@ -1,0 +1,187 @@
+:host {
+  --ion-background-color: #00c197;
+}
+
+.pengaduan-page {
+  background: #00c197;
+  color: #fff;
+  padding: 0 20px;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.scroll-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 0;
+  overflow: visible !important;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 16px 32px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  flex-grow: 1;
+  color: #000;
+}
+
+.title-inside-form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title-inside-form h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #00c197;
+  margin: 0;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #00c197;
+  margin-top: 10px;
+  margin-left: 4px;
+}
+
+.form-input {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  height: 44px;
+  font-size: 14px;
+  color: #000;
+}
+
+.row-double {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.form-column {
+  flex: 1 1 45%;
+  min-width: 200px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .row-double {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .form-column {
+    flex: 1 1 100%;
+    min-width: auto;
+    margin-bottom: 16px;
+  }
+}
+
+ion-text[color="danger"] {
+  margin-left: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: #e74c3c;
+  min-height: 20px;
+  word-wrap: break-word;
+}
+
+/* Upload Foto Container */
+.foto-upload-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+/* Tile foto preview */
+.foto-tile {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 16px;
+  background: #daf4e7;
+  border: 2px dashed #00c197;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.foto-tile:hover {
+  border-color: #00a867;
+}
+
+.foto-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Tombol hapus foto */
+.hapus-foto-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 1.4rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  padding: 0 4px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Tile untuk tambah foto */
+.tambah-foto {
+  font-size: 3rem;
+  color: #00a867;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #00a867;
+  border-radius: 16px;
+  width: 110px;
+  height: 110px;
+}
+
+/* Teks info tipe file upload */
+.upload-info-text {
+  font-size: 12px;
+  color: #666666;
+  margin-top: 4px;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+/* Tombol submit */
+.btn-submit {
+  margin-top: 0;
+  margin-bottom: 75px; /* agar tidak tertutup tabbar */
+  --background: #00c197 !important;
+  --color: white !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 20px;
+  height: 44px;
+  box-shadow: 0 4px 10px rgba(0, 193, 119, 0.5);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  --background: #009f68 !important;
+}

@@ -1,0 +1,105 @@
+<ion-content class="ion-padding bg-hijau-clustro" [fullscreen]="true" style="--padding-bottom: 100px;">
+
+  <!-- Header -->
+  <div class="header-progress">
+    <div class="header-text">
+      <h1>Progress Laporan Anda</h1>
+      <p>Di halaman ini Anda dapat memantau perkembangan laporan aktivitas yang telah Anda kirimkan.</p>
+    </div>
+    <img src="assets/img/alert.png" alt="Progress Header" class="header-image" />
+  </div>
+
+  <!-- Pilihan Kategori -->
+  <div class="kategori-grid">
+    <!-- Dalam Proses -->
+    <ion-card button (click)="pilihKategori('dalam-proses')" [class.selected]="kategori === 'dalam-proses'" class="card-notif">
+      <ion-badge *ngIf="jumlahNotifikasiDalamProses > 0" color="danger" class="badge-top-right">
+        {{ jumlahNotifikasiDalamProses }}
+      </ion-badge>
+      <ion-card-header>
+        <ion-icon name="hourglass-outline" size="small" color="warning"></ion-icon>
+      </ion-card-header>
+      <ion-card-content>
+        <h2>Dalam Proses</h2>
+        <p>Lihat aktivitas yang sedang berjalan.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Status -->
+    <ion-card button (click)="pilihKategori('status')" [class.selected]="kategori === 'status'" class="card-notif">
+      <ion-badge *ngIf="jumlahNotifikasiStatusBaru > 0" color="danger" class="badge-top-right">
+        {{ jumlahNotifikasiStatusBaru }}
+      </ion-badge>
+      <ion-card-header>
+        <ion-icon name="checkmark-done-outline" size="small" color="success"></ion-icon>
+      </ion-card-header>
+      <ion-card-content>
+        <h2>Status</h2>
+        <p>Lihat status aktivitas yang sudah selesai atau tertunda.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Konten berdasarkan kategori -->
+  <div *ngIf="kategori" class="form-section" style="margin-top: 16px;">
+
+    <!-- Dalam Proses -->
+    <div *ngIf="kategori === 'dalam-proses'" class="white-text">
+      <h3 class="section-title-white">Aktivitas Dalam Proses</h3>
+
+      <ng-container *ngIf="filteredAktivitasDalamProses.length > 0; else noData">
+        <ion-card *ngFor="let item of filteredAktivitasDalamProses" (click)="bukaLaporan(item)" class="card-notif">
+          <ion-badge *ngIf="!item.seen" color="danger" class="badge-top-right-dot">•</ion-badge>
+          <ion-card-header>
+            <ion-card-title>{{ item.judul }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Kategori:</strong> {{ item.kategori }}</p>
+            <p>{{ item.deskripsi }}</p>
+            <ion-progress-bar value="0.5" color="warning" class="ion-margin-vertical"></ion-progress-bar>
+            <p><strong>Status:</strong> {{ item.status }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
+
+    <!-- Status -->
+    <div *ngIf="kategori === 'status'" class="white-text">
+      <h3 class="section-title-white">Status Aktivitas</h3>
+
+      <ng-container *ngIf="filteredStatusAktivitas.length > 0; else noData">
+        <ion-card *ngFor="let item of filteredStatusAktivitas" (click)="bukaLaporan(item)" class="card-notif">
+          <ion-badge *ngIf="!item.seen" color="danger" class="badge-top-right-dot">•</ion-badge>
+          <ion-card-header>
+            <ion-card-title>{{ item.judul }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Kategori:</strong> {{ item.kategori }}</p>
+            <p>{{ item.deskripsi }}</p>
+            <p>
+              <strong>Status:</strong>
+              <span [ngClass]="{
+                'status-selesai': item.status === 'Selesai',
+                'status-tertunda': item.status === 'Tertunda'
+              }">{{ item.status }}</span>
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
+
+    <!-- Jika Tidak Ada Data -->
+    <ng-template #noData>
+      <ion-card class="no-data-card">
+        <ion-card-content>
+          <div class="no-data-container">
+            <img src="assets/img/empty-folder.png" alt="Empty Data" />
+            <h4>Belum Ada Data</h4>
+            <p>Belum ada aktivitas untuk kategori</p>
+            <p><strong>{{ kategori }}</strong>.</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </div>
+</ion-content>

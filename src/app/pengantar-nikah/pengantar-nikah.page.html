@@ -1,0 +1,345 @@
+<ion-content [fullscreen]="true" class="pengaduan-page">
+  <div class="scroll-wrapper">
+    <form
+      class="form-container"
+      (ngSubmit)="onSubmit(suratNikahForm)"
+      #suratNikahForm="ngForm"
+      novalidate
+    >
+      <div class="title-inside-form">
+        <h1>Form Pengajuan Surat Pengantar Nikah</h1>
+      </div>
+
+      <!-- Status Hubungan -->
+      <label class="form-label" for="status_hubungan">Status Hubungan</label>
+      <ion-input
+        id="status_hubungan"
+        type="text"
+        name="status_hubungan"
+        [(ngModel)]="formData.status_hubungan"
+        required
+        class="form-input"
+        placeholder="Misal: Anak, Saudara, dll"
+        #statusHubungan="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="statusHubungan.invalid && (statusHubungan.touched || suratNikahForm.submitted)"
+      >
+        Status hubungan harus diisi.
+      </ion-text>
+
+      <!-- Nama Lengkap Pemohon -->
+      <label class="form-label" for="nama_lengkap_pemohon"
+        >Nama Lengkap Pemohon</label
+      >
+      <ion-input
+        id="nama_lengkap_pemohon"
+        type="text"
+        name="nama_lengkap_pemohon"
+        [(ngModel)]="formData.nama_lengkap_pemohon"
+        required
+        class="form-input"
+        placeholder="Nama lengkap"
+        #namaLengkap="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaLengkap.invalid && (namaLengkap.touched || suratNikahForm.submitted)"
+      >
+        Nama lengkap harus diisi.
+      </ion-text>
+
+      <!-- Tempat Lahir -->
+      <label class="form-label" for="tempat_lahir">Tempat Lahir</label>
+      <ion-input
+        id="tempat_lahir"
+        type="text"
+        name="tempat_lahir"
+        [(ngModel)]="formData.tempat_lahir"
+        required
+        class="form-input"
+        placeholder="Contoh: Bandung"
+        #tempatLahir="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tempatLahir.invalid && (tempatLahir.touched || suratNikahForm.submitted)"
+      >
+        Tempat lahir harus diisi.
+      </ion-text>
+
+      <!-- Tanggal Lahir -->
+      <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
+      <ion-input
+        class="form-input"
+        type="date"
+        id="tanggal_lahir"
+        placeholder="Pilih tanggal lahir"
+        name="tanggal_lahir"
+        [(ngModel)]="formData.tanggal_lahir"
+        required
+        #tanggalLahir="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tanggalLahir.invalid && (tanggalLahir.touched || suratNikahForm.submitted)"
+      >
+        Tanggal lahir harus dipilih.
+      </ion-text>
+
+      <!-- Jenis Kelamin -->
+      <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
+      <ion-select
+        id="jenis_kelamin"
+        name="jenis_kelamin"
+        [(ngModel)]="formData.jenis_kelamin"
+        required
+        class="form-input"
+        okText="OK"
+        cancelText="Batal"
+        interface="popover"
+        #jenisKelamin="ngModel"
+      >
+        <ion-select-option value="" disabled selected hidden>
+          Pilih jenis kelamin
+        </ion-select-option>
+        <ion-select-option value="Laki-laki">Laki-laki</ion-select-option>
+        <ion-select-option value="Perempuan">Perempuan</ion-select-option>
+      </ion-select>
+      <ion-text
+        color="danger"
+        *ngIf="jenisKelamin.invalid && (jenisKelamin.touched || suratNikahForm.submitted)"
+      >
+        Pilih jenis kelamin.
+      </ion-text>
+
+      <!-- Alamat KTP -->
+      <label class="form-label" for="alamat_ktp">Alamat KTP</label>
+      <ion-textarea
+        id="alamat_ktp"
+        name="alamat_ktp"
+        [(ngModel)]="formData.alamat_ktp"
+        required
+        class="form-input"
+        placeholder="Alamat sesuai KTP"
+        #alamatKtp="ngModel"
+      ></ion-textarea>
+      <ion-text
+        color="danger"
+        *ngIf="alamatKtp.invalid && (alamatKtp.touched || suratNikahForm.submitted)"
+      >
+        Alamat KTP harus diisi.
+      </ion-text>
+
+      <!-- NIK -->
+      <label class="form-label" for="nik">NIK</label>
+      <ion-input
+        id="nik"
+        type="text"
+        name="nik"
+        [(ngModel)]="formData.nik"
+        required
+        class="form-input"
+        placeholder="Nomor Induk Kependudukan"
+        #nik="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="nik.invalid && (nik.touched || suratNikahForm.submitted)"
+      >
+        NIK harus diisi.
+      </ion-text>
+
+      <!-- Agama -->
+      <label class="form-label" for="agama">Agama</label>
+      <ion-input
+        id="agama"
+        type="text"
+        name="agama"
+        [(ngModel)]="formData.agama"
+        required
+        class="form-input"
+        placeholder="Agama"
+        #agama="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="agama.invalid && (agama.touched || suratNikahForm.submitted)"
+      >
+        Agama harus diisi.
+      </ion-text>
+
+      <!-- Status Pernikahan -->
+      <label class="form-label" for="status_pernikahan"
+        >Status Pernikahan</label
+      >
+      <ion-select
+        id="status_pernikahan"
+        name="status_pernikahan"
+        [(ngModel)]="formData.status_pernikahan"
+        required
+        class="form-input"
+        okText="OK"
+        cancelText="Batal"
+        interface="popover"
+        #statusPernikahan="ngModel"
+      >
+        <ion-select-option value="" disabled selected hidden>
+          Pilih status perkawinan
+        </ion-select-option>
+        <ion-select-option value="Lajang">Lajang</ion-select-option>
+        <ion-select-option value="Duda">Duda</ion-select-option>
+        <ion-select-option value="Janda">Janda</ion-select-option>
+      </ion-select>
+      <ion-text
+        color="danger"
+        *ngIf="statusPernikahan.invalid && (statusPernikahan.touched || suratNikahForm.submitted)"
+      >
+        Pilih status perkawinan.
+      </ion-text>
+
+      <!-- Pekerjaan -->
+      <label class="form-label" for="pekerjaan">Pekerjaan</label>
+      <ion-input
+        id="pekerjaan"
+        type="text"
+        name="pekerjaan"
+        [(ngModel)]="formData.pekerjaan"
+        required
+        class="form-input"
+        placeholder="Pekerjaan"
+        #pekerjaan="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="pekerjaan.invalid && (pekerjaan.touched || suratNikahForm.submitted)"
+      >
+        Pekerjaan harus diisi.
+      </ion-text>
+
+      <!-- Nama Ayah -->
+      <label class="form-label" for="nama_ayah">Nama Ayah</label>
+      <ion-input
+        id="nama_ayah"
+        type="text"
+        name="nama_ayah"
+        [(ngModel)]="formData.nama_ayah"
+        required
+        class="form-input"
+        placeholder="Nama Ayah"
+        #namaAyah="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaAyah.invalid && (namaAyah.touched || suratNikahForm.submitted)"
+      >
+        Nama ayah harus diisi.
+      </ion-text>
+
+      <!-- Nama Ibu -->
+      <label class="form-label" for="nama_ibu">Nama Ibu</label>
+      <ion-input
+        id="nama_ibu"
+        type="text"
+        name="nama_ibu"
+        [(ngModel)]="formData.nama_ibu"
+        required
+        class="form-input"
+        placeholder="Nama Ibu"
+        #namaIbu="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaIbu.invalid && (namaIbu.touched || suratNikahForm.submitted)"
+      >
+        Nama ibu harus diisi.
+      </ion-text>
+
+      <!-- Upload Fotokopi KTP -->
+      <label class="form-label">Upload Fotokopi KTP (opsional)</label>
+      <div class="foto-upload-container">
+        <div class="foto-tile" *ngIf="fotoKtpPreview">
+          <img [src]="fotoKtpPreview" alt="Preview Fotokopi KTP" />
+          <ion-button
+            fill="clear"
+            color="danger"
+            size="small"
+            class="hapus-foto-btn"
+            (click)="hapusFoto('ktp')"
+            aria-label="Hapus foto fotokopi KTP"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-button>
+        </div>
+
+        <label
+          *ngIf="!fotoKtpPreview"
+          class="foto-tile tambah-foto"
+          for="file-upload-ktp"
+          tabindex="0"
+          aria-label="Tambah foto fotokopi KTP"
+        >
+          <ion-icon name="add" size="large"></ion-icon>
+        </label>
+        <input
+          id="file-upload-ktp"
+          type="file"
+          accept="image/jpeg, image/png"
+          (change)="onFileChange($event, 'ktp')"
+          hidden
+        />
+      </div>
+      <div class="upload-info-text">
+        Hanya bisa upload foto jenis JPG dan PNG.
+      </div>
+
+      <!-- Upload Fotokopi KK -->
+      <label class="form-label">Upload Fotokopi KK (opsional)</label>
+      <div class="foto-upload-container">
+        <div class="foto-tile" *ngIf="fotoKkPreview">
+          <img [src]="fotoKkPreview" alt="Preview Fotokopi KK" />
+          <ion-button
+            fill="clear"
+            color="danger"
+            size="small"
+            class="hapus-foto-btn"
+            (click)="hapusFoto('kk')"
+            aria-label="Hapus foto fotokopi KK"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-button>
+        </div>
+
+        <label
+          *ngIf="!fotoKkPreview"
+          class="foto-tile tambah-foto"
+          for="file-upload-kk"
+          tabindex="0"
+          aria-label="Tambah foto fotokopi KK"
+        >
+          <ion-icon name="add" size="large"></ion-icon>
+        </label>
+        <input
+          id="file-upload-kk"
+          type="file"
+          accept="image/jpeg, image/png"
+          (change)="onFileChange($event, 'kk')"
+          hidden
+        />
+      </div>
+      <div class="upload-info-text">
+        Hanya bisa upload foto jenis JPG dan PNG.
+      </div>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        class="btn-submit"
+        [disabled]="!suratNikahForm.valid"
+      >
+        Kirim Pengajuan
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

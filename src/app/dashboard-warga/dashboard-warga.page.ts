@@ -6,12 +6,13 @@ import { NavController, AlertController, MenuController } from '@ionic/angular';
   selector: 'app-dashboard-warga',
   templateUrl: './dashboard-warga.page.html',
   styleUrls: ['./dashboard-warga.page.scss'],
-  standalone:false
+  standalone: false
 })
 export class DashboardWargaPage implements OnInit, AfterViewInit {
 
   showProfileMenu = false;
   showNotificationPanel = false;
+  jumlahNotifikasiBaru: number = 0;
 
   constructor(
     private location: Location,
@@ -20,7 +21,9 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
     public menuCtrl: MenuController
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.hitungNotifikasiBaru();
+  }
 
   ngAfterViewInit(): void {
     const bannerContainer = document.getElementById('bannerContainer');
@@ -93,5 +96,14 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
 
     if (!clickedInsideNotif && !clickedNotifIcon) this.showNotificationPanel = false;
     if (!clickedInsideProfile && !clickedProfileIcon) this.showProfileMenu = false;
+  }
+
+  hitungNotifikasiBaru(): void {
+    const dataStr = localStorage.getItem('laporan_pengaduan');
+    const aktivitas = dataStr ? JSON.parse(dataStr) : [];
+
+    this.jumlahNotifikasiBaru = aktivitas.filter((item: any) =>
+      (item.status === 'Selesai' || item.status === 'Tertunda') && item.seen === false
+    ).length;
   }
 }

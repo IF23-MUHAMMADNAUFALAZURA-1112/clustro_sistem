@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true" scroll-y="true" class="dashboard-bg">
+  <div class="scroll-wrapper">
+    <!-- Header -->
+    <div class="page-header">
+      <ion-icon name="document-text-outline" class="page-icon"></ion-icon>
+      <h2 class="page-title">Layanan Pengajuan Dokumen</h2>
+      <p class="highlight-text">
+        Pilih jenis dokumen yang ingin diajukan. Clustro membantu warga mengurus
+        dokumen penting dengan mudah tanpa perlu datang ke kantor RT.
+      </p>
+    </div>
+
+    <!-- Card utama -->
+    <div class="main-card">
+      <div class="menu-grid">
+        <a
+          *ngFor="let item of dokumenMenu"
+          [routerLink]="item.link"
+          class="menu-card"
+        >
+          <div class="menu-icon">
+            <ion-icon [name]="item.icon"></ion-icon>
+            <span class="badge" *ngIf="item.badge">{{ item.badge }}</span>
+          </div>
+          <div class="menu-label">{{ item.label }}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,313 @@
+<ion-content [fullscreen]="true" class="pengaduan-page">
+  <div class="scroll-wrapper">
+    <form
+      class="form-container"
+      (ngSubmit)="onSubmit()"
+      #formPengajuan="ngForm"
+      novalidate
+    >
+      <div class="title-inside-form">
+        <h1>Pengajuan Surat Pengantar Domisili</h1>
+      </div>
+
+      <!-- Jenis Dokumen (readonly) -->
+      <label class="form-label" for="jenisDokumen">Jenis Dokumen</label>
+      <ion-input
+        class="form-input"
+        id="jenisDokumen"
+        name="jenisDokumen"
+        [value]="'Surat pengantar domisili'"
+        readonly
+      ></ion-input>
+      <!-- Status Hubungan dengan Pemohon -->
+      <label class="form-label" for="statusHubungan"
+        >Status Hubungan dengan Pemohon</label
+      >
+      <ion-select
+        interface="popover"
+        placeholder="Pilih status hubungan"
+        name="statusHubungan"
+        id="statusHubungan"
+        [(ngModel)]="formData.statusHubungan"
+        required
+        #statusHubungan="ngModel"
+        class="form-input"
+      >
+        <ion-select-option value="Pemohon sendiri"
+          >Pemohon sendiri</ion-select-option
+        >
+        <ion-select-option value="Anak">Anak</ion-select-option>
+        <ion-select-option value="Istri/Suami">Istri/Suami</ion-select-option>
+        <ion-select-option value="Keluarga Lain"
+          >Keluarga Lain</ion-select-option
+        >
+      </ion-select>
+      <ion-text
+        color="danger"
+        *ngIf="statusHubungan.invalid && (statusHubungan.touched || formPengajuan.submitted)"
+      >
+        Status hubungan harus dipilih.
+      </ion-text>
+      <!-- Nama Lengkap -->
+      <label class="form-label" for="namaLengkap">Nama Lengkap</label>
+      <ion-input
+        class="form-input"
+        type="text"
+        id="namaLengkap"
+        placeholder="Masukkan nama lengkap"
+        name="namaLengkap"
+        [(ngModel)]="formData.namaLengkap"
+        required
+        minlength="3"
+        maxlength="100"
+        #namaLengkap="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaLengkap.invalid && (namaLengkap.touched || formPengajuan.submitted)"
+      >
+        Nama lengkap harus diisi (3-100 karakter).
+      </ion-text>
+
+      <!-- Nomor KTP / NIK -->
+      <label class="form-label" for="nomorKTP">Nomor KTP / NIK</label>
+      <ion-input
+        class="form-input"
+        type="text"
+        id="nomorKTP"
+        placeholder="Masukkan nomor KTP/NIK"
+        name="nomorKTP"
+        [(ngModel)]="formData.nomorKTP"
+        required
+        minlength="16"
+        maxlength="16"
+        pattern="[0-9]*"
+        #nomorKTP="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="nomorKTP.invalid && (nomorKTP.touched || formPengajuan.submitted)"
+      >
+        Nomor KTP/NIK harus 16 digit angka.
+      </ion-text>
+
+      <!-- Alamat -->
+      <label class="form-label" for="alamat">Alamat</label>
+      <ion-input
+        class="form-input"
+        type="text"
+        id="alamat"
+        placeholder="Masukkan alamat"
+        name="alamat"
+        [(ngModel)]="formData.alamat"
+        required
+        minlength="5"
+        maxlength="200"
+        #alamat="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="alamat.invalid && (alamat.touched || formPengajuan.submitted)"
+      >
+        Alamat harus diisi (5-200 karakter).
+      </ion-text>
+
+      <!-- Lama Tinggal di Alamat -->
+      <label class="form-label" for="lamaTinggal"
+        >Lama Tinggal di Alamat (tahun)</label
+      >
+      <ion-input
+        class="form-input"
+        type="number"
+        id="lamaTinggal"
+        placeholder="Masukkan lama tinggal dalam tahun"
+        name="lamaTinggal"
+        [(ngModel)]="formData.lamaTinggal"
+        required
+        min="0"
+        #lamaTinggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="lamaTinggal.invalid && (lamaTinggal.touched || formPengajuan.submitted)"
+      >
+        Lama tinggal harus diisi dan tidak boleh negatif.
+      </ion-text>
+
+      <!-- Tempat Lahir -->
+      <label class="form-label" for="tempatLahir">Tempat Lahir</label>
+      <ion-input
+        class="form-input"
+        type="text"
+        id="tempatLahir"
+        placeholder="Masukkan tempat lahir"
+        name="tempatLahir"
+        [(ngModel)]="formData.tempatLahir"
+        required
+        minlength="3"
+        maxlength="50"
+        #tempatLahir="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tempatLahir.invalid && (tempatLahir.touched || formPengajuan.submitted)"
+      >
+        Tempat lahir harus diisi (3-50 karakter).
+      </ion-text>
+
+      <!-- Tanggal Lahir -->
+      <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
+      <ion-input
+        class="form-input"
+        type="date"
+        id="tanggalLahir"
+        placeholder="Pilih tanggal lahir"
+        name="tanggalLahir"
+        [(ngModel)]="formData.tanggalLahir"
+        required
+        #tanggalLahir="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tanggalLahir.invalid && (tanggalLahir.touched || formPengajuan.submitted)"
+      >
+        Tanggal lahir harus dipilih.
+      </ion-text>
+
+      <!-- Kewarganegaraan -->
+      <label class="form-label" for="kewarganegaraan">Kewarganegaraan</label>
+      <ion-input
+        class="form-input"
+        type="text"
+        id="kewarganegaraan"
+        placeholder="Masukkan kewarganegaraan"
+        name="kewarganegaraan"
+        [(ngModel)]="formData.kewarganegaraan"
+        required
+        minlength="3"
+        maxlength="50"
+        #kewarganegaraan="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="kewarganegaraan.invalid && (kewarganegaraan.touched || formPengajuan.submitted)"
+      >
+        Kewarganegaraan harus diisi (3-50 karakter).
+      </ion-text>
+
+      <!-- Keperluan Pengajuan Surat -->
+      <label class="form-label" for="keperluan"
+        >Keperluan Pengajuan Surat</label
+      >
+      <ion-textarea
+        class="form-input"
+        id="keperluan"
+        name="keperluan"
+        placeholder="Tuliskan keperluan pengajuan surat"
+        [(ngModel)]="formData.keperluan"
+        required
+        minlength="5"
+        maxlength="500"
+        #keperluan="ngModel"
+      ></ion-textarea>
+      <ion-text
+        color="danger"
+        *ngIf="keperluan.invalid && (keperluan.touched || formPengajuan.submitted)"
+      >
+        Keperluan harus diisi (5-500 karakter).
+      </ion-text>
+
+      <!-- Nomor Telepon / HP -->
+      <label class="form-label" for="noTelepon">Nomor Telepon / HP</label>
+      <ion-input
+        class="form-input"
+        type="tel"
+        id="noTelepon"
+        placeholder="Masukkan nomor telepon/HP"
+        name="noTelepon"
+        [(ngModel)]="formData.noTelepon"
+        required
+        pattern="[0-9]+"
+        minlength="8"
+        maxlength="15"
+        #noTelepon="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="noTelepon.invalid && (noTelepon.touched || formPengajuan.submitted)"
+      >
+        Nomor telepon harus berupa angka dan diisi (8-15 digit).
+      </ion-text>
+
+      <!-- Status Perkawinan dan Jenis Kelamin -->
+      <div class="row-double">
+        <div class="form-column">
+          <label class="form-label" for="statusPerkawinan"
+            >Status Perkawinan</label
+          >
+          <ion-select
+            interface="popover"
+            placeholder="Pilih status"
+            name="statusPerkawinan"
+            id="statusPerkawinan"
+            [(ngModel)]="formData.statusPerkawinan"
+            required
+            #statusPerkawinan="ngModel"
+            class="form-input"
+          >
+            <ion-select-option
+              *ngFor="let status of statusPerkawinanOptions"
+              [value]="status"
+            >
+              {{ status }}
+            </ion-select-option>
+          </ion-select>
+          <ion-text
+            color="danger"
+            *ngIf="statusPerkawinan.invalid && (statusPerkawinan.touched || formPengajuan.submitted)"
+          >
+            Status perkawinan harus dipilih.
+          </ion-text>
+        </div>
+
+        <div class="form-column">
+          <label class="form-label" for="jenisKelamin">Jenis Kelamin</label>
+          <ion-select
+            interface="popover"
+            placeholder="Pilih jenis kelamin"
+            name="jenisKelamin"
+            id="jenisKelamin"
+            [(ngModel)]="formData.jenisKelamin"
+            required
+            #jenisKelamin="ngModel"
+            class="form-input"
+          >
+            <ion-select-option
+              *ngFor="let jk of jenisKelaminOptions"
+              [value]="jk"
+            >
+              {{ jk }}
+            </ion-select-option>
+          </ion-select>
+          <ion-text
+            color="danger"
+            *ngIf="jenisKelamin.invalid && (jenisKelamin.touched || formPengajuan.submitted)"
+          >
+            Jenis kelamin harus dipilih.
+          </ion-text>
+        </div>
+      </div>
+
+      <!-- Tombol Submit -->
+      <ion-button
+        shape="round"
+        expand="block"
+        class="btn-submit"
+        type="submit"
+        [disabled]="formPengajuan.invalid"
+      >
+        Kirim Pengajuan
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

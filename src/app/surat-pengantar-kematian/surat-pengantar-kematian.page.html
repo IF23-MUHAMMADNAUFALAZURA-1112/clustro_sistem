@@ -1,0 +1,310 @@
+<ion-content [fullscreen]="true" class="pengaduan-page">
+  <div class="scroll-wrapper">
+    <form
+      class="form-container"
+      (ngSubmit)="onSubmit(suratKematianForm)"
+      #suratKematianForm="ngForm"
+      novalidate
+    >
+      <div class="title-inside-form">
+        <h1>Form Pengajuan Surat Pengantar Kematian</h1>
+      </div>
+
+      <!-- Nama Meninggal -->
+      <label class="form-label" for="nama_meninggal">Nama Orang Meninggal</label>
+      <ion-input
+        id="nama_meninggal"
+        type="text"
+        name="nama_meninggal"
+        [(ngModel)]="formData.nama_meninggal"
+        required
+        class="form-input"
+        placeholder="Nama lengkap orang meninggal"
+        #namaMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaMeninggal.invalid && (namaMeninggal.touched || suratKematianForm.submitted)"
+        >Nama orang meninggal harus diisi.</ion-text
+      >
+
+      <!-- NIK Meninggal -->
+      <label class="form-label" for="nik_meninggal">NIK Orang Meninggal</label>
+      <ion-input
+        id="nik_meninggal"
+        type="text"
+        name="nik_meninggal"
+        [(ngModel)]="formData.nik_meninggal"
+        required
+        class="form-input"
+        placeholder="NIK orang meninggal"
+        #nikMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="nikMeninggal.invalid && (nikMeninggal.touched || suratKematianForm.submitted)"
+        >NIK orang meninggal harus diisi.</ion-text
+      >
+
+      <!-- Jenis Kelamin -->
+      <label class="form-label" for="jenis_kelamin_meninggal">Jenis Kelamin</label>
+      <ion-select
+        id="jenis_kelamin_meninggal"
+        name="jenis_kelamin_meninggal"
+        [(ngModel)]="formData.jenis_kelamin_meninggal"
+        required
+        class="form-input"
+        okText="OK"
+        cancelText="Batal"
+        interface="popover"
+        #jenisKelaminMeninggal="ngModel"
+      >
+        <ion-select-option value="" disabled selected hidden
+          >Pilih jenis kelamin</ion-select-option
+        >
+        <ion-select-option value="Laki-laki">Laki-laki</ion-select-option>
+        <ion-select-option value="Perempuan">Perempuan</ion-select-option>
+      </ion-select>
+      <ion-text
+        color="danger"
+        *ngIf="jenisKelaminMeninggal.invalid && (jenisKelaminMeninggal.touched || suratKematianForm.submitted)"
+        >Pilih jenis kelamin.</ion-text
+      >
+
+      <!-- Tempat Lahir Meninggal -->
+      <label class="form-label" for="tempat_lahir_meninggal">Tempat Lahir</label>
+      <ion-input
+        id="tempat_lahir_meninggal"
+        type="text"
+        name="tempat_lahir_meninggal"
+        [(ngModel)]="formData.tempat_lahir_meninggal"
+        required
+        class="form-input"
+        placeholder="Contoh: Bandung"
+        #tempatLahirMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tempatLahirMeninggal.invalid && (tempatLahirMeninggal.touched || suratKematianForm.submitted)"
+        >Tempat lahir harus diisi.</ion-text
+      >
+
+      <!-- Tanggal Lahir Meninggal -->
+      <label class="form-label" for="tanggal_lahir_meninggal">Tanggal Lahir</label>
+      <ion-input
+        class="form-input"
+        type="date"
+        id="tanggal_lahir_meninggal"
+        name="tanggal_lahir_meninggal"
+        [(ngModel)]="formData.tanggal_lahir_meninggal"
+        required
+        #tanggalLahirMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tanggalLahirMeninggal.invalid && (tanggalLahirMeninggal.touched || suratKematianForm.submitted)"
+        >Tanggal lahir harus dipilih.</ion-text
+      >
+
+      <!-- Agama Meninggal -->
+      <label class="form-label" for="agama_meninggal">Agama</label>
+      <ion-input
+        id="agama_meninggal"
+        type="text"
+        name="agama_meninggal"
+        [(ngModel)]="formData.agama_meninggal"
+        required
+        class="form-input"
+        placeholder="Agama"
+        #agamaMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="agamaMeninggal.invalid && (agamaMeninggal.touched || suratKematianForm.submitted)"
+        >Agama harus diisi.</ion-text
+      >
+
+      <!-- Hari Meninggal -->
+      <label class="form-label" for="hari_meninggal">Hari Meninggal</label>
+      <ion-input
+        id="hari_meninggal"
+        type="text"
+        name="hari_meninggal"
+        [(ngModel)]="formData.hari_meninggal"
+        required
+        class="form-input"
+        placeholder="Misal: Senin, Selasa"
+        #hariMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="hariMeninggal.invalid && (hariMeninggal.touched || suratKematianForm.submitted)"
+        >Hari meninggal harus diisi.</ion-text
+      >
+
+      <!-- Tanggal Meninggal -->
+      <label class="form-label" for="tanggal_meninggal">Tanggal Meninggal</label>
+      <ion-input
+        id="tanggal_meninggal"
+        type="date"
+        name="tanggal_meninggal"
+        [(ngModel)]="formData.tanggal_meninggal"
+        required
+        class="form-input"
+        #tanggalMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tanggalMeninggal.invalid && (tanggalMeninggal.touched || suratKematianForm.submitted)"
+        >Tanggal meninggal harus dipilih.</ion-text
+      >
+
+      <!-- Tempat Meninggal -->
+      <label class="form-label" for="tempat_meninggal">Tempat Meninggal</label>
+      <ion-input
+        id="tempat_meninggal"
+        type="text"
+        name="tempat_meninggal"
+        [(ngModel)]="formData.tempat_meninggal"
+        required
+        class="form-input"
+        placeholder="Tempat meninggal"
+        #tempatMeninggal="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tempatMeninggal.invalid && (tempatMeninggal.touched || suratKematianForm.submitted)"
+        >Tempat meninggal harus diisi.</ion-text
+      >
+
+      <!-- Penyebab Kematian -->
+      <label class="form-label" for="penyebab_kematian">Penyebab Kematian</label>
+      <ion-textarea
+        id="penyebab_kematian"
+        name="penyebab_kematian"
+        [(ngModel)]="formData.penyebab_kematian"
+        required
+        class="form-input"
+        placeholder="Penyebab kematian"
+        #penyebabKematian="ngModel"
+      ></ion-textarea>
+      <ion-text
+        color="danger"
+        *ngIf="penyebabKematian.invalid && (penyebabKematian.touched || suratKematianForm.submitted)"
+        >Penyebab kematian harus diisi.</ion-text
+      >
+
+      <!-- Data Pelapor -->
+
+      <label class="form-label" for="nama_pelapor">Nama Pelapor</label>
+      <ion-input
+        id="nama_pelapor"
+        type="text"
+        name="nama_pelapor"
+        [(ngModel)]="formData.nama_pelapor"
+        required
+        class="form-input"
+        placeholder="Nama lengkap pelapor"
+        #namaPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="namaPelapor.invalid && (namaPelapor.touched || suratKematianForm.submitted)"
+        >Nama pelapor harus diisi.</ion-text
+      >
+
+      <label class="form-label" for="nik_pelapor">NIK Pelapor</label>
+      <ion-input
+        id="nik_pelapor"
+        type="text"
+        name="nik_pelapor"
+        [(ngModel)]="formData.nik_pelapor"
+        required
+        class="form-input"
+        placeholder="NIK pelapor"
+        #nikPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="nikPelapor.invalid && (nikPelapor.touched || suratKematianForm.submitted)"
+        >NIK pelapor harus diisi.</ion-text
+      >
+
+      <label class="form-label" for="tempat_lahir_pelapor">Tempat Lahir Pelapor</label>
+      <ion-input
+        id="tempat_lahir_pelapor"
+        type="text"
+        name="tempat_lahir_pelapor"
+        [(ngModel)]="formData.tempat_lahir_pelapor"
+        required
+        class="form-input"
+        placeholder="Tempat lahir pelapor"
+        #tempatLahirPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tempatLahirPelapor.invalid && (tempatLahirPelapor.touched || suratKematianForm.submitted)"
+        >Tempat lahir pelapor harus diisi.</ion-text
+      >
+
+      <label class="form-label" for="tanggal_lahir_pelapor">Tanggal Lahir Pelapor</label>
+      <ion-input
+        id="tanggal_lahir_pelapor"
+        type="date"
+        name="tanggal_lahir_pelapor"
+        [(ngModel)]="formData.tanggal_lahir_pelapor"
+        required
+        class="form-input"
+        #tanggalLahirPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="tanggalLahirPelapor.invalid && (tanggalLahirPelapor.touched || suratKematianForm.submitted)"
+        >Tanggal lahir pelapor harus dipilih.</ion-text
+      >
+
+      <label class="form-label" for="pekerjaan_pelapor">Pekerjaan Pelapor</label>
+      <ion-input
+        id="pekerjaan_pelapor"
+        type="text"
+        name="pekerjaan_pelapor"
+        [(ngModel)]="formData.pekerjaan_pelapor"
+        required
+        class="form-input"
+        placeholder="Pekerjaan pelapor"
+        #pekerjaanPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="pekerjaanPelapor.invalid && (pekerjaanPelapor.touched || suratKematianForm.submitted)"
+        >Pekerjaan pelapor harus diisi.</ion-text
+      >
+
+      <label class="form-label" for="hubungan_pelapor">Hubungan Pelapor</label>
+      <ion-input
+        id="hubungan_pelapor"
+        type="text"
+        name="hubungan_pelapor"
+        [(ngModel)]="formData.hubungan_pelapor"
+        required
+        class="form-input"
+        placeholder="Hubungan pelapor dengan yang meninggal"
+        #hubunganPelapor="ngModel"
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="hubunganPelapor.invalid && (hubunganPelapor.touched || suratKematianForm.submitted)"
+        >Hubungan pelapor harus diisi.</ion-text
+      >
+
+      <ion-button
+        type="submit"
+        expand="block"
+        class="btn-submit"
+        [disabled]="!suratKematianForm.valid"
+      >
+        Kirim Pengajuan
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

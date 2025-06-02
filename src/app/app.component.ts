@@ -6,10 +6,10 @@ import { filter, map, mergeMap } from 'rxjs/operators';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  standalone:false
+  standalone: false
 })
 export class AppComponent {
-  showNavBar = false;
+  showNavBar = true;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events.pipe(
@@ -23,7 +23,7 @@ export class AppComponent {
       }),
       mergeMap((route: ActivatedRoute) => route.data)
     ).subscribe((data: Data) => {
-      this.showNavBar = data['showNavbar'] ?? true;
+      this.showNavBar = data['showNavbar'] !== false; // default true, false kalau di-route diset false
       console.log('Route data showNavbar:', this.showNavBar);
     });
   }
