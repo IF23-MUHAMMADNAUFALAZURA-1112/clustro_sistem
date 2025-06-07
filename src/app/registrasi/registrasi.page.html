@@ -1,55 +1,61 @@
 <ion-content [fullscreen]="true" class="register-page">
-
     <!-- Tombol kembali -->
     <div class="btn-back" (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
     </div>
 
     <form class="form-container" (ngSubmit)="submitForm()" #registerForm="ngForm">
-
         <!-- Judul -->
         <div class="title-inside-form">
             <h1>REGISTER</h1>
         </div>
 
-        <label class="form-label">Nama</label>
-        <ion-input class="form-input" placeholder="Masukan nama anda" [(ngModel)]="user.nama" name="nama" required></ion-input>
+        <!-- Nama -->
+        <label class="form-label">Nama <span class="required">*</span></label>
+        <ion-input class="form-input" placeholder="Masukkan nama lengkap Anda" [(ngModel)]="user.nama" name="nama" required></ion-input>
+        <p class="example-input">Contoh: Budi Setiawan</p>
 
-        <label class="form-label">NIK</label>
-        <ion-input class="form-input" type="tel" maxlength="16" placeholder="Masukan NIK anda" [(ngModel)]="user.nik" name="nik" required></ion-input>
+        <!-- NIK -->
+        <label class="form-label">NIK <span class="required">*</span></label>
+        <ion-input class="form-input" type="tel" maxlength="16" placeholder="Masukkan NIK Anda (16 digit)" [(ngModel)]="user.nik" name="nik" required></ion-input>
+        <p class="example-input">Contoh: 3201234567890123</p>
 
-        <label class="form-label">Email</label>
-        <ion-input class="form-input" type="email" placeholder="Masukan email anda" [(ngModel)]="user.email" name="email" required></ion-input>
+        <!-- Email -->
+        <label class="form-label">Email <span class="required">*</span></label>
+        <ion-input class="form-input" type="email" placeholder="Masukkan email Anda" [(ngModel)]="user.email" name="email" required></ion-input>
+        <p class="example-input">Contoh: namaemail&#64;example.com</p>
 
-        <label class="form-label">No. WhatsApp</label>
-        <ion-input class="form-input" type="tel" maxlength="15" placeholder="Masukan nomor WhatsApp anda" [(ngModel)]="user.no_whatsapp" name="no_whatsapp" required></ion-input>
+        <!-- No. WhatsApp -->
+        <label class="form-label">No. WhatsApp <span class="required">*</span></label>
+        <ion-input class="form-input" type="tel" maxlength="15" placeholder="Masukkan nomor WhatsApp Anda" [(ngModel)]="user.no_whatsapp" name="no_whatsapp" required></ion-input>
+        <p class="example-input">Contoh: 081234567890</p>
 
-        <label class="form-label">No. Telepon</label>
-        <ion-input class="form-input" type="tel" placeholder="Masukan no. telepon anda" [(ngModel)]="user.no_telepon" name="no_telepon"></ion-input>
+        <!-- No. Telepon -->
+        <label class="form-label">No. Telepon <span class="required">*</span></label>
+        <ion-input class="form-input" type="tel" maxlength="15" placeholder="Masukkan nomor telepon Anda" [(ngModel)]="user.no_telepon" name="no_telepon" required></ion-input>
+        <p class="example-input">Contoh: 02187654321</p>
 
-        <label class="form-label">Alamat Lengkap</label>
-        <ion-input class="form-input" placeholder="Contoh: Jl. Mawar Blok C No.12, Dusun Melati, RT 03/RW 05, Desa Sukamaju" [(ngModel)]="user.alamat" name="alamat" required></ion-input>
-        <p class="alamat-example">
-            Contoh: Jl. Melati Indah Blok B3 No.10, Dusun Mekar, RT 04/RW 02, Desa Sukamukti
+        <!-- Alamat Lengkap -->
+        <label class="form-label">Alamat Lengkap <span class="required">*</span></label>
+        <ion-input class="form-input" placeholder="Masukkan alamat lengkap Anda" [(ngModel)]="user.alamat" name="alamat" required></ion-input>
+        <p class="example-input">
+            Contoh: Jl. Melati Indah Blok B3 No.10, RT 04/RW 02, Desa Sukamukti
         </p>
 
-        <!-- Kamu bisa gabungkan RT/RW/kabupaten jika memang dibutuhkan di DB -->
-        <label class="form-label">No. Rumah</label>
-        <ion-input class="form-input" type="text" placeholder="Masukan no. rumah" [(ngModel)]="user.no_rumah" name="no_rumah" required></ion-input>
 
-        <label class="form-label">Kata Sandi</label>
-        <ion-grid>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-input class="form-input" type="password" placeholder="Masukkan kata sandi" [(ngModel)]="user.password" name="password" required></ion-input>
-                </ion-col>
-                <ion-col size="6">
-                    <ion-input class="form-input" type="password" placeholder="Konfirmasi kata sandi" [(ngModel)]="user.password_confirmation" name="password_confirmation" required></ion-input>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
 
-        <label class="form-label">Foto Diri</label>
+        <!-- Input file tersembunyi -->
+        <input type="file" #fileInput accept=".jpg,.jpeg,.png" (change)="handleFileUpload($event)" hidden />
+
+        <!-- Password -->
+        <label class="form-label">Password <span class="required">*</span></label>
+        <ion-input class="form-input" type="password" placeholder="Masukkan password" [(ngModel)]="user.password" name="password" required></ion-input>
+
+        <!-- Konfirmasi Password -->
+        <label class="form-label">Konfirmasi Password <span class="required">*</span></label>
+        <ion-input class="form-input" type="password" placeholder="Konfirmasi password" [(ngModel)]="user.password_confirmation" name="password_confirmation" required></ion-input>
+        <!-- Foto Diri -->
+        <label class="form-label">Foto Diri <span class="required">*</span></label>
         <div class="upload-box" (click)="triggerUpload()">
             <ng-container *ngIf="selectedImageUrl; else plusIcon">
                 <img [src]="selectedImageUrl" class="preview-image" alt="Foto diri yang dipilih" />
@@ -59,14 +65,13 @@
             </ng-template>
         </div>
 
-        <p class="upload-note">*jpg/png</p>
+        <p class="upload-note">*jpg/png, maksimal 5MB</p>
+        <!-- Keterangan Wajib Diisi -->
+        <p class="required-note">
+            <span class="required">*</span> Wajib diisi
+        </p>
 
-        <!-- Input file tersembunyi -->
-        <input type="file" #fileInput accept=".jpg,.jpeg,.png" (change)="handleFileUpload($event)" hidden />
-
+        <!-- Tombol Register -->
         <ion-button shape="round" expand="block" class="btn-register" type="submit">
             REGISTER
         </ion-button>
-    </form>
-
-</ion-content>

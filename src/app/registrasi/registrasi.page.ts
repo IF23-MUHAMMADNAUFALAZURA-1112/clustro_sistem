@@ -22,11 +22,9 @@ export class RegistrasiPage {
     no_whatsapp: '',
     no_telepon: '',
     alamat: '',
-    no_rumah: '',
     password: '',
     password_confirmation: '',
-    foto: '',
-    role: 'warga'
+    foto: ''
   };
 
   constructor(
@@ -45,79 +43,87 @@ export class RegistrasiPage {
 
   handleFileUpload(event: any) {
     const file = event.target.files[0];
-    if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-      this.selectedImageFile = file;
+    if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedImageUrl = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-
-      const ext = file.name.split('.').pop();
-      this.imageFilename = `user_${Date.now()}.${ext}`;
-      this.user.foto = this.imageFilename;
-    } else {
+    const validTypes = ['image/jpeg', 'image/png'];
+    if (!validTypes.includes(file.type)) {
       this.showToast('Hanya file JPG atau PNG yang diperbolehkan.', 'danger');
+      return;
     }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      this.showToast('Ukuran foto tidak boleh lebih dari 5MB.', 'danger');
+      return;
+    }
+
+    this.selectedImageFile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedImageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+
+    const ext = file.name.split('.').pop();
+    this.imageFilename = `user_${Date.now()}.${ext}`;
+    this.user.foto = this.imageFilename;
   }
 
   async submitForm() {
-    if (this.user.nik.length !== 16) {
-      this.showToast('NIK harus 16 digit.', 'danger');
-      return;
-    }
+    const noSymbolRegex = /^[a-zA-Z0-9\s.,]+$/;
+    const numberOnlyRegex = /^[0-9]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.user.email)) {
-      this.showToast('Format email tidak valid.', 'danger');
-      return;
-    }
+    // 🔍 **Validasi Form**
+    if (!this.user.nama.trim()) return this.showToast('Nama tidak boleh kosong.', 'danger');
+    if (!noSymbolRegex.test(this.user.nama)) return this.showToast('Nama tidak valid.', 'danger');
 
-    if (this.user.no_whatsapp.length < 10) {
-      this.showToast('Nomor WhatsApp tidak valid.', 'danger');
-      return;
-    }
+    if (!this.user.alamat.trim()) return this.showToast('Alamat tidak boleh kosong.', 'danger');
+    // if (!noSymbolRegex.test(this.user.alamat)) return this.showToast('Alamat tidak valid.', 'danger');
 
-    if (this.user.password.length < 6) {
-      this.showToast('Kata sandi minimal 6 karakter.', 'danger');
-      return;
-    }
+    if (!this.user.no_telepon.trim()) return this.showToast('No. Telepon tidak boleh kosong.', 'danger');
+    if (!numberOnlyRegex.test(this.user.no_telepon)) return this.showToast('No. Telepon tidak valid.', 'danger');
 
-    if (this.user.password !== this.user.password_confirmation) {
-      this.showToast('Konfirmasi kata sandi tidak cocok.', 'danger');
-      return;
-    }
+    if (!this.user.no_whatsapp.trim()) return this.showToast('No. WhatsApp tidak boleh kosong.', 'danger');
+    if (!numberOnlyRegex.test(this.user.no_whatsapp)) return this.showToast('No. WhatsApp tidak valid.', 'danger');
 
+    if (!this.user.email.trim()) return this.showToast('Email tidak boleh kosong.', 'danger');
+    if (!emailRegex.test(this.user.email)) return this.showToast('Format email tidak valid.', 'danger');
+
+    if (!this.user.password.trim()) return this.showToast('Password tidak boleh kosong.', 'danger');
+    if (!this.user.password_confirmation.trim()) return this.showToast('Konfirmasi password tidak boleh kosong.', 'danger');
+    if (this.user.password !== this.user.password_confirmation) return this.showToast('Konfirmasi kata sandi tidak cocok.', 'danger');
+
+    if (!this.user.nik.trim()) return this.showToast('NIK tidak boleh kosong.', 'danger');
+    if (this.user.nik.length !== 16) return this.showToast('NIK harus 16 digit.', 'danger');
+
+    if (!this.selectedImageFile) return this.showToast('Foto belum diunggah. Silakan upload foto.', 'danger');
+
+    // 🔍 **Kirim data ke server**
     const formData = new FormData();
     for (const key in this.user) {
       formData.append(key, (this.user as any)[key]);
     }
-
-    if (this.selectedImageFile) {
-      formData.append('foto_file', this.selectedImageFile, this.imageFilename);
-    }
+    formData.append('foto_file', this.selectedImageFile, this.imageFilename);
 
     console.log('Mengirim data registrasi:', this.user);
 
     try {
-      const response: any = await this.http
-        .post('http://localhost:8000/api/register', formData)
-        .toPromise();
-
+      const response: any = await this.http.post('http://localhost:8000/api/register', formData).toPromise();
       console.log('Respon dari API:', response);
-      this.showToast('Registrasi berhasil! Silakan login.', 'success');
 
-      setTimeout(() => {
-        this.navCtrl.navigateRoot('/login-clustro');
-      }, 1500);
+      // Jika berhasil, navigasi ke halaman login
+      this.showToast('Registrasi berhasil! Silakan login.', 'success');
+      setTimeout(() => this.navCtrl.navigateRoot('/login-clustro'), 1500);
 
     } catch (error: any) {
       const errors = error?.error?.errors;
+
       if (errors) {
-        if (errors.nik) this.showToast(errors.nik[0], 'danger');
-        if (errors.email) this.showToast(errors.email[0], 'danger');
-        if (errors.no_whatsapp) this.showToast(errors.no_whatsapp[0], 'danger');
+        if (errors.nik) this.showToast('NIK sudah digunakan.', 'danger');
+        if (errors.email) this.showToast('Email sudah digunakan.', 'danger');
+        if (errors.no_whatsapp) this.showToast('No. WhatsApp sudah digunakan.', 'danger');
       } else {
         this.showToast('Terjadi kesalahan saat mendaftar.', 'danger');
       }

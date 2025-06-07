@@ -1,0 +1,55 @@
+<div class="background">
+<div class="container">
+  <h2>Monitoring Tamu</h2>
+  <hr>
+  <div class="form-group">
+    <label for="searchNama">Cari Nama Tamu</label>
+    <input id="searchNama" type="text" [(ngModel)]="searchNama" (input)="filterTamu()" />
+  </div>
+
+  <div class="form-group">
+    <label for="filterStatus">Status</label>
+    <select id="filterStatus" [(ngModel)]="filterStatus" (change)="filterTamu()">
+      <option value="">Semua</option>
+      <option value="Masuk">Masuk</option>
+      <option value="Keluar">Keluar</option>
+    </select>
+  </div>
+<div class="guest-item" 
+     *ngFor="let tamu of filteredTamuList" 
+     [ngClass]="{ 'lewat-batas': isLewatBatasWaktu(tamu) }">
+  
+  <h3>
+    {{ tamu.nama }}
+    <span class="status-badge" 
+          [ngClass]="{
+            'masuk': tamu.status_kunjungan === 'Masuk',
+            'keluar': tamu.status_kunjungan === 'Keluar'
+          }">
+      {{ tamu.status_kunjungan }}
+    </span>
+
+    <span *ngIf="isLewatBatasWaktu(tamu)" class="warning-badge">Lewat Batas</span>
+  </h3>
+
+<p><strong>Waktu Masuk:</strong> {{ tamu.waktu_masuk | date:'short' }}</p>
+
+<!-- Tampilkan hanya jika tamu sudah keluar -->
+<p *ngIf="tamu.waktu_keluar">
+  <strong>Waktu Keluar:</strong> {{ tamu.waktu_keluar | date:'short' }}
+</p>
+
+<p><strong>Tujuan:</strong> {{ tamu.nama_warga_tujuan }}</p>
+
+
+  <button *ngIf="tamu.status_kunjungan !== 'Keluar'" (click)="konfirmasiKeluar(tamu)">
+    Konfirmasi Keluar
+  </button>
+</div>
+<!-- Jika hasil pencarian kosong -->
+<div *ngIf="filteredTamuList.length === 0" class="no-data">
+  <p>Tidak ada data tamu yang ditemukan.</p>
+</div>
+
+</div>
+</div>

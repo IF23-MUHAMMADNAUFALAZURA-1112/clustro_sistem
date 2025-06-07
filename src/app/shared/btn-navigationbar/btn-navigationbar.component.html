@@ -1,34 +1,34 @@
 <ion-footer>
-  <ion-toolbar class="custom-nav-toolbar">
-    <ion-segment class="custom-segment" (ionChange)="onSegmentChanged($event)" [value]="selectedSegment" mode="ios">
-      <ion-segment-button value="dashboard">
-        <ion-icon name="home-outline"></ion-icon>
-        <ion-label>Beranda</ion-label>
-      </ion-segment-button>
+    <ion-toolbar class="custom-nav-toolbar">
+        <ion-segment class="custom-segment" (ionChange)="onSegmentChanged($event)" [value]="selectedSegment" mode="ios">
+            <ion-segment-button value="dashboard">
+                <ion-icon name="home-outline"></ion-icon>
+                <ion-label>Beranda</ion-label>
+            </ion-segment-button>
 
-      <!-- Warga Connect diganti jadi warga-interaksi -->
-      <ion-segment-button value="warga-interaksi">
-        <ion-icon name="people-outline"></ion-icon>
-        <ion-label>Interaksi</ion-label>
-      </ion-segment-button>
+            <!-- Warga Connect diganti jadi warga-interaksi -->
+            <ion-segment-button value="warga-interaksi">
+                <ion-icon name="people-outline"></ion-icon>
+                <ion-label>Interaksi</ion-label>
+            </ion-segment-button>
 
-      <!-- Warga dokumen -->
-      <ion-segment-button value="warga-dokumen">
-        <ion-icon name="document-text-outline"></ion-icon>
-        <ion-label>Dokumen</ion-label>
-      </ion-segment-button>
+            <!-- Warga dokumen -->
+            <ion-segment-button value="warga-dokumen">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <ion-label>Dokumen</ion-label>
+            </ion-segment-button>
 
-      <!-- Interaksi warga diubah jadi aktifitas-warga -->
-      <ion-segment-button value="aktifitas-warga">
-        <ion-icon name="clipboard-outline"></ion-icon>
-        <ion-label>Aktivitas</ion-label>
-      </ion-segment-button>
+            <!-- Interaksi warga diubah jadi aktifitas-warga -->
+            <ion-segment-button value="aktifitas-warga">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                <ion-label>Aktivitas</ion-label>
+            </ion-segment-button>
 
-      <!-- Tambahan menu pengaduan -->
-      <ion-segment-button value="pengaduan">
-        <ion-icon name="alert-circle-outline"></ion-icon>
-        <ion-label>Komplain</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+            <!-- Tambahan menu pengaduan -->
+            <ion-segment-button value="pengaduan">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                <ion-label>Komplain</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 </ion-footer>

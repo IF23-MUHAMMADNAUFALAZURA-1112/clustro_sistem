@@ -18,14 +18,16 @@
     transition: opacity 0.2s ease, transform 0.1s ease;
     background: transparent;
     border: none;
-  }
-  
-  /* Efek saat ditekan */
-  .btn-back:active {
+}
+
+
+/* Efek saat ditekan */
+
+.btn-back:active {
     opacity: 0.4;
     transform: scale(0.95);
-  }
-  
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -137,4 +139,60 @@
     color: #666;
     margin-top: 4px;
     margin-bottom: 12px;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.example-input {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.required {
+    color: #e63946;
+    font-weight: bold;
+}
+
+.required-note {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.upload-note {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.upload-box {
+    border: 1.5px dashed #ccc;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.preview-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.btn-register {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
 }

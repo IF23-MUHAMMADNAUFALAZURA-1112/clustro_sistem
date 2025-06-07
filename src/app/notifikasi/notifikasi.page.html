@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="title">Notifikasi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <ion-list>
+    <ion-item *ngFor="let notif of notifications">
+      <ion-icon [name]="notif.icon" slot="start" ></ion-icon>
+      <ion-label>
+        <h2>{{ notif.title }}</h2>
+        <p>{{ notif.message }}</p>
+        <ion-note color="medium">{{ notif.date | date:'short' }}</ion-note>
+      </ion-label>
+      <ion-badge *ngIf="!notif.read" color="danger">Baru</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshNotifications($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+</ion-content>

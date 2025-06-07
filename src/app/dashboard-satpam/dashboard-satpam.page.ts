@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+// ✅ Tambahan untuk akses Storage
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-dashboard-satpam',
@@ -10,79 +13,86 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class DashboardSatpamPage implements OnInit {
-  showProfileMenu = false;
-
-  // Typewriter setup
-  texts = ['Welcome!', 'Clustro', 'Your Home', 'Your Comfort', 'Your App'];
-  displayText = '';
-  private txtIndex = 0;
-  private charIndex = 0;
-  private typingSpeed = 150;
-  private pauseBetween = 2000;
+  activeTab: string = 'dashboard'; // default tampilan awal
+  dropdownVisible = false;
+  notificationCount = 3;
 
   constructor(
     private location: Location,
     private alertCtrl: AlertController,
     private router: Router,
+    private navCtrl: NavController,
+    private storage: Storage // ✅ Tambahan
   ) {}
 
-  ngOnInit(): void {
-    this.startTypewriter();
+  async ngOnInit(): Promise<void> {
+    await this.checkLogin(); // ✅ Cek login saat inisialisasi
   }
 
-  goBack(): void {
-    this.location.back();
+  setTab(tab: string) {
+    this.activeTab = tab;
   }
 
-  toggleProfileMenu() {
-    this.showProfileMenu = !this.showProfileMenu;
+  // Fungsi lama untuk tombol di dashboard
+  goToBukuTamu() {
+    this.setTab('bukutamu');
   }
 
-  viewProfile() {
-    console.log('Lihat Profil');
+  goToDataWarga() {
+    // Anda bisa buat tab baru, atau arahkan ke halaman jika tetap ingin navigasi
+    this.navCtrl.navigateForward('/data-warga');
   }
-  // pastikan ini public
+
+  goToHistoryTamu() {
+    this.navCtrl.navigateForward('/history-tamu');
+  }
+
   public async confirmLogout(): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Konfirmasi Logout',
       message: 'Apakah Anda yakin ingin keluar?',
       buttons: [
         { text: 'Batal', role: 'cancel' },
-        { text: 'Ya', handler: () => this.doLogout() }
-      ]
+        { text: 'Ya', handler: () => this.doLogout() },
+      ],
     });
     await alert.present();
   }
 
-  // sudah public
+  public async doLogout(): Promise<void> {
+    // ✅ Hapus semua data storage
+    await this.storage.clear();
+    // ✅ Hapus semua data localStorage (opsional)
+    localStorage.clear();
+    // ✅ Arahkan ke halaman login
+    this.router.navigateByUrl('/login-clustro', { replaceUrl: true });
+  }
+
   public logout() {
     this.confirmLogout();
   }
 
-  public doLogout() {
-    localStorage.removeItem('authToken');
-    this.router.navigateByUrl('/login-clustro', { replaceUrl: true });
-  }
-  // Typewriter methods
-  private startTypewriter() {
-    const current = this.texts[this.txtIndex];
-    if (this.charIndex < current.length) {
-      this.displayText += current.charAt(this.charIndex);
-      this.charIndex++;
-      setTimeout(() => this.startTypewriter(), this.typingSpeed);
-    } else {
-      setTimeout(() => this.eraseText(), this.pauseBetween);
-    }
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
-  private eraseText() {
-    if (this.charIndex > 0) {
-      this.displayText = this.displayText.slice(0, -1);
-      this.charIndex--;
-      setTimeout(() => this.eraseText(), this.typingSpeed / 2);
-    } else {
-      this.txtIndex = (this.txtIndex + 1) % this.texts.length;
-      setTimeout(() => this.startTypewriter(), this.typingSpeed);
+  viewProfile() {
+    // Arahkan ke halaman profil
+    console.log('Lihat profil diklik');
+    this.dropdownVisible = false;
+    this.router.navigate(['/profile-satpam']);
+  }
+  goToNotifications(event?: Event) {
+    if (event) event.stopPropagation();
+    this.router.navigate(['/notifikasi']);
+  }
+  // ✅ Fungsi pengecekan login (tambahan)
+  async checkLogin(): Promise<void> {
+    await this.storage.create(); // Inisialisasi Storage jika belum
+    const wargaId = await this.storage.get('satpam_id');
+    if (!wargaId) {
+      console.warn('Tidak ada satpam_id, mengarahkan ke login...');
+      this.navCtrl.navigateRoot('/login-clustro');
     }
   }
 }

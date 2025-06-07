@@ -1,252 +1,251 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
 <ion-content [fullscreen]="true" class="dashboard-page">
-  <div id="main-content">
+    <div id="main-content">
 
-    <!-- Header -->
-<div class="custom-header-bar">
-  <div class="left-header-group">
-    <div class="clustro-title">CLUSTRO</div>
-  </div>
+        <!-- Header -->
+        <div class="custom-header-bar">
+            <div class="left-header-group">
+                <div class="clustro-title">CLUSTRO</div>
+            </div>
 
-  <div class="header-icons">
-    <!-- NOTIFIKASI -->
-    <div class="notif-icon-wrapper" (click)="toggleNotificationPanel()">
-      <ion-icon name="notifications-outline" class="header-icon notifikasi"></ion-icon>
-      <ion-badge *ngIf="jumlahNotifikasiBaru > 0" class="notif-badge">
-        {{ jumlahNotifikasiBaru }}
-      </ion-badge>
-    </div>
+            <div class="header-icons">
+                <!-- NOTIFIKASI -->
+                <div class="notif-icon-wrapper" (click)="toggleNotificationPanel()">
+                    <ion-icon name="notifications-outline" class="header-icon notifikasi"></ion-icon>
+                    <ion-badge *ngIf="jumlahNotifikasiBaru > 0" class="notif-badge">
+                        {{ jumlahNotifikasiBaru }}
+                    </ion-badge>
+                </div>
 
-    <!-- AVATAR -->
-    <div class="profile-avatar" (click)="toggleProfileMenu()">
-      <img src="assets/img/default-profile.png" alt="Foto profil pengguna" />
-    </div>
+                <!-- AVATAR -->
+                <div class="profile-avatar" (click)="toggleProfileMenu()" style="position: relative; display: inline-block;">
+                    <img [src]="userPhotoUrl" alt="Foto profil pengguna" />
+                    <div *ngIf="isProfileIncomplete" style="position: absolute; top: 0; right: 0; background-color: red; color: white;
+                                width: 18px; height: 18px; border-radius: 50%; font-weight: bold;
+                                display: flex; justify-content: center; align-items: center;
+                                font-size: 14px; border: 2px solid white;">
+                        !
+                    </div>
+                </div>
 
-    <!-- PANEL NOTIFIKASI -->
-    <div *ngIf="showNotificationPanel" class="notification-panel">
-      <h4>Notifikasi</h4>
-      <div class="notif-item">
-        <i class="bi bi-bell-fill notif-icon"></i><span>Tamu dari Blok C telah tiba.</span>
-      </div>
-      <div class="notif-item">
-        <i class="bi bi-file-earmark-text notif-icon"></i><span>Surat RT tersedia.</span>
-      </div>
-      <div class="notif-item">
-        <i class="bi bi-check-circle-fill notif-icon"></i><span>Laporan berhasil dikirim.</span>
-      </div>
-    </div>
+                <!-- PANEL NOTIFIKASI -->
+                <div *ngIf="showNotificationPanel" class="notification-panel">
+                    <h4>Notifikasi</h4>
+                    <div class="notif-item">
+                        <i class="bi bi-bell-fill notif-icon"></i><span>Tamu dari Blok C telah tiba.</span>
+                    </div>
+                    <div class="notif-item">
+                        <i class="bi bi-file-earmark-text notif-icon"></i><span>Surat RT tersedia.</span>
+                    </div>
+                    <div class="notif-item">
+                        <i class="bi bi-check-circle-fill notif-icon"></i><span>Laporan berhasil dikirim.</span>
+                    </div>
+                </div>
 
-    <!-- MENU DROPDOWN PROFIL -->
-    <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
-      <ion-button (click)="viewProfile()" class="dropdown-item">
-        <ion-icon name="person-outline" slot="start"></ion-icon>
-        Lihat Profil
-      </ion-button>
-      <ion-button (click)="logout()" class="dropdown-item">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        Logout
-      </ion-button>
-    </div>
-  </div>
-</div>
-
-
-    <!-- Main Wrapper -->
-    <div class="main-wrapper">
-
-      <!-- Banner -->
-      <div class="banner-container" id="bannerContainer">
-        <div class="banner"><img src="assets/img/Banner-1.png" alt="Banner 1" /></div>
-        <div class="banner"><img src="assets/img/Banner-2.png" alt="Banner 2" /></div>
-        <div class="banner"><img src="assets/img/Banner-3.png" alt="Banner 3" /></div>
-        <div class="banner"><img src="assets/img/Banner-4.png" alt="Banner 4" /></div>
-      </div>
-
-      <!-- Judul Utama -->
-      <h2 class="hero-title">Your Home, Your Comfort, Your App</h2>
-
-      <!-- Horizontal Slider -->
-      <div class="horizontal-slider">
-        <div class="feature-card" >
-          <img src="assets/img/dialog.png" alt="Connect Icon" />
-          <div class="feature-text">
-            <div class="title">KONEKSI</div>
-            <div class="desc">Komunikasi & Info Warga</div>
-          </div>
+                <!-- MENU DROPDOWN PROFIL -->
+                <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
+                    <ion-button (click)="viewProfile()" class="dropdown-item">
+                        <ion-icon name="person-outline" slot="start"></ion-icon>
+                        Lihat Profil
+                    </ion-button>
+                    <ion-button (click)="logout()" class="dropdown-item">
+                        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+                        Logout
+                    </ion-button>
+                </div>
+            </div>
         </div>
-        <div class="feature-card" >
-          <img src="assets/img/dokumen.png" alt="Docs Icon" />
-          <div class="feature-text">
-            <div class="title">DOKUMEN</div>
-            <div class="desc">Kelola Dokumen & Surat</div>
-          </div>
-        </div>
-        <div class="feature-card" >
-          <img src="assets/img/email-alert.png" alt="Alert Icon" />
-          <div class="feature-text">
-            <div class="title">KOMPLAIN</div>
-            <div class="desc">Sampaikan Pengaduan Terhadap Pengurus RT</div>
-          </div>
-        </div>
-        <div class="feature-card" >
-          <img src="assets/img/login.png" alt="Logs Icon" />
-          <div class="feature-text">
-            <div class="title">AKTIFITAS</div>
-            <div class="desc">Catatan Kegiatan Harian</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Berbagai Program Clustro -->
-      <div class="program-section">
-        <h2 class="hero-title">Berbagai Fitur Clustro</h2>
 
-        <!-- Notifikasi Tamu Masuk -->
-        <div class="program-item reverse">
-          <img src="assets/img/notifikasi.png" alt="Tamu Masuk Icon" />
-          <div class="program-content">
-            <h3>Notifikasi Tamu Masuk</h3>
-            <p>Dapatkan informasi tamu yang masuk secara realtime langsung ke dashboard Anda.</p>
-            <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Notifikasi otomatis saat tamu masuk ke
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- Banner -->
+            <div class="banner-container" id="bannerContainer">
+                <div class="banner"><img src="assets/img/Banner-1.png" alt="Banner 1" /></div>
+                <div class="banner"><img src="assets/img/Banner-2.png" alt="Banner 2" /></div>
+                <div class="banner"><img src="assets/img/Banner-3.png" alt="Banner 3" /></div>
+                <div class="banner"><img src="assets/img/Banner-4.png" alt="Banner 4" /></div>
+            </div>
+
+            <!-- Judul Utama -->
+            <h2 class="hero-title">Your Home, Your Comfort, Your App</h2>
+
+            <!-- Horizontal Slider -->
+            <div class="horizontal-slider">
+                <div class="feature-card">
+                    <img src="assets/img/dialog.png" alt="Connect Icon" />
+                    <div class="feature-text">
+                        <div class="title">KONEKSI</div>
+                        <div class="desc">Komunikasi & Info Warga</div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/img/dokumen.png" alt="Docs Icon" />
+                    <div class="feature-text">
+                        <div class="title">DOKUMEN</div>
+                        <div class="desc">Kelola Dokumen & Surat</div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/img/email-alert.png" alt="Alert Icon" />
+                    <div class="feature-text">
+                        <div class="title">KOMPLAIN</div>
+                        <div class="desc">Sampaikan Pengaduan Terhadap Pengurus RT</div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="assets/img/login.png" alt="Logs Icon" />
+                    <div class="feature-text">
+                        <div class="title">AKTIFITAS</div>
+                        <div class="desc">Catatan Kegiatan Harian</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Berbagai Program Clustro -->
+            <div class="program-section">
+                <h2 class="hero-title">Berbagai Fitur Clustro</h2>
+
+                <!-- Notifikasi Tamu Masuk -->
+                <div class="program-item reverse">
+                    <img src="assets/img/notifikasi.png" alt="Tamu Masuk Icon" />
+                    <div class="program-content">
+                        <h3>Notifikasi Tamu Masuk</h3>
+                        <p>Dapatkan informasi tamu yang masuk secara realtime langsung ke dashboard Anda.</p>
+                        <ul class="checklist">
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Notifikasi otomatis saat tamu masuk ke
                   lingkungan</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Informasi lengkap: tujuan kunjungan & rumah yang
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Informasi lengkap: tujuan kunjungan & rumah yang
                   dituju</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Terhubung ke sistem keamanan dan RT</span></li>
-            </ul>
-            <ion-button>Cek Notifikasi</ion-button>
-          </div>
-        </div>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Terhubung ke sistem keamanan dan RT</span></li>
+                        </ul>
+                        <ion-button>Cek Notifikasi</ion-button>
+                    </div>
+                </div>
 
-        <!-- Pengajuan Surat -->
-        <div class="program-item">
-          <img src="assets/img/dokument.png" alt="Pengajuan Surat Icon" />
-          <div class="program-content">
-            <h3>Pengajuan Surat & Permohonan</h3>
-            <p>Ajukan surat keperluan administrasi langsung dari aplikasi Clustro.</p>
-            <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Form digital: surat domisili, pengantar nikah, KTP,
+                <!-- Pengajuan Surat -->
+                <div class="program-item">
+                    <img src="assets/img/dokument.png" alt="Pengajuan Surat Icon" />
+                    <div class="program-content">
+                        <h3>Pengajuan Surat & Permohonan</h3>
+                        <p>Ajukan surat keperluan administrasi langsung dari aplikasi Clustro.</p>
+                        <ul class="checklist">
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Form digital: surat domisili, pengantar nikah, KTP,
                   KK, dll</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Mudah dipantau dan tanpa harus datang langsung</span>
-              </li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Status permohonan selalu terupdate</span></li>
-            </ul>
-           <ion-button routerLink="/dashboard-dokumen" routerDirection="forward">
-             Ajukan Surat
-            </ion-button>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Mudah dipantau dan tanpa harus datang langsung</span>
+                            </li>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Status permohonan selalu terupdate</span></li>
+                        </ul>
+                        <ion-button routerLink="/dashboard-dokumen" routerDirection="forward">
+                            Ajukan Surat
+                        </ion-button>
 
-          </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Pengaduan & Aspirasi -->
-        <div class="program-item reverse">
-          <img src="assets/img/complain.png" alt="Pengaduan Icon" />
-          <div class="program-content">
-            <h3>Pengaduan & Aspirasi</h3>
-            <p>Sampaikan keluhan dan aspirasi warga secara digital langsung ke pengurus RT.</p>
-            <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Kirim pengaduan dengan deskripsi dan bukti</span>
-              </li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Tersalurkan ke pengurus dengan sistem
+                <!-- Pengaduan & Aspirasi -->
+                <div class="program-item reverse">
+                    <img src="assets/img/complain.png" alt="Pengaduan Icon" />
+                    <div class="program-content">
+                        <h3>Pengaduan & Aspirasi</h3>
+                        <p>Sampaikan keluhan dan aspirasi warga secara digital langsung ke pengurus RT.</p>
+                        <ul class="checklist">
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Kirim pengaduan dengan deskripsi dan bukti</span>
+                            </li>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Tersalurkan ke pengurus dengan sistem
                   pelacakan</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Warga bisa memberikan aspirasi positif untuk kemajuan
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Warga bisa memberikan aspirasi positif untuk kemajuan
                   lingkungan</span></li>
-            </ul>
-            <ion-button routerLink="/pengaduan-input" routerDirection="forward">
-              Kirim Aspirasi
-            </ion-button>
+                        </ul>
+                        <ion-button routerLink="/pengaduan-input" routerDirection="forward">
+                            Kirim Aspirasi
+                        </ion-button>
 
-          </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Riwayat Aktivitas -->
-        <div class="program-item">
-          <img src="assets/img/history.png" alt="Riwayat Icon" />
-          <div class="program-content">
-            <h3>Riwayat Aktivitas Warga</h3>
-            <p>Lihat dan pantau semua aktivitas digital Anda di lingkungan perumahan.</p>
-            <ul class="checklist">
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Histori pengajuan surat dan pelaporan</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Status penyelesaian dan tindak lanjut</span></li>
-              <li><img src="assets/img/check.png" alt="✔" /> <span>Data tersimpan aman dan bisa diakses kapan
+                <!-- Riwayat Aktivitas -->
+                <div class="program-item">
+                    <img src="assets/img/history.png" alt="Riwayat Icon" />
+                    <div class="program-content">
+                        <h3>Riwayat Aktivitas Warga</h3>
+                        <p>Lihat dan pantau semua aktivitas digital Anda di lingkungan perumahan.</p>
+                        <ul class="checklist">
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Histori pengajuan surat dan pelaporan</span></li>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Status penyelesaian dan tindak lanjut</span></li>
+                            <li><img src="assets/img/check.png" alt="✔" /> <span>Data tersimpan aman dan bisa diakses kapan
                   saja</span></li>
-            </ul>
-           <ion-button routerLink="/aktivitas" routerDirection="forward">
-              Lihat Pengaduan
-            </ion-button>
+                        </ul>
+                        <ion-button routerLink="/aktivitas" routerDirection="forward">
+                            Lihat Pengaduan
+                        </ion-button>
 
-          </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-header-horizontal">
+                <h2 class="hero-title single-line">Yang Sering Ditanyakan </h2>
+            </div>
+
+            <ion-accordion-group expand="first" class="faq-accordion-group">
+
+                <ion-accordion value="q1">
+                    <ion-item slot="header" color="light" class="faq-item">
+                        <ion-label>Apa itu Sistem Clustro dan bagaimana peran utamanya dalam membantu pengelolaan perumahan?
+                        </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        Sistem Clustro adalah platform digital yang memudahkan pengelolaan data warga, keamanan, dan administrasi lingkungan.
+                    </div>
+                </ion-accordion>
+
+                <ion-accordion value="q2">
+                    <ion-item slot="header" color="light" class="faq-item">
+                        <ion-label>Fitur-fitur apa saja yang disediakan Clustro untuk warga atau pemilik rumah dalam satu lingkungan perumahan?
+                        </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        1. Login & Profil Rumah<br> 2. Notifikasi Tamu Masuk<br> 3. Pengajuan Surat / Permohonan ke RT<br> 4. Pengaduan & Aspirasi Warga<br> 5. Riwayat Aktivitas Warga
+                    </div>
+                </ion-accordion>
+
+                <ion-accordion value="q3">
+                    <ion-item slot="header" color="light" class="faq-item">
+                        <ion-label>Bagaimana cara login ke dalam sistem Clustro dan melihat informasi lengkap profil rumah saya?
+                        </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        Warga dapat login dengan akun terverifikasi berdasarkan alamat dan KTP, kemudian mengakses data profil rumah secara lengkap.
+                    </div>
+                </ion-accordion>
+
+                <ion-accordion value="q4">
+                    <ion-item slot="header" color="light" class="faq-item">
+                        <ion-label>Bagaimana sistem notifikasi Clustro memberi tahu jika ada tamu masuk ke lingkungan perumahan?
+                        </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        Clustro secara otomatis mengirimkan notifikasi ke pemilik rumah jika ada tamu yang masuk, lengkap dengan tujuan dan rumah yang dituju.
+                    </div>
+                </ion-accordion>
+
+                <ion-accordion value="q5">
+                    <ion-item slot="header" color="light" class="faq-item">
+                        <ion-label>Apakah warga bisa mengajukan surat, menyampaikan pengaduan, dan memantau statusnya langsung secara online?</ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        Ya, warga dapat mengajukan surat pengantar, laporan, serta aspirasi melalui formulir digital, dan dapat memantau progres penanganannya secara langsung.
+                    </div>
+                </ion-accordion>
+
+            </ion-accordion-group>
+
         </div>
-      </div>
-
-      <!-- FAQ Section -->
-      <div class="faq-header-horizontal">
-        <h2 class="hero-title single-line">Yang Sering Ditanyakan </h2>
-      </div>
-
-      <ion-accordion-group expand="first" class="faq-accordion-group">
-
-        <ion-accordion value="q1">
-          <ion-item slot="header" color="light" class="faq-item">
-            <ion-label>Apa itu Sistem Clustro dan bagaimana peran utamanya dalam membantu pengelolaan
-              perumahan?</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-            Sistem Clustro adalah platform digital yang memudahkan pengelolaan data warga, keamanan, dan administrasi
-            lingkungan.
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="q2">
-          <ion-item slot="header" color="light" class="faq-item">
-            <ion-label>Fitur-fitur apa saja yang disediakan Clustro untuk warga atau pemilik rumah dalam satu lingkungan
-              perumahan?</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-            1. Login & Profil Rumah<br>
-            2. Notifikasi Tamu Masuk<br>
-            3. Pengajuan Surat / Permohonan ke RT<br>
-            4. Pengaduan & Aspirasi Warga<br>
-            5. Riwayat Aktivitas Warga
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="q3">
-          <ion-item slot="header" color="light" class="faq-item">
-            <ion-label>Bagaimana cara login ke dalam sistem Clustro dan melihat informasi lengkap profil rumah
-              saya?</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-            Warga dapat login dengan akun terverifikasi berdasarkan alamat dan KTP, kemudian mengakses data profil rumah
-            secara lengkap.
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="q4">
-          <ion-item slot="header" color="light" class="faq-item">
-            <ion-label>Bagaimana sistem notifikasi Clustro memberi tahu jika ada tamu masuk ke lingkungan
-              perumahan?</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-            Clustro secara otomatis mengirimkan notifikasi ke pemilik rumah jika ada tamu yang masuk, lengkap dengan
-            tujuan dan rumah yang dituju.
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="q5">
-          <ion-item slot="header" color="light" class="faq-item">
-            <ion-label>Apakah warga bisa mengajukan surat, menyampaikan pengaduan, dan memantau statusnya langsung
-              secara online?</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-            Ya, warga dapat mengajukan surat pengantar, laporan, serta aspirasi melalui formulir digital, dan dapat
-            memantau progres penanganannya secara langsung.
-          </div>
-        </ion-accordion>
-
-      </ion-accordion-group>
-
-    </div> <!-- end .main-wrapper -->
-  </div> <!-- end #main-content -->
+        <!-- end .main-wrapper -->
+    </div>
+    <!-- end #main-content -->
 </ion-content>

@@ -1,0 +1,144 @@
+<ion-content class="ion-padding">
+  <br>
+<div class="dashboard-page">
+  <!-- ✅ CARD HEADER INPUT TAMU -->
+         <ion-card-title>Buku Tamu</ion-card-title>
+     
+  <ion-card>
+    <div class="custom-card-header-horizontal ion-padding">
+      <ion-card-title>Input Tamu</ion-card-title>
+<ion-button
+  (click)="openModal()"
+
+  size="small"
+  class="icon-box"
+    shape="round"
+>
+  <ion-icon slot="start" name="person-add-outline"></ion-icon>
+  Tambah
+</ion-button>
+
+
+    </div>
+  </ion-card>
+
+  <!-- ✅ CARD LIST TAMU -->
+  <ion-card  class="ion-padding">
+    <!-- Header List Tamu dan Tombol Refresh -->
+    <ion-row class="ion-align-items-center ion-justify-content-between">
+      <ion-col size="auto">
+      <ion-card-title>Data Tamu</ion-card-title>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-button  fill="clear"class="icon-box" size="small" (click)="loadTamuList()">
+          <ion-icon   shape="round" name="refresh-outline" slot="start"></ion-icon>
+          Refresh
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Konten Daftar Tamu -->
+    <ion-card-content>
+      <div *ngIf="tamuList.length === 0" class="ion-text-center">
+        <ion-text color="medium">
+          <p>Belum ada data tamu yang masuk.</p>
+        </ion-text>
+      </div>
+
+      <ion-card *ngFor="let tamu of tamuList" class="inner-card">
+        <ion-card-header>
+          <ion-card-title> test {{ tamu.nama }}</ion-card-title>
+          <ion-card-subtitle>NIK: test {{ tamu.nik_tamu }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Alamat:</strong> test{{ tamu.alamat }}</p>
+          <p><strong>Tujuan:</strong> test{{ tamu.nama_warga_tujuan }} (No {{ tamu.no_rumah_tujuan }})</p>
+          <p><strong>Alasan:</strong>test {{ tamu.alasan_kunjungan }}</p>
+          <p><strong>Estimasi Keluar:</strong> test{{ tamu.estimasi_waktu_keluar | date:'short' }}</p>
+          <p><strong>Status:</strong> test{{ tamu.status_kunjungan }}</p>
+          <p><strong>Waktu Masuk:</strong> test{{ tamu.waktu_masuk | date:'short' }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ✅ MODAL FORM TAMU -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()" class="custom-modal">
+    <ng-template>
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title class="modal-title">Form Buku Tamu</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="close" fill="clear" (click)="closeModal()">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <form [formGroup]="bukuTamuForm" (ngSubmit)="submitForm()">
+
+          <ion-item lines="full">
+            <ion-label position="floating" placeholder="">Nama</ion-label>
+            <ion-input formControlName="nama"></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">NIK</ion-label>
+            <ion-input type="number" formControlName="nik_tamu"></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Alamat</ion-label>
+            <ion-textarea formControlName="alamat"></ion-textarea>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label>Warga Tujuan</ion-label>
+            <ion-select formControlName="warga_id" placeholder="Pilih warga">
+              <ion-select-option *ngFor="let warga of wargaList" [value]="warga.id">
+                {{ warga.nama }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Alasan Kunjungan</ion-label>
+            <ion-input formControlName="alasan_kunjungan"></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Estimasi Waktu Keluar</ion-label>
+            <br>
+            <ion-datetime formControlName="estimasi_waktu_keluar" presentation="time"></ion-datetime>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Nama Warga Tujuan</ion-label>
+            <ion-input formControlName="nama_warga_tujuan"></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Alamat Tujuan</ion-label>
+            <ion-textarea formControlName="alamat_warga_tujuan"></ion-textarea>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">No Rumah Tujuan</ion-label>
+            <ion-input formControlName="no_rumah_tujuan"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Upload Foto KTP</ion-label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </ion-item>
+
+          <ion-button expand="block" type="submit" class="ion-margin-top" shape="round" color="success">
+            Simpan
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</div>
+</ion-content>
+

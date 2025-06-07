@@ -1,0 +1,16 @@
+<div class="rekap-container">
+  <h2>Rekap Aktivitas Satpam</h2>
+
+  <div class="filter-group">
+    <label class="label" for="tanggal">Filter Tanggal:</label>
+    <input class="input" type="date" id="tanggal" [(ngModel)]="filterTanggal" (change)="filterByTanggal()" />
+  </div>
+
+  <ul>
+    <li *ngFor="let log of filteredList">
+      <strong>{{ log.waktu | date:'short' }}</strong>: {{ log.deskripsi }}
+    </li>
+  </ul>
+
+  <p *ngIf="filteredList.length === 0">Tidak ada aktivitas pada tanggal tersebut.</p>
+</div>

@@ -1,0 +1,119 @@
+.background {
+  background-color: #ffffff;
+  min-height: 100vh; /* ganti max-height jadi min-height */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* atau center jika ingin tengah vertikal */
+  padding: 24px; /* beri ruang agar container tidak terlalu nempel atas */
+}
+.warning-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  margin-left: 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  border: 1px solid #ffeeba;
+}
+
+.guest-item.lewat-batas {
+  border-color: #ffc107;
+  background-color: #fff8e1;
+}
+
+.container {
+  padding: 16px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+button {
+  margin-top: 8px;
+  background-color: #ff5252;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.status-badge.masuk {
+  background-color: #e0f7fa;
+  color: #00796b;
+  border: 1px solid #00796b;
+}
+
+.status-badge.keluar {
+  background-color: #fbe9e7;
+  color: #d84315;
+  border: 1px solid #d84315;
+}
+
+button:hover {
+  background-color: #e04848;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.guest-list {
+  margin-top: 20px;
+}
+
+.guest-item {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.guest-item h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.guest-item p {
+  margin: 4px 0;
+  color: #555;
+}
+.no-data {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin-top: 20px;
+}

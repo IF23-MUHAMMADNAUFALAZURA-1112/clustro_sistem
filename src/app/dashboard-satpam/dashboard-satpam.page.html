@@ -1,55 +1,145 @@
 <ion-content [fullscreen]="true" class="dashboard-page">
-  <!-- HEADER -->
-  
-  <!-- Header -->
-  <div class="custom-header-bar">
-    <div class="btn-back" (click)="goBack()">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </div>
 
-    <div class="header-icons">
-      <ion-icon name="notifications-outline" class="header-icon notifikasi"></ion-icon>
+  <!-- DASHBOARD -->
+  <div *ngIf="activeTab === 'dashboard'">
+    <!-- Card Profile dan Logout -->
+<!-- Card Profile dan Logout -->
+<div class="prof-card">
+  <div class="profile-row">
+    
+    <!-- Nama Aplikasi -->
+    <div class="app-name">clustro</div>
 
-      <!-- Profil Avatar -->
-      <div class="profile-avatar" (click)="toggleProfileMenu()">
-        <img src="assets/img/default-profile.png" alt="Foto profil pengguna" />
+<div class="profile-dropdown-wrapper" (click)="toggleDropdown()">
+  <ion-icon name="person-circle-outline" class="profile-icon1"></ion-icon>
+
+  <!-- Notifikasi dengan Badge -->
+  <div class="notification-icon-wrapper" (click)="goToNotifications($event)">
+    <ion-icon name="notifications-outline" class="profile-icon1"></ion-icon>
+    <ion-badge *ngIf="notificationCount > 0" class="notif-badge" color="danger">{{ notificationCount }}</ion-badge>
+  </div>
+
+  <ion-icon name="chevron-down-outline" class="arrow-icon"></ion-icon>
+
+  <!-- Dropdown Menu -->
+  <div class="profile-dropdown1" [class.show]="dropdownVisible">
+    <ion-button fill="clear" (click)="viewProfile()" expand="block">
+      <ion-icon class="pdrop" name="person-outline"></ion-icon> &nbsp; 
+        <span class="pdrop">View Profil</span>
+    </ion-button>
+
+<ion-button fill="clear" (click)="goToNotifications()" expand="block">
+  <ion-icon class="pdrop" name="notifications-outline"></ion-icon>
+  &nbsp;
+  <span class="pdrop">Notifikasi</span>
+</ion-button>
+
+
+    <ion-button fill="clear" color="danger" (click)="logout()" expand="block">
+      <ion-icon name="log-out-outline"></ion-icon> &nbsp; Logout
+    </ion-button>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+
+
+<ion-card class="welcome-card"> 
+
+  <ion-card-header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h1>Selamat datang!</h1> Di aplikasi portal keamanan. Silakan pilih menu yang tersedia.
       </div>
-
-      <!-- Dropdown Menu -->
-      <div [ngClass]="{'profile-dropdown': true, 'show': showProfileMenu}">
-        <ion-button (click)="viewProfile()" class="dropdown-item">
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          Lihat Profil
-        </ion-button>
-        <ion-button (click)="confirmLogout()" class="dropdown-item">
-          <ion-icon name="log-out-outline" slot="start"></ion-icon>
-          Logout
-        </ion-button>
-      </div>
+      <ion-icon name="shield-checkmark-outline" style="font-size: 150px; color: #00c197;"></ion-icon>
     </div>
+  </ion-card-header>
+</ion-card>
+
+ <!-- Fitur dalam layout vertikal -->
+<div style="display: flex; flex-direction: column; gap: 5px; padding: 10px 0;">
+  <!-- Buku Tamu -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="display: flex; align-items: center;">
+        <ion-icon name="book-outline" style="margin-right: 8px;"></ion-icon>
+        Buku Tamu
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Catat dan pantau tamu yang datang ke area perumahan dengan mudah.
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Data Warga -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="display: flex; align-items: center;">
+        <ion-icon name="people-outline" style="margin-right: 8px;"></ion-icon>
+        Data Warga
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Akses informasi lengkap warga untuk keamanan dan administrasi.
+    </ion-card-content>
+  </ion-card>
+
+    <!-- Riwayat -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title style="display: flex; align-items: center;">
+          <ion-icon name="time-outline" style="margin-right: 8px;"></ion-icon>
+          Riwayat
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Lihat rekaman aktivitas satpam secara kronologis.
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>
+
+  <!-- BUKU TAMU -->
+  <div *ngIf="activeTab === 'bukutamu'" class="bukutamu-container">
+  <app-buku-tamu></app-buku-tamu>
   </div>
 
-  
- <div class="avatar-section">
-    <div class="avatar">
-      <img src="assets/img/logo.png" alt="Profile" />
-    </div>
-    <h2 class="greeting">{{ displayText }}</h2>
+
+  <div *ngIf="activeTab === 'monitoring'">
+    
+    <app-monitoring-tamu></app-monitoring-tamu>
+
   </div>
-  
-  <!-- BOTTOM CARD -->
-  <div class="action-card">
-    <ion-button expand="block" class="menu-button">
-      <ion-icon slot="start" name="book-outline"></ion-icon>
-      GuestBook
-    </ion-button>
-    <ion-button expand="block" class="menu-button">
-      <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
-      SecurityReport
-    </ion-button>
-    <ion-button expand="block" class="menu-button">
-      <ion-icon slot="start" name="time-outline"></ion-icon>
-      SecurityLog’s
-    </ion-button>
+
+  <div *ngIf="activeTab === 'aktivitas'">
+<app-rekap-aktivitas></app-rekap-aktivitas>
+
   </div>
+
 </ion-content>
+
+<!-- BOTTOM NAVIGATION -->
+<ion-tab-bar slot="bottom" class="bottom-nav">
+  <ion-tab-button (click)="setTab('dashboard')">
+    <ion-icon name="home-outline"></ion-icon>
+    <ion-label>Dashboard</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="setTab('bukutamu')">
+    <ion-icon name="book-outline"></ion-icon>
+    <ion-label>Buku Tamu</ion-label>
+  </ion-tab-button>
+  
+    <ion-tab-button (click)="setTab('monitoring')">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Monitoring Tamu</ion-label>
+    </ion-tab-button>
+
+  <ion-tab-button (click)="setTab('aktivitas')">
+    <ion-icon name="notifications-outline"></ion-icon>
+    <ion-label>Aktivitas</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import { NavController, AlertController, MenuController } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard-warga',
@@ -9,20 +11,33 @@ import { NavController, AlertController, MenuController } from '@ionic/angular';
   standalone: false
 })
 export class DashboardWargaPage implements OnInit, AfterViewInit {
-
+  isProfileIncomplete = false;
   showProfileMenu = false;
   showNotificationPanel = false;
   jumlahNotifikasiBaru: number = 0;
+
+  userPhotoUrl = 'assets/img/default-profile.png';
+  wargaId: string | null = null;
 
   constructor(
     private location: Location,
     private navCtrl: NavController,
     private alertController: AlertController,
-    public menuCtrl: MenuController
+    public menuCtrl: MenuController,
+    private storage: Storage,
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.storage.create();
+    await this.checkLogin();
+    this.wargaId = await this.storage.get('warga_id');
+    this.loadUserProfile();
     this.hitungNotifikasiBaru();
+  }
+
+  ionViewWillEnter() {
+    this.loadUserProfile();
   }
 
   ngAfterViewInit(): void {
@@ -43,6 +58,54 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
         behavior: 'smooth'
       });
     }, 4000);
+  }
+
+  loadUserProfile() {
+    if (!this.wargaId) {
+      console.warn('Warga ID belum tersedia.');
+      return;
+    }
+
+    this.http.get<any>(`http://localhost:8000/api/profil/${this.wargaId}`).subscribe({
+      next: (res) => {
+        if (res && res.user && res.warga) {
+          const user = res.user;
+          const warga = res.warga;
+
+          console.log('User:', user);
+          console.log('Warga:', warga);
+
+          this.userPhotoUrl = user.foto_diri + '?t=' + new Date().getTime();
+
+          const isEmpty = (val: any) => val === null || val === undefined || val === '';
+
+          const isFotoDiriDefault = /default-profile/.test(user.foto_diri || '');
+          const isFotoKtpDefault = /default-ktp/.test(warga.foto_ktp || '');
+
+          this.isProfileIncomplete = (
+            isEmpty(user.nama) ||
+            isEmpty(user.nik) ||
+            isEmpty(user.email) ||
+            isEmpty(user.no_telepon) ||
+            isEmpty(user.no_whatsapp) ||
+            isEmpty(user.alamat) ||
+            // isFotoDiriDefault ||
+            isEmpty(warga.no_rumah) ||
+            isFotoKtpDefault
+          );
+
+          console.log('isProfileIncomplete:', this.isProfileIncomplete);
+        } else {
+          this.isProfileIncomplete = true;
+          this.userPhotoUrl = 'assets/img/default-profile.png';
+        }
+      },
+      error: (err) => {
+        console.error('Error load profile', err);
+        this.isProfileIncomplete = true;
+        this.userPhotoUrl = 'assets/img/default-profile.png';
+      },
+    });
   }
 
   toggleProfileMenu(): void {
@@ -73,7 +136,8 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
         },
         {
           text: 'Logout',
-          handler: () => {
+          handler: async () => {
+            await this.storage.clear();
             sessionStorage.clear();
             localStorage.clear();
             console.log('Logout berhasil');
@@ -105,5 +169,14 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
     this.jumlahNotifikasiBaru = aktivitas.filter((item: any) =>
       (item.status === 'Selesai' || item.status === 'Tertunda') && item.seen === false
     ).length;
+  }
+
+  async checkLogin(): Promise<void> {
+    await this.storage.create();
+    const wargaId = await this.storage.get('warga_id');
+    if (!wargaId) {
+      console.warn('Tidak ada warga_id, mengarahkan ke login...');
+      this.navCtrl.navigateRoot('/login-clustro');
+    }
   }
 }
