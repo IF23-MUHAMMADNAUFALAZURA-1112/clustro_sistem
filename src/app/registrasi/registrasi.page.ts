@@ -92,6 +92,7 @@ export class RegistrasiPage {
     if (!emailRegex.test(this.user.email)) return this.showToast('Format email tidak valid.', 'danger');
 
     if (!this.user.password.trim()) return this.showToast('Password tidak boleh kosong.', 'danger');
+    if (this.user.password.length < 6) return this.showToast('Password minimal 6 karakter.', 'danger');
     if (!this.user.password_confirmation.trim()) return this.showToast('Konfirmasi password tidak boleh kosong.', 'danger');
     if (this.user.password !== this.user.password_confirmation) return this.showToast('Konfirmasi kata sandi tidak cocok.', 'danger');
 
@@ -110,7 +111,7 @@ export class RegistrasiPage {
     console.log('Mengirim data registrasi:', this.user);
 
     try {
-      const response: any = await this.http.post('http://localhost:8000/api/register', formData).toPromise();
+      const response: any = await this.http.post('http://clustro.web.id/api/register', formData).toPromise();
       console.log('Respon dari API:', response);
 
       // Jika berhasil, navigasi ke halaman login

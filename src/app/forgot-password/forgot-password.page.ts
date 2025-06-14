@@ -29,7 +29,7 @@ export class ForgotPasswordPage {
 
     try {
       const response = await this.http
-        .post('http://localhost:8000/api/forgot-password', {
+        .post('http://clustro.web.id/api/forgot-password', {
           email: this.email,
         })
         .toPromise();

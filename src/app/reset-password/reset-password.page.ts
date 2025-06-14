@@ -42,7 +42,7 @@ export class ResetPasswordPage {
     this.isLoading = true; // Mengaktifkan loading spinner
 
     try {
-      const response = await this.http.post('http://localhost:8000/api/reset-password', {
+      const response = await this.http.post('http://clustro.web.id/api/reset-password', {
         token: this.token,
         password: this.password,
         password_confirmation: this.confirmPassword

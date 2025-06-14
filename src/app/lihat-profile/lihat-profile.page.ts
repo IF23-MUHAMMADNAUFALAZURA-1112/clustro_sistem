@@ -1,7 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { Share } from '@capacitor/share';
+import {
+  AlertController,
+  LoadingController,
+  ToastController,
+} from '@ionic/angular';
 import { Location } from '@angular/common';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -12,7 +17,8 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   styleUrls: ['./lihat-profile.page.scss'],
 })
 export class LihatProfilePage implements OnInit {
-  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
 
   segment = 'profilDiri';
   biodataForm: FormGroup;
@@ -26,10 +32,8 @@ export class LihatProfilePage implements OnInit {
   showPhotoModal = false;
   showPhotoOptions = false;
 
-  isProfileLoaded: boolean = false; // ✅ DITAMBAHKAN
-  goBack(): void {
-    this.location.back();
-  }
+  isProfileLoaded: boolean = false;
+
   constructor(
     private location: Location,
     private fb: FormBuilder,
@@ -45,14 +49,17 @@ export class LihatProfilePage implements OnInit {
       whatsapp: [''],
       phone: [''],
       address: [''],
-      houseNo: ['']
+      houseNo: [''],
     });
 
-    this.accountForm = this.fb.group({
-      oldPassword: ['', [Validators.required, Validators.minLength(6)]],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['']
-    }, { validators: this.passwordMatchValidator });
+    this.accountForm = this.fb.group(
+      {
+        oldPassword: ['', [Validators.required, Validators.minLength(6)]],
+        newPassword: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: [''],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
   ngOnInit() {
@@ -63,10 +70,12 @@ export class LihatProfilePage implements OnInit {
     const warga_id = localStorage.getItem('warga_id');
     if (!warga_id) return;
 
-    const loading = await this.loadingCtrl.create({ message: 'Memuat profil...' });
+    const loading = await this.loadingCtrl.create({
+      message: 'Memuat profil...',
+    });
     await loading.present();
 
-    this.http.get(`http://localhost:8000/api/profil/${warga_id}`).subscribe({
+    this.http.get(`http://clustro.web.id/api/profil/${warga_id}`).subscribe({
       next: (res: any) => {
         this.biodata = {
           name: res.user.nama,
@@ -75,7 +84,7 @@ export class LihatProfilePage implements OnInit {
           whatsapp: res.user.no_whatsapp,
           phone: res.user.no_telepon,
           address: res.user.alamat,
-          houseNo: res.warga.no_rumah
+          houseNo: res.warga.no_rumah,
         };
 
         const rawFoto = res.user.foto_profile || res.user.foto_diri || '';
@@ -85,41 +94,81 @@ export class LihatProfilePage implements OnInit {
           photoUrl: fotoUrl,
           ktpUrl: res.warga.foto_ktp,
           userId: res.user.id,
-          wargaId: res.warga.id
+          wargaId: res.warga.id,
         };
 
         this.biodataForm.patchValue(this.biodata);
-        this.ktpPreview = res.warga.foto_ktp;
-        this.fullProfilePhoto = fotoUrl;
+        this.ktpPreview =
+          res.warga.foto_ktp && !res.warga.foto_ktp.includes('default-ktp.png')
+            ? res.warga.foto_ktp
+            : '';
+
+        this.fullProfilePhoto = this.getProfilePhotoUrl();
 
         console.log('Foto Final:', this.fullProfilePhoto);
 
-        this.isProfileLoaded = true; // ✅ ditambahkan di akhir success
+        this.isProfileLoaded = true;
         loading.dismiss();
         this.evaluateProfileCompleteness();
       },
       error: () => {
-        this.isProfileLoaded = true; // ✅ tetap ditambahkan saat gagal
+        this.isProfileLoaded = true;
         loading.dismiss();
         this.showToast('Gagal memuat data profil.', 'danger');
-      }
+      },
     });
   }
+async shareProfilePhoto() {
+  const url = this.getProfilePhotoUrl();
 
+  if (!url || url.includes('default-profile.png')) {
+    this.showToast('Tidak ada foto profil untuk dibagikan.', 'warning');
+    return;
+  }
+
+  try {
+    await Share.share({
+      title: 'Foto Profil',
+      text: 'Bagikan foto profil saya.',
+      url: url,
+      dialogTitle: 'Bagikan menggunakan'
+    });
+  } catch (error) {
+    this.showToast('Gagal membuka menu bagikan.', 'danger');
+  }
+}
 
   generateFreshPhotoUrl(foto: string | null | undefined): string {
     if (!foto || foto.includes('default-profile') || foto.trim() === '') {
-      return 'assets/img/profile-default.png';
+      return 'assets/img/default-profile.png';
     }
     return `${foto}?t=${new Date().getTime()}`;
   }
 
-  evaluateProfileCompleteness() {
-    const isEmpty = (val: any) => val === null || val === undefined || val === '';
-    const isDefaultPhoto = this.getProfilePhotoUrl().includes('default-profile.png');
-    const isDefaultKtp = this.ktpPreview.includes('default-ktp.png');
+  getProfilePhotoUrl(): string {
+    const url = this.profile?.photoUrl;
+    if (!url || url === 'null' || url.trim() === '') {
+      return 'assets/img/default-profile.png';
+    }
+    return url;
+  }
 
-    const isIncomplete = (
+  isDefaultPhoto(): boolean {
+    const url = this.getProfilePhotoUrl();
+    return (
+      url.includes('default-profile.png') ||
+      url === '' ||
+      url === null
+    );
+  }
+
+  evaluateProfileCompleteness() {
+    const isEmpty = (val: any) =>
+      val === null || val === undefined || val === '';
+    const isDefaultPhoto = this.isDefaultPhoto();
+    const isDefaultKtp = !this.ktpPreview;
+
+    const isIncomplete =
       isEmpty(this.biodata.name) ||
       isEmpty(this.biodata.nik) ||
       isEmpty(this.biodata.email) ||
@@ -127,19 +176,9 @@ export class LihatProfilePage implements OnInit {
       isEmpty(this.biodata.whatsapp) ||
       isEmpty(this.biodata.address) ||
       isEmpty(this.biodata.houseNo) ||
-      // isDefaultPhoto ||
-      isDefaultKtp
-    );
+      isDefaultKtp;
 
     localStorage.setItem('profil_diperbarui', (!isIncomplete).toString());
-  }
-
-  getProfilePhotoUrl(): string {
-    const url = this.profile?.photoUrl;
-    if (!url || url === 'null' || url.trim() === '') {
-      return 'assets/img/profile-default.png';
-    }
-    return url;
   }
 
   showPhotoPreview() {
@@ -156,7 +195,10 @@ export class LihatProfilePage implements OnInit {
     if (file) {
       const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
       if (!validTypes.includes(file.type)) {
-        this.showToast('Format gambar tidak didukung. Gunakan JPG, PNG, atau WEBP.', 'danger');
+        this.showToast(
+          'Format gambar tidak didukung. Gunakan JPG, PNG, atau WEBP.',
+          'danger'
+        );
         return;
       }
 
@@ -175,18 +217,18 @@ export class LihatProfilePage implements OnInit {
         formData.append('user_id', this.profile.userId);
         formData.append('foto_profile', file);
 
-        this.http.post('http://localhost:8000/api/profil/update-photo', formData).subscribe({
-          next: (res: any) => {
-            console.log('Res Update Photo:', res);
-            this.showToast('Foto profil berhasil diubah.', 'success');
-            localStorage.setItem('profil_diperbarui', 'true');
-            this.evaluateProfileCompleteness();
-          },
-          error: (err) => {
-            console.log('Err Update Photo:', err);
-            this.showToast('Gagal mengganti foto profil.', 'danger');
-          }
-        });
+        this.http
+          .post('http://clustro.web.id/api/profil/update-photo', formData)
+          .subscribe({
+            next: () => {
+              this.showToast('Foto profil berhasil diubah.', 'success');
+              localStorage.setItem('profil_diperbarui', 'true');
+              this.evaluateProfileCompleteness();
+            },
+            error: () => {
+              this.showToast('Gagal mengganti foto profil.', 'danger');
+            },
+          });
       };
       reader.readAsDataURL(file);
     }
@@ -206,23 +248,23 @@ export class LihatProfilePage implements OnInit {
         this.fullProfilePhoto = image.dataUrl;
         this.profile.photoUrl = image.dataUrl;
 
-        const blob = await fetch(image.dataUrl).then(res => res.blob());
+        const blob = await fetch(image.dataUrl).then((res) => res.blob());
         const formData = new FormData();
         formData.append('user_id', this.profile.userId);
         formData.append('foto_profile', blob, `profile-${Date.now()}.jpeg`);
 
-        this.http.post('http://localhost:8000/api/profil/update-photo', formData).subscribe({
-          next: (res: any) => {
-            console.log('Res Camera Upload:', res);
-            this.showToast('Foto profil berhasil diambil dari kamera.', 'success');
-            localStorage.setItem('profil_diperbarui', 'true');
-            this.evaluateProfileCompleteness();
-          },
-          error: (err) => {
-            console.log('Err Camera Upload:', err);
-            this.showToast('Gagal mengunggah foto dari kamera.', 'danger');
-          }
-        });
+        this.http
+          .post('http://clustro.web.id/api/profil/update-photo', formData)
+          .subscribe({
+            next: () => {
+              this.showToast('Foto profil berhasil diambil dari kamera.', 'success');
+              localStorage.setItem('profil_diperbarui', 'true');
+              this.evaluateProfileCompleteness();
+            },
+            error: () => {
+              this.showToast('Gagal mengunggah foto dari kamera.', 'danger');
+            },
+          });
       }
     } catch (error) {
       this.showToast('Kamera dibatalkan atau gagal dibuka.', 'medium');
@@ -232,9 +274,32 @@ export class LihatProfilePage implements OnInit {
     }
   }
 
-  removeKtp() {
-    this.ktpPreview = '';
-    this.ktpFile = null;
+  deleteProfilePhoto() {
+    if (this.isDefaultPhoto()) {
+      this.showToast('Foto profil default tidak dapat dihapus.', 'warning');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('user_id', this.profile.userId);
+
+    this.http
+      .post('http://clustro.web.id/api/profil/delete-photo', formData)
+      .subscribe({
+        next: () => {
+          this.profile.photoUrl = 'assets/img/default-profile.png';
+          this.fullProfilePhoto = this.profile.photoUrl;
+          this.showToast('Foto profil berhasil dihapus.', 'success');
+          localStorage.setItem('profil_diperbarui', 'true');
+          this.evaluateProfileCompleteness();
+        },
+        error: () => {
+          this.showToast('Gagal menghapus foto profil.', 'danger');
+        },
+      });
+
+    this.showPhotoModal = false;
+    this.showPhotoOptions = false;
   }
 
   onKtpPicked(event: any) {
@@ -242,19 +307,22 @@ export class LihatProfilePage implements OnInit {
     if (file) {
       this.ktpFile = file;
       const reader = new FileReader();
-      reader.onload = () => this.ktpPreview = reader.result as string;
+      reader.onload = () => (this.ktpPreview = reader.result as string);
       reader.readAsDataURL(file);
     }
   }
 
-  presentPhotoOptions() {
-    this.showPhotoOptions = true;
+  removeKtp() {
+    this.ktpPreview = '';
+    this.ktpFile = null;
   }
 
   async saveBiodata() {
     if (this.biodataForm.invalid) return;
 
-    const loading = await this.loadingCtrl.create({ message: 'Menyimpan perubahan...' });
+    const loading = await this.loadingCtrl.create({
+      message: 'Menyimpan perubahan...',
+    });
     await loading.present();
 
     const formData = new FormData();
@@ -270,38 +338,29 @@ export class LihatProfilePage implements OnInit {
 
     if (this.ktpFile) formData.append('foto_ktp', this.ktpFile);
 
-    this.http.post('http://localhost:8000/api/profil/updateFullProfile', formData).subscribe({
-      next: async (res: any) => {
-        console.log('Res Update Profile:', res);
-        await loading.dismiss();
-        this.showToast('Profil berhasil diperbarui.', 'success');
-        localStorage.setItem('profil_diperbarui', 'true');
-        this.evaluateProfileCompleteness();
-        this.loadProfile();
-      },
-      error: async (err) => {
-        console.log('Err Update Profile:', err);
-        await loading.dismiss();
-        this.showToast('Gagal menyimpan profil.', 'danger');
-      }
-    });
-  }
-
-  isDefaultPhoto(): boolean {
-    const url = this.getProfilePhotoUrl();
-    return url.includes('profile-default.png') || url === '' || url === null;
-  }
-
-  passwordMatchValidator(form: FormGroup) {
-    const newPassword = form.get('newPassword')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-    return newPassword === confirmPassword ? null : { mismatch: true };
+    this.http
+      .post('http://clustro.web.id/api/profil/updateFullProfile', formData)
+      .subscribe({
+        next: async () => {
+          await loading.dismiss();
+          this.showToast('Profil berhasil diperbarui.', 'success');
+          localStorage.setItem('profil_diperbarui', 'true');
+          this.evaluateProfileCompleteness();
+          this.loadProfile();
+        },
+        error: async () => {
+          await loading.dismiss();
+          this.showToast('Gagal menyimpan profil.', 'danger');
+        },
+      });
   }
 
   async saveAccount() {
     if (this.accountForm.invalid) return;
 
-    const loading = await this.loadingCtrl.create({ message: 'Mengganti password...' });
+    const loading = await this.loadingCtrl.create({
+      message: 'Mengganti password...',
+    });
     await loading.present();
 
     const data = {
@@ -311,40 +370,34 @@ export class LihatProfilePage implements OnInit {
       new_password_confirmation: this.accountForm.value.confirmPassword,
     };
 
-    this.http.post('http://localhost:8000/api/profil/change-password', data).subscribe({
-      next: async () => {
-        await loading.dismiss();
-        this.showToast('Password berhasil diubah.', 'success');
-        this.accountForm.reset();
-      },
-      error: async (err) => {
-        await loading.dismiss();
-        const msg = err?.error?.message || 'Gagal mengubah password.';
-        this.showToast(msg, 'danger');
-      }
-    });
+    this.http
+      .post('http://clustro.web.id/api/profil/change-password', data)
+      .subscribe({
+        next: async () => {
+          await loading.dismiss();
+          this.showToast('Password berhasil diubah.', 'success');
+          this.accountForm.reset();
+        },
+        error: async (err) => {
+          await loading.dismiss();
+          const msg = err?.error?.message || 'Gagal mengubah password.';
+          this.showToast(msg, 'danger');
+        },
+      });
   }
 
-  deleteProfilePhoto() {
-    const formData = new FormData();
-    formData.append('user_id', this.profile.userId);
+  passwordMatchValidator(form: FormGroup) {
+    const newPassword = form.get('newPassword')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return newPassword === confirmPassword ? null : { mismatch: true };
+  }
 
-    this.http.post('http://localhost:8000/api/profil/delete-photo', formData).subscribe({
-      next: (res: any) => {
-        console.log('Res Delete Photo:', res);
-        this.profile.photoUrl = 'assets/img/profile-default.png';
-        this.showToast('Foto profil berhasil dihapus.', 'success');
-        localStorage.setItem('profil_diperbarui', 'true');
-        this.evaluateProfileCompleteness();
-      },
-      error: (err) => {
-        console.log('Err Delete Photo:', err);
-        this.showToast('Gagal menghapus foto profil.', 'danger');
-      }
-    });
+  presentPhotoOptions() {
+    this.showPhotoOptions = true;
+  }
 
-    this.showPhotoModal = false;
-    this.showPhotoOptions = false;
+  goBack(): void {
+    this.location.back();
   }
 
   async showToast(message: string, color: string) {
@@ -352,7 +405,7 @@ export class LihatProfilePage implements OnInit {
       message: message,
       duration: 2000,
       position: 'bottom',
-      color: color
+      color: color,
     });
     toast.present();
   }

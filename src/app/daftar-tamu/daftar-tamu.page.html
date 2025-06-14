@@ -1,0 +1,38 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title>Daftar Tamu</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="daftar-tamu-content">
+
+  <!-- Search & Sort -->
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterGuests()"
+    placeholder="Cari tamu…"
+  ></ion-searchbar>
+
+  <ion-segment [(ngModel)]="sortOption" (ionChange)="sortGuests()">
+    <ion-segment-button value="name">Nama</ion-segment-button>
+    <ion-segment-button value="visitDate">Tanggal</ion-segment-button>
+  </ion-segment>
+
+  <!-- List Daftar Tamu -->
+  <ion-list>
+    <ion-item *ngFor="let guest of filteredGuests" class="guest-card">
+      <ion-label>
+        <h3>{{ guest.name }}</h3>
+        <p>{{ guest.visitDate | date:'dd MMM yyyy' }}</p>
+        <p class="visited-to">Kunjungan ke: <strong>{{ guest.visitedTo }}</strong></p>
+      </ion-label>
+      <ion-badge
+        [color]="guest.isOwnHouse ? 'success' : 'medium'"
+        slot="end"
+      >
+        {{ guest.isOwnHouse ? 'Rumah Sendiri' : 'Tamu' }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

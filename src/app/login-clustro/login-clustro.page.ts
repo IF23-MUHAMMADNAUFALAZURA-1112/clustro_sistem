@@ -48,7 +48,7 @@ export class LoginClustroPage {
     try {
       // Kirim data login ke API
       const response: any = await this.http
-        .post('http://localhost:8000/api/login', this.credentials)
+        .post('http://clustro.web.id/api/login', this.credentials)
         .toPromise();
 
       console.log('Response dari API:', response);

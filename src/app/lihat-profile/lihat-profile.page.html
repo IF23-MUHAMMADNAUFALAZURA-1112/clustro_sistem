@@ -1,246 +1,247 @@
-<ion-button shape="round" fill="clear" (click)="goBack()"
-  style="position: fixed; top: 12px; left: 12px; z-index: 9999;">
+<!-- Tombol Kembali -->
+<ion-button shape="round" fill="clear" (click)="goBack()" style="position: fixed; top: 12px; left: 12px; z-index: 9999">
   <ion-icon name="arrow-back" slot="icon-only" style="font-size: 24px; color: white"></ion-icon>
 </ion-button>
 
 <ion-content class="dashboard-page scrollable-content" scroll-y="true">
-<!-- Foto Profil -->
-<div class="profile-header">
-  <div *ngIf="isProfileLoaded; else loadingProfile" class="avatar-wrapper">
-    <ng-container *ngIf="getProfilePhotoUrl() === 'assets/img/profile-default.png'; else realImage">
-      <img 
-        src="data:image/svg+xml;utf8,
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-          <circle cx='256' cy='256' r='256' fill='%23e0e0e0'/>
-          <circle cx='256' cy='192' r='96' fill='%23777777'/>
-          <path d='M256 320c-88 0-160 72-160 160h320c0-88-72-160-160-160z' fill='%23777777'/>
-        </svg>" 
-        alt="Default Avatar"
-        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-    </ng-container>
-
-    <ng-template #realImage>
-      <img 
-        [src]="fullProfilePhoto"
-        alt="Foto Profil" 
-        (click)="showPhotoPreview()"
-        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-      />
-    </ng-template>
+  <!-- Foto Profil -->
+  <div class="profile-header">
+    <div class="avatar-wrapper">
+      <ng-container *ngIf="getProfilePhotoUrl() === 'assets/img/default-profile.png'; else realImage">
+        <img src="assets/img/default-profile.png" alt="Default Avatar"
+          (click)="showPhotoModal = true; presentPhotoOptions()"
+          style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; cursor: pointer;" />
+      </ng-container>
+      <ng-template #realImage>
+        <img [src]="getProfilePhotoUrl()" alt="Foto Profil" (click)="showPhotoPreview()"
+          style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+      </ng-template>
+    </div>
   </div>
 
-  <ng-template #loadingProfile>
-    <div class="avatar-wrapper" style="display: flex; justify-content: center; align-items: center;">
-      <ion-spinner name="crescent" color="medium"></ion-spinner>
-    </div>
-  </ng-template>
-</div>
-
-
-<!-- Modal Foto Profil -->
-<ion-modal [isOpen]="showPhotoModal" (didDismiss)="showPhotoModal = false">
+ <!-- Modal Foto Profil -->
+<ion-modal [isOpen]="showPhotoModal" (didDismiss)="showPhotoModal = false" cssClass="profile-photo-modal">
   <ng-template>
-    <ion-header style="--background: #000000; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <ion-icon name="arrow-back" style="font-size: 24px; color: white;" (click)="showPhotoModal = false"></ion-icon>
-        <span style="color: white; font-weight: bold; font-size: 18px;">Foto Profil</span>
+    <ion-header style="
+        --background: #000;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      ">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <ion-icon name="arrow-back" style="font-size: 24px; color: white" (click)="showPhotoModal = false"></ion-icon>
+        <span style="color: white; font-weight: bold; font-size: 18px">Foto Profil</span>
       </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <ion-icon *ngIf="getProfilePhotoUrl() !== 'assets/img/profile-default.png'" name="pencil-outline"
-          style="font-size: 22px; color: white; cursor: pointer;" (click)="presentPhotoOptions()"></ion-icon>
-        <ion-icon name="close-outline" style="font-size: 26px; color: white; cursor: pointer;" (click)="showPhotoModal = false"></ion-icon>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <ion-icon name="pencil-outline" style="font-size: 22px; color: white; cursor: pointer"
+          (click)="presentPhotoOptions()"></ion-icon>
+        <ion-icon name="share-social-outline" style="font-size: 26px; color: white; cursor: pointer"
+          (click)="shareProfilePhoto()"></ion-icon>
       </div>
     </ion-header>
 
-    <ion-content fullscreen style="--background: #000000; padding: 0; position: relative;">
-      <div class="photo-frame-container" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <img [src]="getProfilePhotoUrl()" alt="Foto Profil"
-          style="max-width: 100%; max-height: 100%; object-fit: contain; border: none; box-shadow: none;" />
-        <input type="file" accept="image/*" #fileInput hidden (change)="onProfilePhotoChange($event)" />
-      </div>
-
-      <!-- Action Sheet Modal Local (PINDAHKAN KE DALAM MODAL FOTO) -->
-      <div *ngIf="showPhotoOptions" style="position: absolute; bottom: 0; left: 0; right: 0; background: #121212; color: white; border-radius: 16px 16px 0 0; z-index: 1000;">
-        <div style="padding: 20px 0 10px;">
-          <div style="text-align: center; font-size: 18px; font-weight: 600;">Foto profil</div>
-          <ion-grid>
-            <ion-row justify-content-center style="text-align: center;">
-              <ion-col size="4">
-                <ion-button fill="clear" (click)="pickFromCamera()">
-                  <ion-icon name="camera" slot="icon-only" style="font-size: 28px; color: #00c97f;"></ion-icon>
-                </ion-button>
-                <div style="font-size: 14px;">Kamera</div>
-              </ion-col>
-              <ion-col size="4">
-                <ion-button fill="clear" (click)="triggerFileUpload()">
-                  <ion-icon name="image" slot="icon-only" style="font-size: 28px; color: #00c97f;"></ion-icon>
-                </ion-button>
-                <div style="font-size: 14px;">Galeri</div>
-              </ion-col>
-              <ion-col size="4">
-                <ion-button fill="clear" (click)="deleteProfilePhoto()">
-                  <ion-icon name="trash" slot="icon-only" style="font-size: 28px; color: #00c97f;"></ion-icon>
-                </ion-button>
-                <div style="font-size: 14px;">Hapus</div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-button expand="block" color="medium" (click)="showPhotoOptions = false">Batal</ion-button>
+      <ion-content fullscreen>
+        <div class="photo-frame-container">
+          <img [src]="getProfilePhotoUrl()" alt="Foto Profil" class="modal-profile-image" />
+          <input type="file" accept="image/*" #fileInput hidden (change)="onProfilePhotoChange($event)" />
         </div>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
 
-    <!-- Segment Navigasi -->
-    <ion-card class="transparent-card">
-        <ion-segment [(ngModel)]="segment" value="profilDiri" class="segment-underline">
-            <ion-segment-button value="profilDiri">
-                <ion-icon name="person-outline"></ion-icon>
-                <ion-label>Profil</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="akun">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <ion-label>Password</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="biodata">
-                <ion-icon name="pencil-outline"></ion-icon>
-                <ion-label>Edit</ion-label>
-            </ion-segment-button>
-        </ion-segment>
+        <!-- Action Sheet -->
+        <div *ngIf="showPhotoOptions" style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #121212;
+            color: white;
+            border-radius: 16px 16px 0 0;
+            z-index: 1000;
+          ">
+          <div style="padding: 20px 0 10px">
+            <div style="text-align: center; font-size: 18px; font-weight: 600">
+              Foto profil
+            </div>
+            <ion-grid>
+              <ion-row justify-content-center class="action-row-horizontal">
+                <ion-col size="auto" class="action-col">
+                  <ion-button fill="clear" (click)="pickFromCamera()">
+                    <ion-icon name="camera" slot="icon-only" style="font-size: 28px; color: #00c97f"></ion-icon>
+                  </ion-button>
+                  <div class="action-text">Kamera</div>
+                </ion-col>
+
+                <ion-col size="auto" class="action-col">
+                  <ion-button fill="clear" (click)="triggerFileUpload()">
+                    <ion-icon name="image" slot="icon-only" style="font-size: 28px; color: #00c97f"></ion-icon>
+                  </ion-button>
+                  <div class="action-text">Galeri</div>
+                </ion-col>
+
+                <ion-col size="auto" class="action-col" *ngIf="!isDefaultPhoto()">
+                  <ion-button fill="clear" (click)="deleteProfilePhoto()">
+                    <ion-icon name="trash" slot="icon-only" style="font-size: 28px; color: #00c97f"></ion-icon>
+                  </ion-button>
+                  <div class="action-text">Hapus</div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+           <div style="position: absolute; top: 8px; left: 12px; z-index: 1100;">
+  <ion-icon
+    name="close-outline"
+    style="font-size: 28px; color: white; cursor: pointer"
+    (click)="showPhotoOptions = false"
+  ></ion-icon>
+</div>
+
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Segment Navigasi -->
+  <ion-card class="transparent-card">
+    <ion-segment [(ngModel)]="segment" value="profilDiri" class="segment-underline">
+      <ion-segment-button value="profilDiri">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Profil</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="akun">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <ion-label>Password</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="biodata">
+        <ion-icon name="pencil-outline"></ion-icon>
+        <ion-label>Edit</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-card>
+
+  <!-- Profil Diri -->
+  <div *ngIf="segment === 'profilDiri'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Profil Diri</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item><ion-icon slot="start" name="person-outline"></ion-icon><ion-label>{{ biodata.name
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="id-card-outline"></ion-icon><ion-label>{{ biodata.nik
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="mail-outline"></ion-icon><ion-label>{{ biodata.email
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="logo-whatsapp"></ion-icon><ion-label>{{ biodata.whatsapp
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="call-outline"></ion-icon><ion-label>{{ biodata.phone
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="home-outline"></ion-icon><ion-label>{{ biodata.address
+            }}</ion-label></ion-item>
+        <ion-item><ion-icon slot="start" name="home-outline"></ion-icon><ion-label>No. Rumah: {{ biodata.houseNo
+            }}</ion-label></ion-item>
+        <ion-item lines="none">
+          <ion-icon name="card-outline" slot="start"></ion-icon>
+          <ion-label>
+            <div style="font-weight: 600; margin-bottom: 8px; font-size: 18px">
+              Foto KTP
+            </div>
+            <img [src]="ktpPreview || 'assets/img/default-ktp.png'" alt="Preview KTP" class="ktp-image" />
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
     </ion-card>
+  </div>
 
-    <!-- Profil Diri -->
-    <div *ngIf="segment === 'profilDiri'" class="tab-pane">
-        <ion-card class="card-custom">
-            <ion-card-header>
-                <ion-card-title>Profil Diri</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <ion-item><ion-icon slot="start" name="person-outline"></ion-icon><ion-label>{{ biodata.name
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="id-card-outline"></ion-icon><ion-label>{{ biodata.nik
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="mail-outline"></ion-icon><ion-label>{{ biodata.email
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="logo-whatsapp"></ion-icon><ion-label>{{ biodata.whatsapp
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="call-outline"></ion-icon><ion-label>{{ biodata.phone
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="home-outline"></ion-icon><ion-label>{{ biodata.address
-                        }}</ion-label></ion-item>
-                <ion-item><ion-icon slot="start" name="home-outline"></ion-icon><ion-label>No. Rumah: {{ biodata.houseNo
-                        }}</ion-label></ion-item>
-                <ion-item lines="none">
-                    <ion-icon name="card-outline" slot="start"></ion-icon>
-                    <ion-label>
-                        <div style="font-weight: 600; margin-bottom: 8px; font-size: 18px;">Foto KTP</div>
-                        <img [src]="ktpPreview || 'assets/img/default-ktp.png'" alt="Preview KTP" class="ktp-image" />
-                    </ion-label>
-                </ion-item>
-            </ion-card-content>
-        </ion-card>
-    </div>
+  <!-- Ganti Password -->
+  <div *ngIf="segment === 'akun'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Ganti Password</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">Password Lama</ion-label>
+              <ion-input formControlName="oldPassword" type="password" placeholder="Masukkan password lama"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.get('oldPassword')?.touched && accountForm.get('oldPassword')?.invalid">
+              <p class="error-text">Password lama minimal 6 karakter.</p>
+            </ion-item>
 
-    <!-- Ganti Password -->
-    <div *ngIf="segment === 'akun'" class="tab-pane">
-        <ion-card class="card-custom">
-            <ion-card-header>
-                <ion-card-title>Ganti Password</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
-                    <ion-list>
-                        <ion-item>
-                            <ion-label position="stacked">Password Lama</ion-label>
-                            <ion-input formControlName="oldPassword" type="password"
-                                placeholder="Masukkan password lama"></ion-input>
-                        </ion-item>
-                        <ion-item
-                            *ngIf="accountForm.get('oldPassword')?.touched && accountForm.get('oldPassword')?.invalid">
-                            <p class="error-text">Password lama minimal 6 karakter.</p>
-                        </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Password Baru</ion-label>
+              <ion-input formControlName="newPassword" type="password" placeholder="Masukkan password baru"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.get('newPassword')?.touched && accountForm.get('newPassword')?.invalid">
+              <p class="error-text">Password baru minimal 6 karakter.</p>
+            </ion-item>
 
-                        <ion-item>
-                            <ion-label position="stacked">Password Baru</ion-label>
-                            <ion-input formControlName="newPassword" type="password"
-                                placeholder="Masukkan password baru"></ion-input>
-                        </ion-item>
-                        <ion-item
-                            *ngIf="accountForm.get('newPassword')?.touched && accountForm.get('newPassword')?.invalid">
-                            <p class="error-text">Password baru minimal 6 karakter.</p>
-                        </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Konfirmasi Password</ion-label>
+              <ion-input formControlName="confirmPassword" type="password"
+                placeholder="Ulangi password baru"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="accountForm.errors?.['mismatch'] && accountForm.get('confirmPassword')?.touched">
+              <p class="error-text">Konfirmasi password tidak cocok.</p>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" type="submit" [disabled]="accountForm.invalid" class="btn-save">Simpan</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-                        <ion-item>
-                            <ion-label position="stacked">Konfirmasi Password</ion-label>
-                            <ion-input formControlName="confirmPassword" type="password"
-                                placeholder="Ulangi password baru"></ion-input>
-                        </ion-item>
-                        <ion-item
-                            *ngIf="accountForm.errors?.['mismatch'] && accountForm.get('confirmPassword')?.touched">
-                            <p class="error-text">Konfirmasi password tidak cocok.</p>
-                        </ion-item>
-                    </ion-list>
-                    <ion-button expand="block" type="submit" [disabled]="accountForm.invalid"
-                        class="btn-save">Simpan</ion-button>
-                </form>
-            </ion-card-content>
-        </ion-card>
-    </div>
+  <!-- Edit Profil -->
+  <div *ngIf="segment === 'biodata'" class="tab-pane">
+    <ion-card class="card-custom">
+      <ion-card-header>
+        <ion-card-title>Edit Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="biodataForm" (ngSubmit)="saveBiodata()">
+          <ion-list lines="full">
+            <ion-item><ion-label position="stacked">Nama</ion-label><ion-input
+                formControlName="name"></ion-input></ion-item>
+            <ion-item><ion-label position="stacked">NIK</ion-label><ion-input
+                formControlName="nik"></ion-input></ion-item>
+            <ion-item><ion-label position="stacked">Email</ion-label><ion-input formControlName="email"
+                type="email"></ion-input></ion-item>
+            <ion-item><ion-label position="stacked">No. WhatsApp</ion-label><ion-input formControlName="whatsapp"
+                type="tel"></ion-input></ion-item>
+            <ion-item><ion-label position="stacked">No. Telepon</ion-label><ion-input formControlName="phone"
+                type="tel"></ion-input></ion-item>
+            <ion-item><ion-label position="stacked">Alamat Lengkap</ion-label><ion-textarea
+                formControlName="address"></ion-textarea></ion-item>
+            <ion-item><ion-label position="stacked">No. Rumah</ion-label><ion-input
+                formControlName="houseNo"></ion-input></ion-item>
 
-    <!-- Edit Profil -->
-    <div *ngIf="segment === 'biodata'" class="tab-pane">
-        <ion-card class="card-custom">
-            <ion-card-header>
-                <ion-card-title>Edit Profile</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <form [formGroup]="biodataForm" (ngSubmit)="saveBiodata()">
-                    <ion-list lines="full">
-                        <ion-item><ion-label position="stacked">Nama</ion-label><ion-input
-                                formControlName="name"></ion-input></ion-item>
-                        <ion-item><ion-label position="stacked">NIK</ion-label><ion-input
-                                formControlName="nik"></ion-input></ion-item>
-                        <ion-item><ion-label position="stacked">Email</ion-label><ion-input formControlName="email"
-                                type="email"></ion-input></ion-item>
-                        <ion-item><ion-label position="stacked">No. WhatsApp</ion-label><ion-input
-                                formControlName="whatsapp" type="tel"></ion-input></ion-item>
-                        <ion-item><ion-label position="stacked">No. Telepon</ion-label><ion-input
-                                formControlName="phone" type="tel"></ion-input></ion-item>
-                        <ion-item><ion-label position="stacked">Alamat Lengkap</ion-label><ion-textarea
-                                formControlName="address"></ion-textarea></ion-item>
-                        <ion-item><ion-label position="stacked">No. Rumah</ion-label><ion-input
-                                formControlName="houseNo"></ion-input></ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Upload KTP</ion-label>
+            </ion-item>
 
-                        <ion-item>
-                            <ion-label position="stacked">Upload KTP</ion-label>
-                            <div class="ktp-upload-container">
-                                <!-- Button to upload KTP, visible only when there is no preview -->
-                                <label for="ktp-upload" class="ktp-upload-btn" *ngIf="!ktpPreview">
-                                    <ion-icon name="cloud-upload-outline"></ion-icon> Upload KTP
-                                </label>
+            <div class="ktp-upload-container">
+              <!-- Tombol Upload hanya muncul jika belum ada preview -->
+              <label *ngIf="!ktpPreview" for="ktp-upload" class="ktp-upload-btn">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                Upload KTP
+              </label>
 
-                                <!-- Input for selecting file -->
-                                <input id="ktp-upload" type="file" accept="image/*" (change)="onKtpPicked($event)"
-                                    title="Unggah foto KTP" />
+              <!-- Input File selalu tersedia -->
+              <input id="ktp-upload" type="file" accept="image/*" (change)="onKtpPicked($event)"
+                title="Unggah foto KTP" />
 
-                                <!-- Display preview of the uploaded KTP and a button to remove it -->
-                                <div *ngIf="ktpPreview" class="ktp-preview-container">
-                                    <button (click)="removeKtp()" class="ktp-remove-btn" aria-label="Hapus foto KTP"
-                                        title="Hapus foto KTP">
-                                        <ion-icon name="close-circle-outline"></ion-icon>
-                                    </button>
-                                    <img [src]="ktpPreview" alt="KTP" class="ktp-image" />
-                                </div>
-                            </div>
-                        </ion-item>
-
-                    </ion-list>
-                    <ion-button expand="block" type="submit" [disabled]="biodataForm.invalid" class="btn-save">Simpan
-                        Perubahan</ion-button>
-                </form>
-            </ion-card-content>
-        </ion-card>
-    </div>
-
+              <!-- Preview Gambar KTP -->
+              <div *ngIf="ktpPreview" class="ktp-preview-container">
+                <img [src]="ktpPreview" alt="KTP" class="ktp-image" />
+              </div>
+            </div>
+          </ion-list>
+          <ion-button expand="block" type="submit" [disabled]="biodataForm.invalid" class="btn-save">Simpan
+            Perubahan</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

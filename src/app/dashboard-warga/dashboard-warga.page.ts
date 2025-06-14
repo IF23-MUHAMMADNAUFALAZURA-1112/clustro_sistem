@@ -61,52 +61,60 @@ export class DashboardWargaPage implements OnInit, AfterViewInit {
   }
 
   loadUserProfile() {
-    if (!this.wargaId) {
-      console.warn('Warga ID belum tersedia.');
-      return;
-    }
+  if (!this.wargaId) {
+    console.warn('Warga ID belum tersedia.');
+    return;
+  }
 
-    this.http.get<any>(`http://localhost:8000/api/profil/${this.wargaId}`).subscribe({
-      next: (res) => {
-        if (res && res.user && res.warga) {
-          const user = res.user;
-          const warga = res.warga;
+  this.http.get<any>(`http://clustro.web.id/api/profil/${this.wargaId}`).subscribe({
+    next: (res) => {
+      if (res && res.user && res.warga) {
+        const user = res.user;
+        const warga = res.warga;
 
-          console.log('User:', user);
-          console.log('Warga:', warga);
+        console.log('User:', user);
+        console.log('Warga:', warga);
 
-          this.userPhotoUrl = user.foto_diri + '?t=' + new Date().getTime();
+        const isEmpty = (val: any) => val === null || val === undefined || val === '';
 
-          const isEmpty = (val: any) => val === null || val === undefined || val === '';
+        const fotoDiri = (user.foto_diri || '').trim();
 
-          const isFotoDiriDefault = /default-profile/.test(user.foto_diri || '');
-          const isFotoKtpDefault = /default-ktp/.test(warga.foto_ktp || '');
+        // Ganti dengan base URL backend Anda jika foto_diri tidak full URL
+        const baseUrl = 'http://clustro.web.id/uploads/';
+        const isFullUrl = /^https?:\/\//.test(fotoDiri);
+        const finalFotoUrl = isFullUrl ? fotoDiri : baseUrl + fotoDiri;
 
-          this.isProfileIncomplete = (
-            isEmpty(user.nama) ||
-            isEmpty(user.nik) ||
-            isEmpty(user.email) ||
-            isEmpty(user.no_telepon) ||
-            isEmpty(user.no_whatsapp) ||
-            isEmpty(user.alamat) ||
-            // isFotoDiriDefault ||
-            isEmpty(warga.no_rumah) ||
-            isFotoKtpDefault
-          );
+        const isFotoDiriValid = !isEmpty(fotoDiri) && !/default-profile/.test(fotoDiri);
 
-          console.log('isProfileIncomplete:', this.isProfileIncomplete);
-        } else {
-          this.isProfileIncomplete = true;
-          this.userPhotoUrl = 'assets/img/default-profile.png';
-        }
-      },
-      error: (err) => {
-        console.error('Error load profile', err);
+        this.userPhotoUrl = isFotoDiriValid
+          ? finalFotoUrl + '?t=' + new Date().getTime()
+          : 'assets/img/default-profile.png';
+
+        this.isProfileIncomplete = (
+          isEmpty(user.nama) ||
+          isEmpty(user.nik) ||
+          isEmpty(user.email) ||
+          isEmpty(user.no_telepon) ||
+          isEmpty(user.no_whatsapp) ||
+          isEmpty(user.alamat) ||
+          isEmpty(warga.no_rumah) ||
+          /default-ktp/.test(warga.foto_ktp || '')
+        );
+
+        console.log('userPhotoUrl:', this.userPhotoUrl);
+        console.log('isProfileIncomplete:', this.isProfileIncomplete);
+      } else {
         this.isProfileIncomplete = true;
         this.userPhotoUrl = 'assets/img/default-profile.png';
-      },
-    });
-  }
+      }
+    },
+    error: (err) => {
+      console.error('Error load profile', err);
+      this.isProfileIncomplete = true;
+      this.userPhotoUrl = 'assets/img/default-profile.png';
+    },
+  });
+}
 
   toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;

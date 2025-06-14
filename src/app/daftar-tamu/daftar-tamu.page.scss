@@ -1,0 +1,58 @@
+.daftar-tamu-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  background: #f2f5fa;
+
+  ion-searchbar {
+    --border-radius: 12px;
+    --background: #ffffff;
+    --box-shadow: 4px 4px 12px rgba(0,0,0,0.05),
+                   -4px -4px 12px rgba(255,255,255,0.7);
+    margin: 16px 0;
+  }
+
+  ion-segment {
+    ion-segment-button {
+      --background: #ffffff;
+      --color-checked: #00c197;
+      border-radius: 12px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.05),
+                 -4px -4px 12px rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    margin-bottom: 16px;
+  }
+
+  ion-list {
+    .guest-card {
+      --inner-padding-start: 16px;
+      --inner-padding-end: 16px;
+      background: #ffffff;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.03),
+                 -4px -4px 12px rgba(255,255,255,0.9);
+
+      ion-label {
+        h3 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: #2a3042;
+        }
+        p {
+          margin: 4px 0 0;
+          font-size: 14px;
+          color: #6e7182;
+        }
+      }
+
+      ion-badge {
+        align-self: center;
+        font-size: 12px;
+        padding: 6px 8px;
+        border-radius: 8px;
+      }
+    }
+  }
+}

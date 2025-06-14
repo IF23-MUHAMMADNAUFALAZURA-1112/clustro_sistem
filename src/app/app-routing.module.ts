@@ -136,11 +136,17 @@ const routes: Routes = [
   path: 'profile-satpam',
   loadChildren: () => import('./profile-satpam/profile-satpam.module').then( m => m.ProfileSatpamPageModule)
 },
-
+ {
+    path: 'daftar-tamu',
+    loadChildren: () => import('./daftar-tamu/daftar-tamu.module').then( m => m.DaftarTamuPageModule)
+  },
+  
   {
     path: '**',
     redirectTo: 'splash'
-  }
+  },
+ 
+
 ];
 
 @NgModule({
